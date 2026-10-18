@@ -1,0 +1,66 @@
+# Working Rules
+
+How this project is built. Set by the owner on 2026-10-18. Claude follows these on every step. To change a rule, the owner says so, and this file is updated in the next step's PR.
+
+## 1. Step workflow
+
+The steps are listed in [PLAN.md](PLAN.md). For **every** step:
+
+1. **Wait for the owner's "go".** Never start the next step without it.
+2. **Branch** from the latest `main`: `step/NN-short-name` (for example `step/03-design-tokens`).
+3. **Build** only that step's scope. Anything else that turns up goes into [KNOWN_ISSUES.md](KNOWN_ISSUES.md) or a later step.
+4. **Verify**: `flutter analyze` reports no new issues, and `flutter test` passes.
+5. **Mark the step ✅** in PLAN.md and update the other docs it touches (SCREENS, KNOWN_ISSUES, the MEMORY session log).
+6. **Commit, push and open a PR** using the template in §2.
+7. **Self-review** the whole diff against the checklist in §3. Fix what it finds, then post the review result as a PR comment. (GitHub doesn't let an author approve their own PR.)
+8. **Merge**: squash merge, delete the branch, update local `main`.
+9. **Run the app** on the owner's connected device (`flutter run -d <device>`) and say what to test.
+10. **Report and stop.** The report covers what changed, the PR link, review findings, what to test, and what the next step needs (decisions or account access).
+
+**Blockers:** if a step needs a decision, a paid action, or access to the owner's accounts (Firebase, Apple, Google, Facebook, RevenueCat, stores), stop and ask. Claude prepares exact instructions; the owner does or approves the action. Never guess on these.
+
+## 2. Git
+
+- Branches: `step/NN-name` for plan steps, `fix/name` for urgent fixes.
+- Commit messages: `type(scope): summary` in the imperative mood, where type is `feat`, `fix`, `chore`, `docs`, `refactor` or `test`. Examples: `feat(auth): add reset password screen`, `chore: normalize line endings`.
+- One step = one PR = one squash commit on `main`. Never force-push `main`.
+- PR description sections: **Summary**, **Changes**, **How to test on device**, **Placeholder copy replaced** (if any), **Checklist**.
+
+## 3. Self-review checklist
+
+- [ ] Only this step's scope; no unrelated changes
+- [ ] No secrets, tokens or personal data in the diff
+- [ ] `flutter analyze`: no new issues. `flutter test`: passes.
+- [ ] Screens match `docs/figma/screens/NN-*/main.png` (layout, colors, fonts, spacing within about 2 px at 414×896)
+- [ ] Theme tokens and shared widgets used; no hex values or raw font sizes in screen files
+- [ ] No overflow on a small phone (375×667) or at 1.3× text scale
+- [ ] Data screens have loading, empty and error states
+- [ ] Docs updated (PLAN ✅, SCREENS, KNOWN_ISSUES, MEMORY log)
+
+## 4. Code
+
+- Folder layout per [ARCHITECTURE.md](ARCHITECTURE.md) (`lib/app`, `lib/core`, `lib/data`, `lib/features/<area>`), from step 5 on.
+- State: **Riverpod**. Navigation: **go_router**. These are the defaults until the owner says otherwise.
+- Extract a widget when it's reused, or when a `build` method grows past about 80 lines.
+- Dart naming conventions; `snake_case` file names.
+- Comments explain *why*, not *what*. No `print()`; use `debugPrint` or `log`.
+- User-facing text is kept together per feature, ready for translation later.
+
+## 5. Design fidelity
+
+- Exact values come from `docs/figma/screens/NN-*/spec.txt`; `main.png` is for the visual check. Turn absolute positions into real layout (padding, rows, columns), not `Positioned` everywhere.
+- **Display font is Fredoka SemiBold**, the free (OFL) stand-in for Klasik: **Fredoka size = Klasik size × 0.83**, letter spacing = size × 0.015. Everything else is Manrope 500 or 700.
+- **Placeholder copy** in the design (lorem ipsum, "6-month plan for 39.99 usd", "Goggle Play", "TUE 18" twice, "habits makes us") is replaced with real copy. Each replacement is listed in the PR.
+- **Screens missing from the design** are built in the app's style from existing components, and flagged in the PR for the owner to review.
+
+## 6. Assets
+
+- Originals are in `docs/figma/assets/fills/` (local-only). Export optimized versions into `assets/img/<area>/`, using Flutter's `2.0x/` and `3.0x/` folders. Aim for ≤ 300 KB per image.
+- Name files in `snake_case` with an area prefix, for example `onboarding_intro_1.png`.
+- Use SVG for simple UI icons and PNG for illustrated icons (the bottom-nav tabs).
+
+## 7. Secrets and public repo
+
+- **The GitHub repo is public.** Figma exports (`docs/figma/raw`, `assets`, `screens`) stay local-only (gitignored).
+- Never put tokens, keys, passwords or keystores in the repo or in chat. Use environment variables or gitignored local files.
+- Firebase config files are decided in step 8: restricted API keys, or kept out of git.
