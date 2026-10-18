@@ -8,6 +8,16 @@ import 'package:habit_builder/app/theme/app_text_styles.dart';
 abstract final class AppTheme {
   static ThemeData get light => _build(AppColors.light);
 
+  /// Every screen sits on a light background and is drawn edge to edge:
+  /// transparent system bars with dark icons.
+  static const systemOverlayStyle = SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.light,
+    systemNavigationBarColor: Colors.transparent,
+    systemNavigationBarIconBrightness: Brightness.dark,
+  );
+
   static ThemeData _build(AppColors colors) {
     final scheme = ColorScheme.light(
       primary: colors.primary,
@@ -60,7 +70,7 @@ abstract final class AppTheme {
         titleTextStyle: AppTextStyles.title.copyWith(
           color: colors.textPrimary,
         ),
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
+        systemOverlayStyle: systemOverlayStyle,
       ),
       dividerTheme: DividerThemeData(
         color: colors.divider,
