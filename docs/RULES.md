@@ -14,7 +14,7 @@ The steps are listed in [PLAN.md](PLAN.md). For **every** step:
 6. **Commit, push and open a PR** using the template in §2.
 7. **Self-review** the whole diff against the checklist in §3. Fix what it finds, then post the review result as a PR comment. (GitHub doesn't let an author approve their own PR.)
 8. **Merge**: squash merge, delete the branch, update local `main`.
-9. **Run the app** on the owner's connected device (`flutter run -d <device>`) and say what to test.
+9. **Run the app** on the owner's connected device (`flutter run -d <device>`), which is currently the **Realme C3**. Take screenshots with `adb exec-out screencap -p` to compare against Figma, and say what to test.
 10. **Report and stop.** The report covers what changed, the PR link, review findings, what to test, and what the next step needs (decisions or account access).
 
 **Blockers:** if a step needs a decision, a paid action, or access to the owner's accounts (Firebase, Apple, Google, Facebook, RevenueCat, stores), stop and ask. Claude prepares exact instructions; the owner does or approves the action. Never guess on these.
@@ -39,16 +39,21 @@ The steps are listed in [PLAN.md](PLAN.md). For **every** step:
 
 ## 4. Code
 
-- Folder layout per [ARCHITECTURE.md](ARCHITECTURE.md) (`lib/app`, `lib/core`, `lib/data`, `lib/features/<area>`), from step 5 on.
-- State: **Riverpod**. Navigation: **go_router**. These are the defaults until the owner says otherwise.
-- Extract a widget when it's reused, or when a `build` method grows past about 80 lines.
+- Folder layout and principles are in [ARCHITECTURE.md](ARCHITECTURE.md): feature-first `lib/features/<area>/{presentation,application,domain,data}`.
+- **State: Riverpod. Navigation: go_router** (routes in the `AppRoute` enum). These are the defaults until the owner says otherwise.
+- **Lints: `very_good_analysis`.** `flutter analyze` must report *No issues found*. Run `dart format` before every commit.
+- **No hardcoded design values:** use `context.colors`, `AppTextStyles`, `AppSpacing`, `AppRadii` and `AppShadows`.
+- **No hardcoded user-facing text:** add it to `lib/l10n/arb/app_en.arb` and read it with `context.l10n`.
+- Extract a widget when it's reused, or when a `build` method grows past about 80 lines. Prefer `const` constructors and small private widget classes over helper methods.
 - Dart naming conventions; `snake_case` file names.
 - Comments explain *why*, not *what*. No `print()`; use `debugPrint` or `log`.
-- User-facing text is kept together per feature, ready for translation later.
+- Every new component or page gets widget tests; pure logic gets unit tests (`test/` mirrors `lib/`).
 
 ## 5. Design fidelity
 
 - Exact values come from `docs/figma/screens/NN-*/spec.txt`; `main.png` is for the visual check. Turn absolute positions into real layout (padding, rows, columns), not `Positioned` everywhere.
+- **Responsive:** frames are 414 dp wide, but the test phone is **360 × 800 dp**. Keep the design's paddings, component heights and type sizes, and let widths flex. Vertical rhythm on full-screen layouts (splash, onboarding) uses flexible space proportional to the design. Never scale fonts by screen size.
+- **Pixel check:** each screen is compared side by side with its Figma render (a device screenshot next to `main.png`), and the comparison is noted in the PR.
 - **Display font is Fredoka SemiBold**, the free (OFL) stand-in for Klasik: **Fredoka size = Klasik size × 0.83**, letter spacing = size × 0.015. Everything else is Manrope 500 or 700.
 - **Placeholder copy** in the design (lorem ipsum, "6-month plan for 39.99 usd", "Goggle Play", "TUE 18" twice, "habits makes us") is replaced with real copy. Each replacement is listed in the PR.
 - **Screens missing from the design** are built in the app's style from existing components, and flagged in the PR for the owner to review.

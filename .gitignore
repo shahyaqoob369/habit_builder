@@ -48,3 +48,6 @@ app.*.map.json
 /docs/figma/raw/
 /docs/figma/assets/
 /docs/figma/screens/
+
+# Generated localizations (rebuilt by `flutter pub get`)
+/lib/l10n/gen/

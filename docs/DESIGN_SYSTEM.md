@@ -36,15 +36,12 @@ Frame size is **414 × 896**, with a horizontal screen padding of **20** (conten
 | `facebook` | `#1772EA` | Facebook icon |
 | `scrim` | dark overlay behind sheets and dialogs | Check its exact value in spec 11, 12 and 14 when building |
 
-### Mapping from the current code (`AppColor`)
-| Current | Value now | Change to |
-|---|---|---|
-| `primary` | `#FEA800` | **`#FDA758`** |
-| `primaryText` | `#1B237E` (navy) | **`#573353`** (Eclipse) |
-| `secondaryText` | `#573353` | merge into `textPrimary` / `textMuted` |
-| `bg` | `#F5F5F5` | **`#FFF3E9`** |
-| `bgSecondary` | `#FEF3DE` | **`#FFF3E9`** (same as background) |
-| `secondary`, `primaryTextLight`, `placeholder`, `titleText`, `rate*`, `unselect`, `red`, `green` | various | not in the design. Remove them. |
+### In code (step 2)
+- Raw values: `AppPalette` in `lib/app/theme/app_palette.dart`.
+- Semantic tokens: `AppColors` (ThemeExtension), read with `context.colors`. The token names match the **Token** column above, plus `primarySoft`, `divider`, `disabled`, `scrim` (`#040920` at 50 %) and `facebook`.
+- Text: `AppTextStyles` in `lib/app/theme/app_text_styles.dart`. The style names are listed in the type scale below.
+- Spacing, radii, shadows: `AppSpacing`, `AppRadii`, `AppShadows` in `lib/app/theme/app_dimens.dart`.
+- The developer preview of every token is the **design-system page** (the app's home until step 3).
 
 ---
 
@@ -64,21 +61,34 @@ Frame size is **414 × 896**, with a horizontal screen padding of **20** (conten
 
 Figma reports some Manrope weights as `1`. That's a variable-font quirk; the style names (Medium, Bold) are correct.
 
-### Type scale (most used first)
-| Style | Font | Size / line height | Example |
-|---|---|---|---|
-| display-xl | Klasik 400 | 40/40, 36/32 | Course banner "HABIT COURSES" |
-| display-l | Klasik 400 | 32/32 | Splash and onboarding titles |
-| display-m | Klasik 400 | 24/32 | "CREATE YOUR ACCOUNT", "FORGOT YOUR PASSWORD?" |
-| display-s | Klasik 400 | 24/16, 18/20.5 | Stat values ("20 DAYS"), quote card |
-| title | Manrope 700 | 20/16 – 22/32 | Screen titles ("Homepage", "New Habit") |
-| heading | Manrope 700 | 18/25 – 18/32, 17/24 | Card titles, course titles |
-| button | Manrope 700 | 16/16, letter-spacing −0.48 | Primary buttons |
-| body | Manrope 500 | 16/16, 16/22 | Inputs, list rows, post text |
-| label-bold | Manrope 700 | 14/13 – 14/32, letter-spacing −0.42 | Habit names, labels (the most used style) |
-| label | Manrope 500 | 14/16 – 14/22 | Secondary labels |
-| caption | Manrope 500 / 700 | 12/13 – 12/14 | Meta info |
-| micro | Manrope 700 / 500 | 10/13 – 10/14, 8/11 | Weekday labels (SUN, MON), counts |
+### Type scale (`AppTextStyles`, implemented in step 2)
+Line heights are the exact Figma values, with `leadingDistribution: even` (Figma spreads leading evenly). Every Manrope style uses −3 % letter spacing.
+
+| `AppTextStyles.` | Figma source | Used for |
+|---|---|---|
+| `displayLarge` | Klasik 40/40 | Splash title |
+| `displayMedium` | Klasik 36/32 | Courses banner "HABIT COURSES" |
+| `displaySmall` | Klasik 32/32 | Onboarding titles |
+| `headline` | Klasik 24/32 | "CREATE YOUR ACCOUNT", "FORGOT YOUR PASSWORD?", "CONGRATULATIONS!" |
+| `stat` | Klasik 24/16 | "20 DAYS", "98 %" |
+| `quote` | Klasik 18/20.5 | Home quote card |
+| `pickerSelected` / `pickerOption` | Manrope 700 32/32 · 500 22/32 | Time picker |
+| `price` | Manrope 700 24/14 | Paywall prices |
+| `timeTile` | Manrope 700 20/16 | Reminder tiles "06:00 AM" |
+| `title` | Manrope 700 18/32 | Screen and sheet titles |
+| `cardTitle` | Manrope 700 18/25 | Course titles |
+| `lead` | Manrope 700 17/24 | Onboarding subtitle, Skip and Next |
+| `button` | Manrope 700 16/16 | Buttons, typed input text, row values |
+| `body` | Manrope 500 16/16 | Placeholders, list rows |
+| `bodyStrong` | Manrope 700 16/14 | "37 Lessons (2h 41m)", countdown |
+| `labelStrong` | Manrope 700 14/13 | Habit names, day numbers |
+| `label` | Manrope 500 14/16 | Progress-ring numbers |
+| `helper` | Manrope 500 14/22 | Links and helper text |
+| `paragraph` | Manrope 500 14/20 | Community posts |
+| `caption` / `captionStrong` | Manrope 500 12/14 · 700 12/13 | Meta text · plan names |
+| `overline` | Manrope 700 10/13 | SUN, MON; On and Off |
+| `micro` | Manrope 500 10/13 | "06/14", "Today" |
+| `tiny` | Manrope 500 8/10.9 | Like and comment counts |
 
 ---
 

@@ -2,19 +2,21 @@
 
 The 20 Figma screens, with their code status. Pulled 2026-10-18 from **Pixel True – Habit Builder UI Kit**. Images and exact specs are in [figma/index.md](figma/index.md). The `png` and `spec` links below are **local-only** (not on GitHub; see [figma/README.md](figma/README.md)).
 
-**Status:** ⬜ Not started · 🟨 Built before Figma (needs rework) · 🟦 In progress · ✅ Matches Figma
+**Status:** ⬜ Not started · 🟦 In progress · ✅ Matches Figma (checked on the device)
+
+The UI is rebuilt from scratch (owner decision, 2026-10-18). Screens 1–7 were built before the design and were removed in step 2; they return in plan steps 3–4.
 
 ## Screens in the design
 
 | # | Figma screen | Flow | Code | Status | Design files |
 |---|---|---|---|---|---|
-| 1 | Splash Screen | Onboarding | [splash_screen.dart](../lib/screens/login/splash_screen.dart) | 🟨 | [png](figma/screens/01-splash-screen/main.png) · [spec](figma/screens/01-splash-screen/spec.txt) |
-| 2 | Introduction 1 | Onboarding | [onboarding_screen.dart](../lib/screens/login/onboarding_screen.dart) | 🟨 | [png](figma/screens/02-introduction-1/main.png) · [spec](figma/screens/02-introduction-1/spec.txt) |
-| 3 | Introduction 2 | Onboarding | ″ | 🟨 | [png](figma/screens/03-introduction-2/main.png) · [spec](figma/screens/03-introduction-2/spec.txt) |
-| 4 | Introduction 3 | Onboarding | ″ | 🟨 | [png](figma/screens/04-introduction-3/main.png) · [spec](figma/screens/04-introduction-3/spec.txt) |
-| 5 | Introduction 4 | Onboarding | ″ | 🟨 | [png](figma/screens/05-introduction-4/main.png) · [spec](figma/screens/05-introduction-4/spec.txt) |
-| 6 | Login Page | Auth | [login_screen.dart](../lib/screens/login/login_screen.dart) | 🟨 | [png](figma/screens/06-login-page/main.png) · [spec](figma/screens/06-login-page/spec.txt) |
-| 7 | Sign Up page | Auth | [create_account_screen.dart](../lib/screens/login/create_account_screen.dart) | 🟨 | [png](figma/screens/07-sign-up-page/main.png) · [spec](figma/screens/07-sign-up-page/spec.txt) |
+| 1 | Splash Screen | Onboarding | — (old code removed in step 2) | ⬜ | [png](figma/screens/01-splash-screen/main.png) · [spec](figma/screens/01-splash-screen/spec.txt) |
+| 2 | Introduction 1 | Onboarding | — (old code removed in step 2) | ⬜ | [png](figma/screens/02-introduction-1/main.png) · [spec](figma/screens/02-introduction-1/spec.txt) |
+| 3 | Introduction 2 | Onboarding | ″ | ⬜ | [png](figma/screens/03-introduction-2/main.png) · [spec](figma/screens/03-introduction-2/spec.txt) |
+| 4 | Introduction 3 | Onboarding | ″ | ⬜ | [png](figma/screens/04-introduction-3/main.png) · [spec](figma/screens/04-introduction-3/spec.txt) |
+| 5 | Introduction 4 | Onboarding | ″ | ⬜ | [png](figma/screens/05-introduction-4/main.png) · [spec](figma/screens/05-introduction-4/spec.txt) |
+| 6 | Login Page | Auth | — (old code removed in step 2) | ⬜ | [png](figma/screens/06-login-page/main.png) · [spec](figma/screens/06-login-page/spec.txt) |
+| 7 | Sign Up page | Auth | — (old code removed in step 2) | ⬜ | [png](figma/screens/07-sign-up-page/main.png) · [spec](figma/screens/07-sign-up-page/spec.txt) |
 | 8 | Reset Password | Auth | — | ⬜ | [png](figma/screens/08-reset-password/main.png) · [spec](figma/screens/08-reset-password/spec.txt) |
 | 9 | Homepage – Tracking Habits | Home | — | ⬜ | [png](figma/screens/09-homepage-tracking-habits/main.png) · [spec](figma/screens/09-homepage-tracking-habits/spec.txt) |
 | 10 | Homepage – New Habit | Habits | — | ⬜ | [png](figma/screens/10-homepage-new-habit/main.png) · [spec](figma/screens/10-homepage-new-habit/spec.txt) |
@@ -28,15 +30,6 @@ The 20 Figma screens, with their code status. Pulled 2026-10-18 from **Pixel Tru
 | 18 | Profile Dashboard | Profile | — | ⬜ | [png](figma/screens/18-profile-dashboard/main.png) · [spec](figma/screens/18-profile-dashboard/spec.txt) |
 | 19 | Settings | Settings | — | ⬜ | [png](figma/screens/19-settings/main.png) · [spec](figma/screens/19-settings/spec.txt) |
 | 20 | Subscription Page ("Premium") | Premium | — | ⬜ | [png](figma/screens/20-subscription-page/main.png) · [spec](figma/screens/20-subscription-page/spec.txt) |
-
-## Differences between the design and the existing code
-
-| Screen | Design | Current code |
-|---|---|---|
-| All | Plum `#573353` text, orange `#FDA758` buttons, cream `#FFF3E9` background, **Klasik** headings | Navy `#1B237E` text, `#FEA800` orange, Manrope only |
-| Onboarding | The **same** subtitle on all 4 pages, "WE CAN **HELP YOU** TO BE A BETTER VERSION OF **YOURSELF.**", with the highlighted words in orange. Active dot is plum with a ring. Button is 374×60, radius 8. | A different subtitle on each page, with fragile highlight logic |
-| Login | Google and Facebook brand icons. White sheet "Log in with email". Fields have an icon, divider and cream fill. "Show" link. A "?" help button. | Material stand-in icons, wiring bugs |
-| Sign Up | Name, Email, Password, 2 checkboxes, "Create Account", "Or sign in with", "Already have an account? **Sign In**" | Roughly matches, but wiring and styles are off |
 
 ## Navigation map (inferred from the design)
 

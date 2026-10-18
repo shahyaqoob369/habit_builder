@@ -11,4 +11,8 @@ Keep the docs current as you work:
 - Update the screen status in `docs/SCREENS.md`.
 - Move fixed items in `docs/KNOWN_ISSUES.md` to *Resolved*.
 
-Commands: `flutter run`, `flutter analyze`, `flutter test`. Note that `flutter analyze` and `flutter test` rewrite `pubspec.lock` through an implicit `pub get`.
+Commands:
+- `flutter analyze` (must say *No issues found*), `flutter test`, `dart format lib test`
+- Run on the test phone: `flutter run -d NNPNZLD6O7B6KVGQ` (Realme C3, 360×800 dp)
+- Screenshot it: `~/Library/Android/sdk/platform-tools/adb exec-out screencap -p > shot.png`
+- `flutter pub get` regenerates the localizations in `lib/l10n/gen/` (gitignored)

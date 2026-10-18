@@ -1,4 +1,6 @@
-# Current State — What Is Built
+# Current State — Pre-Rebuild Audit (historical)
+
+> ⚠️ **Historical.** This audit describes the code as it was before the from-scratch rebuild. That code was removed in step 2. For the current structure see [ARCHITECTURE.md](ARCHITECTURE.md); for progress see [PLAN.md](PLAN.md) and [SCREENS.md](SCREENS.md).
 
 _Audit date: 2026-10-18 · Git: 1 commit (`c326e9a first commit`, 2025-07-11) plus a large set of uncommitted changes_
 
