@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "appTitle": "Monumental Habits",
+  "@appTitle": {
+    "description": "App name shown in the task switcher."
+  }
+}
