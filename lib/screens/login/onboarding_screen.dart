@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_builder/common/color_extensions.dart';
-import 'package:habit_builder/screens/login/login_screen.dart';
+import 'package:habit_builder/screens/login/create_account_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -218,7 +218,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void actionNextScreen() {
-    context.push(LoginScreen());
+    context.push(CreateAccountScreen());
   }
 
   // Helper function to create colored subtitle TextSpan

@@ -48,3 +48,8 @@ flutter:
           weight: 700
         - asset: assets/font/Manrope-ExtraBold.ttf
           weight: 800
+    # Display headings. OFL stand-in for the design's Klasik (see docs/DESIGN_SYSTEM.md).
+    - family: fredoka
+      fonts:
+        - asset: assets/font/Fredoka-SemiBold.ttf
+          weight: 600

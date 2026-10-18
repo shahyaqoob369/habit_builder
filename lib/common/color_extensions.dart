@@ -20,7 +20,7 @@ class AppColor {
   static Color get green => const Color(0xff15977C);
 
   static Color get bg => const Color(0xffF5F5F5);
-  static Color get bgSecondary => const Color.fromARGB(51, 254, 169, 0);
+  static Color get bgSecondary => const Color.fromARGB(255, 254, 243, 222);
 }
 
 extension HexColor on Color {

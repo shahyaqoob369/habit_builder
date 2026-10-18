@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Figma exports are local-only: the repo is public and they reproduce the Pixel True UI kit (see docs/figma/README.md)
+/docs/figma/raw/
+/docs/figma/assets/
+/docs/figma/screens/
