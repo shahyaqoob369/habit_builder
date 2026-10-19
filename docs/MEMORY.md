@@ -2,7 +2,7 @@
 
 The project's long-term memory. Read it at the start of every session and update it whenever something is decided or learned. Keep entries short, and keep facts that will still be true next month. Short-lived status goes in [PLAN.md](PLAN.md) or [SCREENS.md](SCREENS.md).
 
-_Last updated: 2026-10-18_
+_Last updated: 2026-10-19_
 
 ---
 
@@ -38,7 +38,10 @@ The full rules are in [RULES.md](RULES.md) and [ARCHITECTURE.md](ARCHITECTURE.md
 - **Tests:** `test/` mirrors `lib/`. Wrap widgets with `tester.pumpApp(...)` from `test/helpers/pump_app.dart`.
 - **Fonts:** families `Manrope` (500 and 700 only) and `Fredoka` (600).
 - **Images:** paths in `AppImages` (`lib/core/assets/app_images.dart`); files are WebP with `2.0x/` and `3.0x/` variants, produced by `tool/figma/build_assets.py` from Figma renders (`figma_pull.py export`, manifest `tool/figma/assets.json`; recipes in `tool/figma/app_assets.json`).
-- **Shared widgets** live in `lib/core/widgets/` (PrimaryButton, PageDots, HighlightedText so far). Highlighted words in strings use `<h>…</h>` markers.
+- **Shared widgets** live in `lib/core/widgets/`: PrimaryButton, PageDots, HighlightedText, AppTextField, AppCheckbox, HeaderIconButton, TextLink, AppIcon. Highlighted words in strings use `<h>…</h>` markers.
+- **Icons:** single-color SVGs in `assets/icons/` (paths in `AppIcons`, drawn with `AppIcon`, tinted at runtime). Brand logos with Figma shadows are WebP in `assets/img/brand/`. Both come from `tool/figma/build_icons.py` (needs `rsvg-convert`).
+- **Auth:** UI talks to the `AuthRepository` interface; `authRepositoryProvider` returns `FakeAuthRepository` until step 14. Each auth screen has its own `AuthFormController` provider (pending method + last failure). Field rules are in `AuthValidators`; messages in `auth_messages.dart`.
+- **Routes:** Sign Up and Reset Password are nested under Login (`/login/sign-up`, `/login/reset-password`), so Back and the "Login"/"Sign In" links return to it with `goNamed(AppRoute.login.name)`.
 - **Persistence:** `SharedPreferencesWithCache` via `sharedPreferencesProvider` (overridden in `main` and in tests). Every key must be in `PreferenceKeys.all`.
 
 ## Decisions log
@@ -69,6 +72,8 @@ Record each decision as: date, what was decided, why.
 - The Figma token has only the `file_content:read` scope. It can't list team files or call `/v1/me`; it needs a file link. The token is **not** stored in the repo. To pull again, the owner sets `FIGMA_TOKEN` in `~/.zshrc`. API calls used so far: 4 Tier 1 + 1 Tier 2 (2 on 2026-10-18, 2 on 2026-10-19 for the step 3–4 asset export).
 - **The design contains placeholder copy.** Don't copy it as-is: lorem ipsum on the New Habit card and the Congratulation popup, "6-month plan for 39.99 usd" under every price, "Goggle Play", "TUE 18" twice in the week strip, and "habits makes us". Prices must come from the store.
 - Each screen's `spec.txt` gives exact positions, sizes, colors and fonts, so build from the spec and use `main.png` only for a visual check. Positions are absolute, so turn them into Flutter layout (padding, rows and columns), not `Positioned` everywhere.
+- **Material 3 text fields add a hidden 4 pt gap**: without a prefix icon the text starts at contentPadding.start + 4; with one, contentPadding.start is ignored and the text sits 4 pt after the icon. The theme uses 16 pt padding and `AppTextField`'s icon cell is 61 pt wide to land on Figma's 20 / 65 pt.
+- **Tests load the real fonts** (`test/flutter_test_config.dart`), so layout tests can assert Figma positions. Use `tester.useScreen(designSize)` and, for a 44 pt status bar, `tester.view.padding = FakeViewPadding(top: 44 * 3)`.
 - Line endings: `.gitattributes` forces LF (fixed in step 2). Files created on Windows can come back with CRLF; `git ls-files --eol | grep w/crlf` finds them.
 
 ## Session log
@@ -81,3 +86,4 @@ One line per session: date, what was done, where it stopped.
 - **2026-10-18:** Step 1: committed the baseline, added Fredoka (Klasik stand-in), wrote the 30-step PLAN and RULES. PR, merge, device run. **Next:** Step 2 (project hygiene), after the owner's "go".
 - **2026-10-18:** Step 2: foundation and design system (clean slate, strict lints, Riverpod, go_router, l10n, Figma theme tokens, design-system preview page, tests). Plan reshaped to UI-first (28 steps). **Next:** Step 3, splash and onboarding, after the owner's "go".
 - **2026-10-19:** Step 3: splash and onboarding rebuilt pixel-perfect (Figma asset export, WebP 1×/2×/3× pipeline, native splash refreshed, PrimaryButton, PageDots, HighlightedText, onboarding-seen flag, 25 tests). Assets for step 4 (auth) are already exported locally. **Next:** Step 4, after the owner's "go".
+- **2026-10-19:** Step 4: Login, Sign Up and Reset Password pixel-matched (icon pipeline, AppTextField, SocialButton, AppCheckbox, HeaderIconButton, TextLink, fake `AuthRepository` with a demo account, real fonts in tests, 76 tests). **Next:** Step 5, app shell, after the owner's "go".

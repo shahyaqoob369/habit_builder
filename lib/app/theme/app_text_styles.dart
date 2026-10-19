@@ -174,6 +174,26 @@ abstract final class AppTextStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
+  /// Panel headings ("Log in with email"). 500 16/24.
+  static const sectionLabel = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    height: 24 / 16,
+    letterSpacing: 16 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
+  /// Checkbox labels ("Keep me signed in"). 500 16/22.
+  static const optionLabel = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    height: 22 / 16,
+    letterSpacing: 16 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
   /// Input placeholders, list rows. 500 16/16.
   static const body = TextStyle(
     fontFamily: AppFonts.body,

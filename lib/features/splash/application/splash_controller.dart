@@ -15,5 +15,5 @@ final FutureProvider<AppRoute> splashDestinationProvider =
     FutureProvider.autoDispose<AppRoute>((ref) async {
       await Future<void>.delayed(ref.watch(splashDurationProvider));
       final onboardingDone = ref.read(onboardingRepositoryProvider).isCompleted;
-      return onboardingDone ? AppRoute.designSystem : AppRoute.onboarding;
+      return onboardingDone ? AppRoute.login : AppRoute.onboarding;
     });

@@ -14,11 +14,13 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.primarySoft,
     required this.background,
     required this.surface,
+    required this.surfaceTinted,
     required this.textPrimary,
     required this.textMuted,
     required this.divider,
     required this.disabled,
     required this.scrim,
+    required this.error,
     required this.habitOrange,
     required this.habitRed,
     required this.habitBlue,
@@ -33,11 +35,13 @@ class AppColors extends ThemeExtension<AppColors> {
     primarySoft: Color(0x33FDA758),
     background: AppPalette.cream,
     surface: AppPalette.white,
+    surfaceTinted: AppPalette.linen,
     textPrimary: AppPalette.eclipse,
     textMuted: Color(0x80573353),
     divider: AppPalette.cream,
     disabled: AppPalette.lilacGrey,
     scrim: Color(0x80040920),
+    error: AppPalette.sunset,
     habitOrange: AppPalette.orangeDark,
     habitRed: AppPalette.sunset,
     habitBlue: AppPalette.twilight,
@@ -63,6 +67,9 @@ class AppColors extends ThemeExtension<AppColors> {
   /// Cards, fields and sheets.
   final Color surface;
 
+  /// Fields placed on a [surface] card (login panel, reset password card).
+  final Color surfaceTinted;
+
   /// All text and icons.
   final Color textPrimary;
 
@@ -77,6 +84,9 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// Overlay behind bottom sheets and dialogs.
   final Color scrim;
+
+  /// Validation errors. Not in the design; uses the brand's Sunset red.
+  final Color error;
 
   final Color habitOrange;
   final Color habitRed;
@@ -94,11 +104,13 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? primarySoft,
     Color? background,
     Color? surface,
+    Color? surfaceTinted,
     Color? textPrimary,
     Color? textMuted,
     Color? divider,
     Color? disabled,
     Color? scrim,
+    Color? error,
     Color? habitOrange,
     Color? habitRed,
     Color? habitBlue,
@@ -112,11 +124,13 @@ class AppColors extends ThemeExtension<AppColors> {
       primarySoft: primarySoft ?? this.primarySoft,
       background: background ?? this.background,
       surface: surface ?? this.surface,
+      surfaceTinted: surfaceTinted ?? this.surfaceTinted,
       textPrimary: textPrimary ?? this.textPrimary,
       textMuted: textMuted ?? this.textMuted,
       divider: divider ?? this.divider,
       disabled: disabled ?? this.disabled,
       scrim: scrim ?? this.scrim,
+      error: error ?? this.error,
       habitOrange: habitOrange ?? this.habitOrange,
       habitRed: habitRed ?? this.habitRed,
       habitBlue: habitBlue ?? this.habitBlue,
@@ -136,11 +150,13 @@ class AppColors extends ThemeExtension<AppColors> {
       primarySoft: mix(primarySoft, other.primarySoft),
       background: mix(background, other.background),
       surface: mix(surface, other.surface),
+      surfaceTinted: mix(surfaceTinted, other.surfaceTinted),
       textPrimary: mix(textPrimary, other.textPrimary),
       textMuted: mix(textMuted, other.textMuted),
       divider: mix(divider, other.divider),
       disabled: mix(disabled, other.disabled),
       scrim: mix(scrim, other.scrim),
+      error: mix(error, other.error),
       habitOrange: mix(habitOrange, other.habitOrange),
       habitRed: mix(habitRed, other.habitRed),
       habitBlue: mix(habitBlue, other.habitBlue),

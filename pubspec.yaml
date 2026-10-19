@@ -15,6 +15,7 @@ dependencies:
     sdk: flutter
   flutter_native_splash: ^2.4.6
   flutter_riverpod: ^3.3.2
+  flutter_svg: ^2.3.0
   go_router: ^17.5.0
   intl: any
   shared_preferences: ^2.5.6
@@ -39,8 +40,11 @@ flutter:
   generate: true
 
   assets:
+    - assets/icons/
     - assets/img/splash/
     - assets/img/onboarding/
+    - assets/img/auth/
+    - assets/img/brand/
 
   fonts:
     # Body text. The design only uses Medium and Bold.

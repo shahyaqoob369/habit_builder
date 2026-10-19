@@ -26,12 +26,16 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Decode the onboarding illustrations while the splash is up, so the
-    // first swipes are smooth.
+    // Decode the next screens' artwork while the splash is up, so they
+    // appear without a blank frame and the first swipes are smooth.
     if (_precached) return;
     _precached = true;
-    for (final slide in OnboardingSlide.values) {
-      unawaited(precacheImage(AssetImage(slide.image), context));
+    final images = [
+      for (final slide in OnboardingSlide.values) slide.image,
+      AuthImages.loginBackground,
+    ];
+    for (final image in images) {
+      unawaited(precacheImage(AssetImage(image), context));
     }
   }
 

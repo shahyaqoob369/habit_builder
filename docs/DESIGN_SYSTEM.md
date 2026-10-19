@@ -28,6 +28,8 @@ Frame size is **414 × 896**, with a horizontal screen padding of **20** (conten
 | `primary20` | `#FDA758` at 20 % | Tinted fills (toggle "On" track, icon tiles) |
 | `background` | `#FFF3E9` | Screen background (96 uses), also the field dividers |
 | `surface` | `#FFFFFF` | Cards, fields, sheets |
+| `surfaceTinted` | `#FFF6ED` (≈ `#FC9D45` at 10 % on white) | Fields on a white card (login panel, reset card) |
+| `error` | `#F65B4E` (brand Sunset; not in the design) | Validation errors |
 | `textPrimary` | `#573353` | All text |
 | `textMuted` | `#573353` at 50 % | Placeholders, secondary text ("Name", "41m ago", "37 Lessons") |
 | `habitOrange` / `habitRed` / `habitBlue` / `habitMagenta` | `#FC9D45` / `#F65B4E` / `#29319F` / `#973456` | The 4 habit colors (cells, stat tiles) |
@@ -79,6 +81,8 @@ Line heights are the exact Figma values, with `leadingDistribution: even` (Figma
 | `cardTitle` | Manrope 700 18/25 | Course titles |
 | `lead` | Manrope 700 17/24 | Onboarding subtitle, Skip and Next |
 | `button` | Manrope 700 16/16 | Buttons, typed input text, row values |
+| `sectionLabel` | Manrope 500 16/24 | "Log in with email" |
+| `optionLabel` | Manrope 500 16/22 | Checkbox labels |
 | `body` | Manrope 500 16/16 | Placeholders, list rows |
 | `bodyStrong` | Manrope 700 16/14 | "37 Lessons (2h 41m)", countdown |
 | `labelStrong` | Manrope 700 14/13 | Habit names, day numbers |
@@ -101,6 +105,8 @@ Line heights are the exact Figma values, with `leadingDistribution: even` (Figma
 | radius-pill | 25 | Toggles, pills |
 | radius-l | 15 / 20 | Large cards, dialog |
 | radius-sheet | 12 on the top corners | Bottom sheets |
+| radius-panel | 20 on the top corners | Login panel (`AppRadii.panel`) |
+| radius-checkbox | 6 | Checkboxes (`AppRadii.checkbox`) |
 | shadow-sm | `0 2 6` `#573353` at 50 % | Toggles, small controls |
 | shadow-card | `0 20 60` `#573353` at 15 % | Floating cards |
 | shadow-primary | `2 3 6` `#FDA758` at 50 % | Orange toggle knobs |
@@ -112,10 +118,11 @@ Line heights are the exact Figma values, with `leadingDistribution: even` (Figma
 |---|---|---|
 | **PrimaryButton** ✅ `core/widgets/primary_button.dart` | 374× and 334× widths | 60 tall, radius 8, fill `#FDA758`, label Manrope 700 16 `#573353`; loading state |
 | **SecondaryButton** | — | Cream fill `#FFF3E9`, plum label ("Continue") |
-| **SocialButton** | Google, Facebook (full-width or half) | White, radius 12, brand icon + Manrope 700 label |
-| **TextField** | default, typing, password | 374×56, white or cream, radius 12; prefix icon + 1 px divider `#FFF3E9` at x=49; placeholder plum 50 %; typed text **orange bold** |
-| **Checkbox** | on, off | Orange rounded square with plum check |
-| **IconButton (header)** | Back, Edit, Help, Menu, Search | 44 circle, tinted fill, top-left and top-right at y≈28 |
+| **SocialButton** ✅ `features/auth/presentation/widgets/social_button.dart` | Google, Facebook; `wide` (Login) or compact (Sign Up) | 50 tall, white, radius 12; wide: logo 63 pt in, label 29 pt after; compact: centered, 16 pt gap; logo shadow baked into the WebP |
+| **TextField** ✅ `core/widgets/app_text_field.dart` | default, typing, password | 374×56, white or `surfaceTinted`, radius 12; icon cell 49 + 1 px divider `#FFF3E9`, text at 65 (20 without icon); placeholder plum 50 %; typed text **orange bold**; icon orange when focused or filled; Show/Hide 20 from the right |
+| **Checkbox** ✅ `core/widgets/app_checkbox.dart` | on, off | 20 square, radius 6, orange with plum check; off (not designed): white with orange outline; label 11 after |
+| **IconButton (header)** ✅ `core/widgets/header_icon_button.dart` | Back, Edit, Help, Menu, Search | 44 circle, plum 10 % fill, 48 touch target; placed right below the status bar |
+| **TextLink** ✅ `core/widgets/text_link.dart` | underlined, prompt + bold | Manrope 500 14/22 ("Forgot Password?", "Don’t have an account? **Sign up**") |
 | **HabitCell** (`Component 3`) | Large / Medium × **Full / Half** × Orange / Red / Blue / Magenta | 54 box at 10 % tint, radius 12; Full = 50 square; Half = diagonal triangle |
 | **DayChip** | Default, Today | Weekday + date; Today has a bar on top |
 | **CalendarDay** (`Calendar`) | Sun–Sat | Month calendar cell with a HabitCell |

@@ -47,8 +47,107 @@
   "@onboardingPageIndicator": {
     "description": "Screen-reader label for the onboarding page dots.",
     "placeholders": {
-      "current": {"type": "int"},
-      "total": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
-  }
+  },
+  "fieldShow": "Show",
+  "@fieldShow": {
+    "description": "Toggle that reveals a password field."
+  },
+  "fieldHide": "Hide",
+  "@fieldHide": {
+    "description": "Toggle that hides a password field again."
+  },
+  "fieldShowPassword": "Show password",
+  "@fieldShowPassword": {
+    "description": "Screen-reader label of the Show toggle."
+  },
+  "fieldHidePassword": "Hide password",
+  "@fieldHidePassword": {
+    "description": "Screen-reader label of the Hide toggle."
+  },
+  "authNameHint": "Name",
+  "authEmailHint": "Email",
+  "authPasswordHint": "Password",
+  "authContinueWithGoogle": "Continue with Google",
+  "authContinueWithFacebook": "Continue with Facebook",
+  "authGoogle": "Google",
+  "@authGoogle": {
+    "description": "Short Google sign-in button label on Sign Up."
+  },
+  "authFacebook": "Facebook",
+  "@authFacebook": {
+    "description": "Short Facebook sign-in button label on Sign Up."
+  },
+  "loginTitle": "Welcome to\nMonumental habits",
+  "@loginTitle": {
+    "description": "Login screen title. Shown uppercase."
+  },
+  "loginWithEmail": "Log in with email",
+  "loginButton": "Login",
+  "loginForgotPassword": "Forgot Password?",
+  "loginNoAccount": "Don’t have an account?",
+  "@loginNoAccount": {
+    "description": "Followed by the bold \"Sign up\" link."
+  },
+  "loginSignUpLink": "Sign up",
+  "loginHelpTooltip": "Help",
+  "loginHelpTitle": "Need a hand?",
+  "loginHelpBody": "Continue with Google or Facebook, or log in with your email and password.\n\nForgot your password? Tap “Forgot Password?” and we’ll email you a link to reset it.\n\nNew here? Tap “Sign up” to create a free account.",
+  "loginHelpClose": "Got it",
+  "signUpTitle": "Create your account",
+  "@signUpTitle": {
+    "description": "Sign Up screen title. Shown uppercase."
+  },
+  "signUpKeepSignedIn": "Keep me signed in",
+  "signUpMarketingOptIn": "Email me about special pricing and more",
+  "signUpButton": "Create Account",
+  "signUpOrSignInWith": "Or sign in with",
+  "signUpHaveAccount": "Already have an account?",
+  "@signUpHaveAccount": {
+    "description": "Followed by the bold \"Sign In\" link."
+  },
+  "signUpSignInLink": "Sign In",
+  "resetTitle": "Forgot your password?",
+  "@resetTitle": {
+    "description": "Reset Password screen title. Shown uppercase."
+  },
+  "resetBackTooltip": "Back",
+  "resetInstructions": "Enter your registered email below to receive password reset instructions",
+  "resetButton": "Send Reset Link",
+  "resetRememberPassword": "Remember password?",
+  "@resetRememberPassword": {
+    "description": "Followed by the bold \"Login\" link."
+  },
+  "resetLoginLink": "Login",
+  "resetLinkSent": "If an account exists for {email}, a reset link is on its way.",
+  "@resetLinkSent": {
+    "description": "Shown after Send Reset Link. Deliberately doesn’t reveal whether the account exists.",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "validationNameRequired": "Please enter your name",
+  "validationEmailRequired": "Please enter your email",
+  "validationEmailInvalid": "Please enter a valid email address",
+  "validationPasswordRequired": "Please enter your password",
+  "validationPasswordTooShort": "Use at least {min} characters",
+  "@validationPasswordTooShort": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "authErrorInvalidCredentials": "That email and password don’t match. Please try again.",
+  "authErrorEmailInUse": "An account with this email already exists. Try logging in.",
+  "authErrorNetwork": "No connection. Check your internet and try again.",
+  "authErrorUnknown": "Something went wrong. Please try again."
 }

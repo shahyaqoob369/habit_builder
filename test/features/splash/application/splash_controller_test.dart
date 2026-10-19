@@ -29,7 +29,7 @@ void main() {
     test('skips onboarding once it has been completed', () async {
       expect(
         await destination({PreferenceKeys.onboardingCompleted: true}),
-        AppRoute.designSystem,
+        AppRoute.login,
       );
     });
   });

@@ -61,8 +61,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     _finishing = true;
     await ref.read(onboardingRepositoryProvider).complete();
     if (!mounted) return;
-    // Becomes the sign-up screen in plan step 4.
-    context.goNamed(AppRoute.designSystem.name);
+    context.goNamed(AppRoute.login.name);
   }
 
   @override
