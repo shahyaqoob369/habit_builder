@@ -52,6 +52,14 @@ void main() {
       expect(state().failure, AuthFailure.unknown);
     });
 
+    test('is never left busy, even after an unexpected error', () async {
+      final result = controller().signInWithGoogle();
+      auth.completer.completeError(StateError('bug'));
+
+      await expectLater(result, throwsStateError);
+      expect(state().isBusy, isFalse);
+    });
+
     test('ignores a second request while one is running', () async {
       final first = controller().signInWithGoogle();
       final second = controller().signInWithFacebook();

@@ -55,29 +55,32 @@ class SocialButton extends StatelessWidget {
     final text = Flexible(
       child: Text(label, style: AppTextStyles.button),
     );
-    return Material(
-      color: context.colors.surface,
-      borderRadius: AppRadii.card,
-      child: InkWell(
-        onTap: isLoading ? null : onPressed,
+    return Semantics(
+      button: true,
+      child: Material(
+        color: context.colors.surface,
         borderRadius: AppRadii.card,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 50),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-            child: wide
-                ? Row(
-                    children: [
-                      const SizedBox(width: 63),
-                      logo,
-                      const SizedBox(width: 29),
-                      text,
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [logo, const SizedBox(width: 16), text],
-                  ),
+        child: InkWell(
+          onTap: isLoading ? null : onPressed,
+          borderRadius: AppRadii.card,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 50),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+              child: wide
+                  ? Row(
+                      children: [
+                        const SizedBox(width: 63),
+                        logo,
+                        const SizedBox(width: 29),
+                        text,
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [logo, const SizedBox(width: 16), text],
+                    ),
+            ),
           ),
         ),
       ),

@@ -69,11 +69,12 @@ class AuthFormController extends Notifier<AuthFormState> {
       failure = error.failure;
     } on Exception {
       failure = AuthFailure.unknown;
+    } finally {
+      // Also runs when an unexpected error escapes, so the screen never
+      // stays busy. Skipped if the screen was closed in the meantime.
+      if (ref.mounted) state = AuthFormState(failure: failure);
     }
-    // The screen may have been closed in the meantime.
-    if (!ref.mounted) return false;
-    state = AuthFormState(failure: failure);
-    return failure == null;
+    return ref.mounted && failure == null;
   }
 }
 
