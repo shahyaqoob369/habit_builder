@@ -3,5 +3,52 @@
   "appTitle": "Monumental Habits",
   "@appTitle": {
     "description": "App name shown in the task switcher."
+  },
+  "splashTitle": "Welcome to\nMonumental\nhabits",
+  "@splashTitle": {
+    "description": "Splash screen title. Shown uppercase; keep the line breaks short."
+  },
+  "onboardingWelcomeTitle": "Welcome to\nMonumental habits",
+  "@onboardingWelcomeTitle": {
+    "description": "Onboarding page 1 title. Shown uppercase."
+  },
+  "onboardingCreateHabitTitle": "Create new\nhabit easily",
+  "@onboardingCreateHabitTitle": {
+    "description": "Onboarding page 2 title. Shown uppercase."
+  },
+  "onboardingTrackProgressTitle": "Keep track of your\nprogress",
+  "@onboardingTrackProgressTitle": {
+    "description": "Onboarding page 3 title. Shown uppercase."
+  },
+  "onboardingCommunityTitle": "Join a supportive\ncommunity",
+  "@onboardingCommunityTitle": {
+    "description": "Onboarding page 4 title. Shown uppercase."
+  },
+  "onboardingWelcomeSubtitle": "We can <h>help you</h> to be a better version of <h>yourself.</h>",
+  "@onboardingWelcomeSubtitle": {
+    "description": "Onboarding page 1 subtitle. Shown uppercase. Text inside <h></h> is highlighted in orange."
+  },
+  "onboardingCreateHabitSubtitle": "We can <h>help you</h> to be a better version of <h>yourself.</h>",
+  "@onboardingCreateHabitSubtitle": {
+    "description": "Onboarding page 2 subtitle. Same as page 1 in the design. Text inside <h></h> is highlighted."
+  },
+  "onboardingTrackProgressSubtitle": "We can <h>help you</h> to be a better version of <h>yourself.</h>",
+  "@onboardingTrackProgressSubtitle": {
+    "description": "Onboarding page 3 subtitle. Same as page 1 in the design. Text inside <h></h> is highlighted."
+  },
+  "onboardingCommunitySubtitle": "We can <h>help you</h> to be a better version of <h>yourself.</h>",
+  "@onboardingCommunitySubtitle": {
+    "description": "Onboarding page 4 subtitle. Same as page 1 in the design. Text inside <h></h> is highlighted."
+  },
+  "onboardingSkip": "Skip",
+  "onboardingNext": "Next",
+  "onboardingGetStarted": "Get Started",
+  "onboardingPageIndicator": "Page {current} of {total}",
+  "@onboardingPageIndicator": {
+    "description": "Screen-reader label for the onboarding page dots.",
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
   }
 }
