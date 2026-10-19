@@ -37,6 +37,9 @@ The full rules are in [RULES.md](RULES.md) and [ARCHITECTURE.md](ARCHITECTURE.md
 - **Lints:** `very_good_analysis`. `flutter analyze` must say *No issues found*. Run `dart format` before committing.
 - **Tests:** `test/` mirrors `lib/`. Wrap widgets with `tester.pumpApp(...)` from `test/helpers/pump_app.dart`.
 - **Fonts:** families `Manrope` (500 and 700 only) and `Fredoka` (600).
+- **Images:** paths in `AppImages` (`lib/core/assets/app_images.dart`); files are WebP with `2.0x/` and `3.0x/` variants, produced by `tool/figma/build_assets.py` from Figma renders (`figma_pull.py export`, manifest `tool/figma/assets.json`; recipes in `tool/figma/app_assets.json`).
+- **Shared widgets** live in `lib/core/widgets/` (PrimaryButton, PageDots, HighlightedText so far). Highlighted words in strings use `<h>…</h>` markers.
+- **Persistence:** `SharedPreferencesWithCache` via `sharedPreferencesProvider` (overridden in `main` and in tests). Every key must be in `PreferenceKeys.all`.
 
 ## Decisions log
 
@@ -57,10 +60,13 @@ Record each decision as: date, what was decided, why.
 ## Gotchas and lessons
 
 - `flutter analyze`, `flutter run` and `flutter test` run `pub get` automatically. That rewrites `pubspec.lock` to the SDK-pinned versions of the local Flutter install. Expect lockfile churn when the machine's Flutter version changes.
-- The splash screen will use a timer. Widget tests that pump `App` must advance time (`tester.pump(duration)`) or override the providers.
+- Widget tests that pump the whole app use `tester.pumpFullApp(prefs)` (zero splash duration). Create prefs with `createTestPreferences()` in `setUp`, or via `tester.runAsync` inside a test.
+- **Native splash:** after `dart run flutter_native_splash:create`, re-apply the transparent status bar in `android/app/src/main/res/values{,-night}/styles.xml` (`windowDrawsSystemBarBackgrounds=true`, `statusBarColor` transparent, `windowLightStatusBar`); the generator resets it.
+- **Realme C3 quirks:** `pm clear` is blocked (uninstall to reset app data). Cold start of a debug build takes about 8 s; use `flutter build apk --release` for screenshots and pixel checks.
+- **Figma export offsets:** a rendered group's PNG can be larger than its render bounds. Find the crop by matching against the screen's `main.png` (done for the splash: crop at (179, 153) px at 3×).
 - `Color.red`, `.green`, `.blue`, `.value` and `.withOpacity()` are deprecated on this SDK. Use `.r`, `.g`, `.b` (0–1), `.toARGB32()` and `.withValues(alpha: …)`.
 - **Figma API budget is tiny.** The owner's Figma team is on the free Starter plan, so Tier 1 REST calls (GET file, GET images) are capped at roughly 6–20 per month. Always work from the cache in `docs/figma/raw/` (made by `tool/figma/figma_pull.py`). Batch any new render into one call, and never `--force` without a reason.
-- The Figma token has only the `file_content:read` scope. It can't list team files or call `/v1/me`; it needs a file link. The token is **not** stored in the repo. To pull again, the owner sets `FIGMA_TOKEN` in `~/.zshrc`. API calls used so far: 2 Tier 1 + 1 Tier 2, all on 2026-10-18.
+- The Figma token has only the `file_content:read` scope. It can't list team files or call `/v1/me`; it needs a file link. The token is **not** stored in the repo. To pull again, the owner sets `FIGMA_TOKEN` in `~/.zshrc`. API calls used so far: 4 Tier 1 + 1 Tier 2 (2 on 2026-10-18, 2 on 2026-10-19 for the step 3–4 asset export).
 - **The design contains placeholder copy.** Don't copy it as-is: lorem ipsum on the New Habit card and the Congratulation popup, "6-month plan for 39.99 usd" under every price, "Goggle Play", "TUE 18" twice in the week strip, and "habits makes us". Prices must come from the store.
 - Each screen's `spec.txt` gives exact positions, sizes, colors and fonts, so build from the spec and use `main.png` only for a visual check. Positions are absolute, so turn them into Flutter layout (padding, rows and columns), not `Positioned` everywhere.
 - Line endings: `.gitattributes` forces LF (fixed in step 2). Files created on Windows can come back with CRLF; `git ls-files --eol | grep w/crlf` finds them.
@@ -74,3 +80,4 @@ One line per session: date, what was done, where it stopped.
 - **2026-10-18:** Pulled the whole Figma file (20 screens: PNG + spec, tokens, image fills). Reviewed every screen. Rewrote SCREENS, DESIGN_SYSTEM and BACKEND_SPEC from the real design. **Stopped at:** ready for the planning and rules session with the owner (agenda in PLAN.md). Owner questions Q1–Q17 are in BACKEND_SPEC §6. No app code changed yet.
 - **2026-10-18:** Step 1: committed the baseline, added Fredoka (Klasik stand-in), wrote the 30-step PLAN and RULES. PR, merge, device run. **Next:** Step 2 (project hygiene), after the owner's "go".
 - **2026-10-18:** Step 2: foundation and design system (clean slate, strict lints, Riverpod, go_router, l10n, Figma theme tokens, design-system preview page, tests). Plan reshaped to UI-first (28 steps). **Next:** Step 3, splash and onboarding, after the owner's "go".
+- **2026-10-19:** Step 3: splash and onboarding rebuilt pixel-perfect (Figma asset export, WebP 1×/2×/3× pipeline, native splash refreshed, PrimaryButton, PageDots, HighlightedText, onboarding-seen flag, 25 tests). Assets for step 4 (auth) are already exported locally. **Next:** Step 4, after the owner's "go".

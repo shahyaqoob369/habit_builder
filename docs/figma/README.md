@@ -39,6 +39,8 @@ Claude runs a script that pulls **every** frame at once: the node data plus PNG 
    python3 tool/figma/figma_pull.py render              # PNG per screen, one batch              (Tier 1 call)
    python3 tool/figma/figma_pull.py fills               # illustrations/photos → assets/fills/   (Tier 2 call)
    python3 tool/figma/figma_pull.py spec                # spec.txt per screen + tokens.md        (offline)
+   python3 tool/figma/figma_pull.py export              # renders tool/figma/assets.json          (1 Tier 1 call per format)
+   python3 tool/figma/build_assets.py                   # app images (WebP 1x/2x/3x) from the renders (offline)
    ```
    Output: `docs/figma/screens/NN-name/main.png` and `spec.txt` (exact layout, colors, fonts, text), plus `docs/figma/tokens.md`.
 

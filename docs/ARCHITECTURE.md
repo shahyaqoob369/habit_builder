@@ -28,8 +28,10 @@ lib/
 │       ├── app_dimens.dart       AppSpacing, AppRadii, AppShadows
 │       └── app_theme.dart        ThemeData built from the tokens
 ├── core/
+│   ├── assets/app_images.dart    image asset paths (WebP, 1x/2x/3x variants)
 │   ├── extensions/               BuildContext helpers (context.colors)
-│   └── widgets/                  shared UI components (from step 3)
+│   ├── storage/preferences.dart  SharedPreferencesWithCache + PreferenceKeys + provider
+│   └── widgets/                  shared UI components (PrimaryButton, PageDots, HighlightedText)
 ├── features/
 │   └── <feature>/
 │       ├── presentation/         pages and widgets (+ Riverpod controllers)

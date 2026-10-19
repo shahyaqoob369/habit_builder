@@ -110,7 +110,7 @@ Line heights are the exact Figma values, with `leadingDistribution: even` (Figma
 
 | Component | Variants | Spec |
 |---|---|---|
-| **PrimaryButton** | 374× and 334× widths | 60 tall, radius 8, fill `#FDA758`, label Manrope 700 16 `#573353` |
+| **PrimaryButton** ✅ `core/widgets/primary_button.dart` | 374× and 334× widths | 60 tall, radius 8, fill `#FDA758`, label Manrope 700 16 `#573353`; loading state |
 | **SecondaryButton** | — | Cream fill `#FFF3E9`, plum label ("Continue") |
 | **SocialButton** | Google, Facebook (full-width or half) | White, radius 12, brand icon + Manrope 700 label |
 | **TextField** | default, typing, password | 374×56, white or cream, radius 12; prefix icon + 1 px divider `#FFF3E9` at x=49; placeholder plum 50 %; typed text **orange bold** |
@@ -126,7 +126,8 @@ Line heights are the exact Figma values, with `leadingDistribution: even` (Figma
 | **StatTile** (`Analytics`) | 4 colors | Number + label + round icon |
 | **SettingsRow** (`Setting 7/8`) | About, Contact, Feedback, Privacy Policy, More customization | Icon tile + title (+ subtitle) + chevron |
 | **PostCard** (`Share Post`) | — | Avatar, name, time, share button, text, ♥ and 💬 counts |
-| **OnboardingDots** (`Onboarding`) | 3 states | Active plum with a ring, others orange |
+| **PageDots** ✅ `core/widgets/page_dots.dart` (`Onboarding`) | 3 states | Active: 13 plum dot in a 17 ring at 20 %; others: 11 `#F9B566`; 7 apart |
+| **HighlightedText** ✅ `core/widgets/highlighted_text.dart` | — | Words in `<h>…</h>` get the highlight color (`#FC9D45` on onboarding) |
 | **CongratulationDialog** | — | Illustration, Klasik title, body, 2 buttons, close button |
 
 ## Imagery

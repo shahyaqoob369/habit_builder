@@ -5,6 +5,7 @@ Steps (run in order; see docs/figma/README.md):
   fetch <file-url-or-key>  GET the whole file once        (Figma Tier 1 call)
   index                    list every screen frame         (offline)
   render [--scale N]       PNG of every screen, one batch  (Tier 1 call)
+  export                   render tool/figma/assets.json   (Tier 1 call per format)
   fills                    download raster image fills     (Tier 2 call)
   spec                     per-screen spec + design tokens (offline)
 
@@ -183,6 +184,36 @@ def cmd_render(a):
         else:
             failed.append(s["n"])
     print(f"rendered {len(todo) - len(failed)}/{len(todo)}" + (f"; failed: {failed}" if failed else ""))
+
+
+# ---------------------------------------------------------------- export
+
+def cmd_export(a):
+    """Render the nodes listed in tool/figma/assets.json, one API call per
+    (format, scale) group, into docs/figma/assets/export/."""
+    key = file_key()
+    manifest = read_json(os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets.json"))
+    out_dir = os.path.join(FIGMA_DIR, "assets", "export")
+    groups = {}
+    for item in manifest:
+        fmt, scale = item["format"], item.get("scale", 1)
+        dest = os.path.join(out_dir, f"{item['name']}.{fmt}")
+        if a.force or not os.path.exists(dest):
+            groups.setdefault((fmt, scale), []).append((item, dest))
+    if not groups:
+        print("all assets already exported")
+        return
+    for (fmt, scale), items in groups.items():
+        ids = urllib.parse.quote(",".join(i["id"] for i, _ in items), safe=",:;")
+        query = f"ids={ids}&format={fmt}" + (f"&scale={scale}" if fmt == "png" else "&svg_outline_text=true")
+        res = api_get(f"/images/{key}?{query}")
+        for item, dest in items:
+            url = (res.get("images") or {}).get(item["id"])
+            if url:
+                download(url, dest)
+            else:
+                print(f"  failed: {item['name']} ({item['id']})")
+        print(f"{fmt}@{scale}: exported {len(items)}")
 
 
 # ---------------------------------------------------------------- fills
@@ -453,11 +484,14 @@ def main():
     p.add_argument("--scale", type=float, default=2)
     p.add_argument("--only", help="comma-separated screen numbers")
     p.add_argument("--force", action="store_true")
+    p = sub.add_parser("export")
+    p.add_argument("--force", action="store_true")
     p = sub.add_parser("fills")
     p.add_argument("--force", action="store_true")
     sub.add_parser("spec")
     a = ap.parse_args()
-    {"fetch": cmd_fetch, "index": cmd_index, "render": cmd_render, "fills": cmd_fills, "spec": cmd_spec}[a.cmd](a)
+    {"fetch": cmd_fetch, "index": cmd_index, "render": cmd_render, "export": cmd_export,
+     "fills": cmd_fills, "spec": cmd_spec}[a.cmd](a)
 
 
 if __name__ == "__main__":

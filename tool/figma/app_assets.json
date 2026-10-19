@@ -1,0 +1,7 @@
+[
+  {"source": "splash_background", "out": "splash/splash_background", "crop3": [179, 153, 1421, 2841], "quality": 85},
+  {"source": "onboarding_intro_1", "out": "onboarding/intro_1"},
+  {"source": "onboarding_intro_2", "out": "onboarding/intro_2"},
+  {"source": "onboarding_intro_3", "out": "onboarding/intro_3"},
+  {"source": "onboarding_intro_4", "out": "onboarding/intro_4"}
+]

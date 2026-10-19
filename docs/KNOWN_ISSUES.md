@@ -5,11 +5,13 @@ Severity: 🔴 broken behaviour · 🟠 wrong or misleading UX · 🟡 cleanup. 
 ## Open
 
 - 🟠 **App identity is still the template default.** The bundle and application IDs are `com.example.*`, the Android label is `habit_builder`, and the iOS display name is "Habit Builder". → Step 13 (IDs, needed for Firebase) and step 26 (names, icons).
-- 🟡 The native launch splash (`flutter_native_splash`, `assets/native_splash/splash_bg.png`) is still the one from the first commit. → Step 26.
+- 🟡 Onboarding dots: Figma shows a soft glow under the dots (shadow blur 60 at 15 %); on Android it renders much fainter. Cosmetic.
 - 🟠 **The design has placeholder copy**: lorem ipsum, "6-month plan for 39.99 usd", "Goggle Play", "TUE 18" twice, "habits makes us". Replace it with real copy when building each screen (RULES §5).
 - 🟠 **13 pieces are missing from the design** (side menu, edit habit, empty states, delete account, Sign in with Apple, …). See [SCREENS.md](SCREENS.md#missing-from-the-design-needs-a-decision-or-a-simple-design).
 
 ## Resolved
+
+- 2026-10-19 (Step 3): **The native launch splash** was the old low-res image with a black status bar. It's now the new 2× artwork with a transparent status bar (Android 12+: cream color).
 
 - 2026-10-18 (Step 1): **Klasik heading font missing.** Added Fredoka SemiBold (OFL) as a free stand-in; see DESIGN_SYSTEM.md.
 - 2026-10-18 (Step 2): **All issues in the old UI code are gone** because that code was removed for the from-scratch rebuild:
