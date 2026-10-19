@@ -1,0 +1,19 @@
+[
+  {"name": "splash_background", "id": "361:3498", "format": "png", "scale": 3, "screen": "01 Splash"},
+  {"name": "onboarding_intro_1", "id": "575:513", "format": "png", "scale": 3, "screen": "02 Introduction 1"},
+  {"name": "onboarding_intro_2", "id": "575:1142", "format": "png", "scale": 3, "screen": "03 Introduction 2"},
+  {"name": "onboarding_intro_3", "id": "575:971", "format": "png", "scale": 3, "screen": "04 Introduction 3"},
+  {"name": "onboarding_intro_4", "id": "575:522", "format": "png", "scale": 3, "screen": "05 Introduction 4"},
+  {"name": "login_background", "id": "366:1", "format": "png", "scale": 3, "screen": "06 Login"},
+  {"name": "sign_up_illustration", "id": "553:233", "format": "png", "scale": 3, "screen": "07 Sign Up"},
+  {"name": "reset_password_illustration", "id": "485:78", "format": "png", "scale": 3, "screen": "08 Reset Password"},
+
+  {"name": "ic_google", "id": "223:8", "format": "svg", "screen": "06 Login"},
+  {"name": "ic_facebook", "id": "223:3", "format": "svg", "screen": "06 Login"},
+  {"name": "ic_help", "id": "I224:13;522:117", "format": "svg", "screen": "06 Login"},
+  {"name": "ic_mail", "id": "464:170", "format": "svg", "screen": "06 Login"},
+  {"name": "ic_lock", "id": "464:166", "format": "svg", "screen": "06 Login"},
+  {"name": "ic_user", "id": "215:2184", "format": "svg", "screen": "07 Sign Up"},
+  {"name": "ic_check", "id": "215:2190", "format": "svg", "screen": "07 Sign Up"},
+  {"name": "ic_back", "id": "I224:115;134:2", "format": "svg", "screen": "08 Reset Password"}
+]
