@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-18 · **Progress: 2 / 28 steps** · Current: waiting for the owner's "go" for Step 3_
+_Last updated: 2026-10-18 · **Progress: 3 / 28 steps** · Current: waiting for the owner's "go" for Step 4_
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -28,7 +28,7 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 
 ## Phase B — UI, pixel perfect (sample data, no backend)
 
-### ⬜ Step 3 — Splash and onboarding (screens 1–5)
+### ✅ Step 3 — Splash and onboarding (screens 1–5)
 - Asset pipeline (optimized exports at 1×/2×/3×), PrimaryButton, page dots, onboarding flow
 - Visual check: device screenshots compared side by side with the Figma renders
 

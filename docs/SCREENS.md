@@ -10,11 +10,11 @@ The UI is rebuilt from scratch (owner decision, 2026-10-18). Screens 1–7 were 
 
 | # | Figma screen | Flow | Code | Status | Design files |
 |---|---|---|---|---|---|
-| 1 | Splash Screen | Onboarding | — (old code removed in step 2) | ⬜ | [png](figma/screens/01-splash-screen/main.png) · [spec](figma/screens/01-splash-screen/spec.txt) |
-| 2 | Introduction 1 | Onboarding | — (old code removed in step 2) | ⬜ | [png](figma/screens/02-introduction-1/main.png) · [spec](figma/screens/02-introduction-1/spec.txt) |
-| 3 | Introduction 2 | Onboarding | ″ | ⬜ | [png](figma/screens/03-introduction-2/main.png) · [spec](figma/screens/03-introduction-2/spec.txt) |
-| 4 | Introduction 3 | Onboarding | ″ | ⬜ | [png](figma/screens/04-introduction-3/main.png) · [spec](figma/screens/04-introduction-3/spec.txt) |
-| 5 | Introduction 4 | Onboarding | ″ | ⬜ | [png](figma/screens/05-introduction-4/main.png) · [spec](figma/screens/05-introduction-4/spec.txt) |
+| 1 | Splash Screen | Onboarding | [splash_page.dart](../lib/features/splash/presentation/splash_page.dart) | ✅ | [png](figma/screens/01-splash-screen/main.png) · [spec](figma/screens/01-splash-screen/spec.txt) |
+| 2 | Introduction 1 | Onboarding | [onboarding_page.dart](../lib/features/onboarding/presentation/onboarding_page.dart) | ✅ | [png](figma/screens/02-introduction-1/main.png) · [spec](figma/screens/02-introduction-1/spec.txt) |
+| 3 | Introduction 2 | Onboarding | [onboarding_page.dart](../lib/features/onboarding/presentation/onboarding_page.dart) | ✅ | [png](figma/screens/03-introduction-2/main.png) · [spec](figma/screens/03-introduction-2/spec.txt) |
+| 4 | Introduction 3 | Onboarding | [onboarding_page.dart](../lib/features/onboarding/presentation/onboarding_page.dart) | ✅ | [png](figma/screens/04-introduction-3/main.png) · [spec](figma/screens/04-introduction-3/spec.txt) |
+| 5 | Introduction 4 | Onboarding | [onboarding_page.dart](../lib/features/onboarding/presentation/onboarding_page.dart) | ✅ | [png](figma/screens/05-introduction-4/main.png) · [spec](figma/screens/05-introduction-4/spec.txt) |
 | 6 | Login Page | Auth | — (old code removed in step 2) | ⬜ | [png](figma/screens/06-login-page/main.png) · [spec](figma/screens/06-login-page/spec.txt) |
 | 7 | Sign Up page | Auth | — (old code removed in step 2) | ⬜ | [png](figma/screens/07-sign-up-page/main.png) · [spec](figma/screens/07-sign-up-page/spec.txt) |
 | 8 | Reset Password | Auth | — | ⬜ | [png](figma/screens/08-reset-password/main.png) · [spec](figma/screens/08-reset-password/spec.txt) |
