@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:habit_builder/app/router/app_route.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
 import 'package:habit_builder/core/assets/app_images.dart';
@@ -37,7 +38,16 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen(splashDestinationProvider, (_, next) {
-      if (next case AsyncData(:final value)) context.goNamed(value.name);
+      switch (next) {
+        case AsyncData(:final value):
+          context.goNamed(value.name);
+        // Never get stuck on the splash: if the startup checks fail, start
+        // at the beginning of the flow.
+        case AsyncError():
+          context.goNamed(AppRoute.onboarding.name);
+        case AsyncLoading():
+          break;
+      }
     });
     return const Scaffold(body: _SplashView());
   }

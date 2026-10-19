@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Remembers whether the user has finished (or skipped) onboarding, so it is
 /// shown only once.
 class OnboardingRepository {
-  const OnboardingRepository(this._preferences);
+  const OnboardingRepository(SharedPreferencesWithCache preferences)
+    : _preferences = preferences;
 
   final SharedPreferencesWithCache _preferences;
 

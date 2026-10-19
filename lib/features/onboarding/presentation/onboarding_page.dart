@@ -22,6 +22,7 @@ class OnboardingPage extends ConsumerStatefulWidget {
 class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   final _controller = PageController();
   int _page = 0;
+  bool _finishing = false;
 
   /// Gaps from the design: subtitle → controls (49) and controls → bottom
   /// safe area (54).
@@ -55,6 +56,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   }
 
   Future<void> _finish() async {
+    // Ignore a second tap while the first one is still saving.
+    if (_finishing) return;
+    _finishing = true;
     await ref.read(onboardingRepositoryProvider).complete();
     if (!mounted) return;
     // Becomes the sign-up screen in plan step 4.
