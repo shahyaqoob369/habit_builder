@@ -3,5 +3,8 @@
   {"source": "onboarding_intro_1", "out": "onboarding/intro_1"},
   {"source": "onboarding_intro_2", "out": "onboarding/intro_2"},
   {"source": "onboarding_intro_3", "out": "onboarding/intro_3"},
-  {"source": "onboarding_intro_4", "out": "onboarding/intro_4"}
+  {"source": "onboarding_intro_4", "out": "onboarding/intro_4"},
+  {"source": "login_background", "out": "auth/login_background", "crop3": [30, 744, 1272, 2820], "quality": 85},
+  {"source": "sign_up_illustration", "out": "auth/sign_up"},
+  {"source": "reset_password_illustration", "out": "auth/reset_password"}
 ]

@@ -15,9 +15,9 @@ The UI is rebuilt from scratch (owner decision, 2026-10-18). Screens 1–7 were 
 | 3 | Introduction 2 | Onboarding | [onboarding_page.dart](../lib/features/onboarding/presentation/onboarding_page.dart) | ✅ | [png](figma/screens/03-introduction-2/main.png) · [spec](figma/screens/03-introduction-2/spec.txt) |
 | 4 | Introduction 3 | Onboarding | [onboarding_page.dart](../lib/features/onboarding/presentation/onboarding_page.dart) | ✅ | [png](figma/screens/04-introduction-3/main.png) · [spec](figma/screens/04-introduction-3/spec.txt) |
 | 5 | Introduction 4 | Onboarding | [onboarding_page.dart](../lib/features/onboarding/presentation/onboarding_page.dart) | ✅ | [png](figma/screens/05-introduction-4/main.png) · [spec](figma/screens/05-introduction-4/spec.txt) |
-| 6 | Login Page | Auth | — (old code removed in step 2) | ⬜ | [png](figma/screens/06-login-page/main.png) · [spec](figma/screens/06-login-page/spec.txt) |
-| 7 | Sign Up page | Auth | — (old code removed in step 2) | ⬜ | [png](figma/screens/07-sign-up-page/main.png) · [spec](figma/screens/07-sign-up-page/spec.txt) |
-| 8 | Reset Password | Auth | — | ⬜ | [png](figma/screens/08-reset-password/main.png) · [spec](figma/screens/08-reset-password/spec.txt) |
+| 6 | Login Page | Auth | [login_page.dart](../lib/features/auth/presentation/login_page.dart) | ✅ | [png](figma/screens/06-login-page/main.png) · [spec](figma/screens/06-login-page/spec.txt) |
+| 7 | Sign Up page | Auth | [sign_up_page.dart](../lib/features/auth/presentation/sign_up_page.dart) | ✅ | [png](figma/screens/07-sign-up-page/main.png) · [spec](figma/screens/07-sign-up-page/spec.txt) |
+| 8 | Reset Password | Auth | [reset_password_page.dart](../lib/features/auth/presentation/reset_password_page.dart) | ✅ | [png](figma/screens/08-reset-password/main.png) · [spec](figma/screens/08-reset-password/spec.txt) |
 | 9 | Homepage – Tracking Habits | Home | — | ⬜ | [png](figma/screens/09-homepage-tracking-habits/main.png) · [spec](figma/screens/09-homepage-tracking-habits/spec.txt) |
 | 10 | Homepage – New Habit | Habits | — | ⬜ | [png](figma/screens/10-homepage-new-habit/main.png) · [spec](figma/screens/10-homepage-new-habit/spec.txt) |
 | 11 | New Habit – Reminder (bottom sheet) | Habits | — | ⬜ | [png](figma/screens/11-homepage-new-habit-reminder/main.png) · [spec](figma/screens/11-homepage-new-habit-reminder/spec.txt) |
@@ -34,7 +34,7 @@ The UI is rebuilt from scratch (owner decision, 2026-10-18). Screens 1–7 were 
 ## Navigation map (inferred from the design)
 
 ```
-Splash ─▶ Intro 1 ─▶ 2 ─▶ 3 ─▶ 4 ─(Get Started / Skip)─▶ Sign Up ⇄ Login ─▶ Reset Password
+Splash ─▶ Intro 1 ─▶ 2 ─▶ 3 ─▶ 4 ─(Get Started / Skip)─▶ Login ─▶ Sign Up | Reset Password (both return to Login)
                                                          │
                                        (signed in) ──────┴─▶ Home
 Bottom nav (Home, Courses, Community, Settings):  [Home] [Courses]  (+)  [Community] [Settings]

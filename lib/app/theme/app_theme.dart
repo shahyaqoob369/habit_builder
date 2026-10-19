@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habit_builder/app/theme/app_colors.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
-import 'package:habit_builder/app/theme/app_palette.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
 
 /// Builds the app's [ThemeData] from the design tokens.
@@ -25,7 +24,7 @@ abstract final class AppTheme {
       onPrimary: colors.textPrimary,
       secondary: colors.primaryDark,
       onSecondary: colors.textPrimary,
-      error: AppPalette.sunset,
+      error: colors.error,
       surface: colors.surface,
       onSurface: colors.textPrimary,
       outline: colors.divider,
@@ -85,6 +84,47 @@ abstract final class AppTheme {
           shape: const RoundedRectangleBorder(borderRadius: AppRadii.button),
           textStyle: AppTextStyles.button,
           elevation: 0,
+        ),
+      ),
+      // AppTextField: Figma "Input" (56 tall, radius 12, no border).
+      inputDecorationTheme: InputDecorationThemeData(
+        filled: true,
+        fillColor: colors.surface,
+        hintStyle: AppTextStyles.body.copyWith(color: colors.textMuted),
+        // Material 3 adds 4 pt between this padding and the text (with
+        // outline borders), so the text starts 20 pt in, as in Figma.
+        contentPadding: const EdgeInsetsDirectional.fromSTEB(16, 20, 16, 20),
+        border: const OutlineInputBorder(
+          borderRadius: AppRadii.card,
+          borderSide: BorderSide.none,
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: AppRadii.card,
+          borderSide: BorderSide(color: colors.error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: AppRadii.card,
+          borderSide: BorderSide(color: colors.error),
+        ),
+        errorStyle: AppTextStyles.caption.copyWith(color: colors.error),
+        errorMaxLines: 2,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: colors.textPrimary,
+        contentTextStyle: AppTextStyles.helper.copyWith(color: colors.surface),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadii.card),
+        elevation: 0,
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: colors.surface,
+        surfaceTintColor: Colors.transparent,
+        shape: const RoundedRectangleBorder(borderRadius: AppRadii.large),
+        titleTextStyle: AppTextStyles.headline.copyWith(
+          color: colors.textPrimary,
+        ),
+        contentTextStyle: AppTextStyles.helper.copyWith(
+          color: colors.textPrimary,
         ),
       ),
       dividerTheme: DividerThemeData(

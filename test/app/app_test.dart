@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_builder/app/app.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
-import 'package:habit_builder/features/design_system/presentation/design_system_page.dart';
+import 'package:habit_builder/features/auth/presentation/login_page.dart';
 import 'package:habit_builder/features/onboarding/data/onboarding_repository.dart';
 import 'package:habit_builder/features/onboarding/presentation/onboarding_page.dart';
 import 'package:habit_builder/features/splash/application/splash_controller.dart';
@@ -67,7 +67,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(OnboardingPage), findsNothing);
-      expect(find.byType(DesignSystemPage), findsOneWidget);
+      expect(find.byType(LoginPage), findsOneWidget);
     });
   });
 }

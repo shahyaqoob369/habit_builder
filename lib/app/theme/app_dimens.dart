@@ -17,6 +17,9 @@ abstract final class AppSpacing {
 
 /// Corner radii from the design.
 abstract final class AppRadii {
+  /// Checkboxes (20×20).
+  static const checkbox = BorderRadius.all(Radius.circular(6));
+
   /// Primary buttons (374×60).
   static const button = BorderRadius.all(Radius.circular(8));
 
@@ -31,6 +34,9 @@ abstract final class AppRadii {
 
   /// Bottom sheets: rounded top corners only.
   static const sheet = BorderRadius.vertical(top: Radius.circular(12));
+
+  /// Panels docked to the bottom of a screen (the login panel).
+  static const panel = BorderRadius.vertical(top: Radius.circular(20));
 }
 
 /// Shadows from the design.

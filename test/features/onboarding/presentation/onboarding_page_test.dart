@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
-import 'package:habit_builder/features/design_system/presentation/design_system_page.dart';
+import 'package:habit_builder/features/auth/presentation/login_page.dart';
 import 'package:habit_builder/features/onboarding/presentation/onboarding_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,7 +63,7 @@ void main() {
       await tester.tap(find.text('Get Started'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(DesignSystemPage), findsOneWidget);
+      expect(find.byType(LoginPage), findsOneWidget);
       expect(preferences.getBool(PreferenceKeys.onboardingCompleted), isTrue);
     });
 
@@ -73,7 +73,7 @@ void main() {
       await tester.tap(find.text('Skip'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(DesignSystemPage), findsOneWidget);
+      expect(find.byType(LoginPage), findsOneWidget);
       expect(preferences.getBool(PreferenceKeys.onboardingCompleted), isTrue);
     });
 

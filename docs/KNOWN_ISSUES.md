@@ -7,6 +7,9 @@ Severity: 🔴 broken behaviour · 🟠 wrong or misleading UX · 🟡 cleanup. 
 - 🟠 **App identity is still the template default.** The bundle and application IDs are `com.example.*`, the Android label is `habit_builder`, and the iOS display name is "Habit Builder". → Step 13 (IDs, needed for Firebase) and step 26 (names, icons).
 - 🟡 Onboarding dots: Figma shows a soft glow under the dots (shadow blur 60 at 15 %); on Android it renders much fainter. Cosmetic.
 - 🟠 **The design has placeholder copy**: lorem ipsum, "6-month plan for 39.99 usd", "Goggle Play", "TUE 18" twice, "habits makes us". Replace it with real copy when building each screen (RULES §5).
+- 🟡 Login: the design has a stray 1 pt line across the screen at y 677 (behind the password field, visible only at its sides). Left out as a design leftover.
+- 🟡 Pages that scroll (Sign Up on small phones) slide their artwork under the transparent status bar. Standard edge-to-edge behaviour; revisit in step 24 if it looks busy.
+- 🟠 **Sign-in is sample data until step 14**: accounts live in memory and are lost on restart; Google and Facebook sign in a sample user; "Keep me signed in" and the marketing opt-in are collected but not stored yet.
 - 🟠 **13 pieces are missing from the design** (side menu, edit habit, empty states, delete account, Sign in with Apple, …). See [SCREENS.md](SCREENS.md#missing-from-the-design-needs-a-decision-or-a-simple-design).
 
 ## Resolved

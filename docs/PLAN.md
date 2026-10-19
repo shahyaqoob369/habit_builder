@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-18 · **Progress: 3 / 28 steps** · Current: waiting for the owner's "go" for Step 4_
+_Last updated: 2026-10-19 · **Progress: 4 / 28 steps** · Current: waiting for the owner's "go" for Step 5_
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -32,8 +32,8 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 - Asset pipeline (optimized exports at 1×/2×/3×), PrimaryButton, page dots, onboarding flow
 - Visual check: device screenshots compared side by side with the Figma renders
 
-### ⬜ Step 4 — Login, Sign Up, Reset Password (screens 6–8)
-- AppTextField, SocialButton, AppCheckbox, HeaderIconButton; validation, loading and error states; a fake auth service behind an interface
+### ✅ Step 4 — Login, Sign Up, Reset Password (screens 6–8)
+- AppTextField, SocialButton, AppCheckbox, HeaderIconButton, TextLink; validation, loading and error states; a fake auth service behind an interface (`AuthRepository`, demo account `demo@example.com` / `habits123`)
 
 ### ⬜ Step 5 — App shell
 - Bottom nav (illustrated tabs, curved notch, center FAB), side menu (not in the design, built in its style), tab routes
