@@ -53,7 +53,7 @@ class PurchaseException implements Exception {
   final PurchaseFailure failure;
 }
 
-/// Store access. A fake for now; RevenueCat in plan step 21.
+/// Store access. A fake for now; RevenueCat in plan step 22.
 abstract interface class PremiumRepository {
   Future<PremiumOffering> offering();
 

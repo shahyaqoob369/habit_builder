@@ -7,7 +7,7 @@ import 'package:habit_builder/features/community/domain/community_repository.dar
 import 'package:habit_builder/features/community/domain/post.dart';
 
 /// In-memory [CommunityRepository] with the design's four posts. Used until
-/// the community backend (plan step 23).
+/// the community backend (plan step 24).
 class FakeCommunityRepository implements CommunityRepository {
   FakeCommunityRepository({DateTime? now})
     : _now = now ?? DateTime.now(),

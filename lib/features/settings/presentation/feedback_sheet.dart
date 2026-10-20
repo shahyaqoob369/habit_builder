@@ -7,7 +7,7 @@ import 'package:habit_builder/core/widgets/primary_button.dart';
 import 'package:habit_builder/l10n/l10n.dart';
 
 /// Feedback form (not in the design). Sending is stored with the backend in
-/// plan step 20; for now it thanks the user.
+/// plan step 21; for now it thanks the user.
 Future<void> showFeedbackSheet(BuildContext context) async {
   final messenger = ScaffoldMessenger.of(context);
   final thanks = context.l10n.feedbackThanks;

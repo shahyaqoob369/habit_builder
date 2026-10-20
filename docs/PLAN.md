@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-19 · **Progress: 12 / 28 steps** · Current: Step 13 (Firebase) — **waiting for the owner** (account access, app name and bundle IDs)_
+_Last updated: 2026-10-20 · **Progress: 13 / 29 steps** · Current: Step 14 (Google Analytics) — **waiting for the owner** (turn on Google Analytics for the Firebase project)_
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -62,52 +62,60 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 
 ## Phase C — Backend and integration
 
-### ⬜ Step 13 — Firebase setup ⚠️
-- Owner confirms Firebase, plus the **final app name and bundle IDs**; owner creates or approves the project; `flutterfire configure`; decide how config files are handled (public repo)
+### ✅ Step 13 — Firebase setup
+- Firebase project `monumental-habits-app` (created with the owner's Firebase CLI login); app name **Monumental Habits**; bundle and application ID `com.luminalabs.monumentalhabits`
+- iOS and Android apps registered with `flutterfire configure`; `firebase_core` starts in `main.dart`; iOS minimum raised to 15.0
+- Config files stay local-only (owner decision, public repo): see [FIREBASE.md](FIREBASE.md)
 
-### ⬜ Step 14 — Email authentication
+### ⬜ Step 14 — Google Analytics ⚠️ (owner turns it on in the Firebase console)
+- Owner links Google Analytics to the Firebase project (console → Project settings → Integrations → Google Analytics)
+- `firebase_analytics` behind an `Analytics` interface (a no-op fake in tests); screen views from the router; key events: onboarding done, sign up, log in, habit created / completed / missed, streak milestone, course and lesson opened, post created, paywall shown, purchase and restore
+- Privacy: no advertising ID (no tracking prompt needed), a "Share usage data" switch in settings, App Store privacy labels and the Play data-safety form list analytics data
+- Check events live in Analytics DebugView on the iOS Simulator
+
+### ⬜ Step 15 — Email authentication
 - Sign up, log in, reset email, routing by auth state, sign out, Firestore `users/{uid}`
 
-### ⬜ Step 15 — Google and Apple sign-in ⚠️
+### ⬜ Step 16 — Google and Apple sign-in ⚠️
 - Android SHA-1 in Firebase; Apple Developer account with the Sign in with Apple capability
 
-### ⬜ Step 16 — Facebook sign-in ⚠️
+### ⬜ Step 17 — Facebook sign-in ⚠️
 - A Facebook developer app (App ID and secret) from the owner
 
-### ⬜ Step 17 — Habit data layer ⚠️ (Q1, Q2)
+### ⬜ Step 18 — Habit data layer ⚠️ (Q1, Q2)
 - Models, Firestore repository with offline persistence, streak and completion-rate logic with unit tests
 
-### ⬜ Step 18 — Connect the habit screens to real data ⚠️ (Q4–Q6, Q12)
+### ⬜ Step 19 — Connect the habit screens to real data ⚠️ (Q4–Q6, Q12)
 - Home, New and Edit Habit, Habit detail, congratulation triggers, free-plan habit limit
 
-### ⬜ Step 19 — Reminder notifications
+### ⬜ Step 20 — Reminder notifications
 - Local notifications on due days, permission prompts, rescheduling
 
-### ⬜ Step 20 — Profile and settings, real data ⚠️ (Q3)
+### ⬜ Step 21 — Profile and settings, real data ⚠️ (Q3)
 - Stats, edit profile, feedback, sign out, **delete account**
 
-### ⬜ Step 21 — Premium with RevenueCat ⚠️ (Q13, Q14, store products)
+### ⬜ Step 22 — Premium with RevenueCat ⚠️ (Q13, Q14, store products)
 - Plans, intro offer, restore, gating (habits, courses, avatars)
 
-### ⬜ Step 22 — Courses backend and video ⚠️ (Q8, Q9, hosting)
+### ⬜ Step 23 — Courses backend and video ⚠️ (Q8, Q9, hosting)
 - Content model and seed data, video playback, locks
 
-### ⬜ Step 23 — Community backend ⚠️ (Q10)
+### ⬜ Step 24 — Community backend ⚠️ (Q10)
 - Posts, likes, comments, reporting, counters kept by Cloud Functions
 
 ## Phase D — Quality and release
 
-### ⬜ Step 24 — States and polish
+### ⬜ Step 25 — States and polish
 - Loading, error and offline states; transitions; accessibility; small-screen fixes
 
-### ⬜ Step 25 — Tests and CI
+### ⬜ Step 26 — Tests and CI
 - Widget and integration tests for the key flows; GitHub Actions running analyze and test
 
-### ⬜ Step 26 — App identity
+### ⬜ Step 27 — App identity
 - Launcher icons, native splash, the app name everywhere
 
-### ⬜ Step 27 — Release preparation ⚠️
+### ⬜ Step 28 — Release preparation ⚠️
 - Signing (Android keystore, iOS certificates), store listings, privacy policy, data-safety forms
 
-### ⬜ Step 28 — Release candidate
+### ⬜ Step 29 — Release candidate
 - Release builds on the device, final QA pass, store submission

@@ -83,7 +83,7 @@ class _CourseContentState extends ConsumerState<_CourseContent> {
       unawaited(context.pushNamed(AppRoute.premium.name));
       return;
     }
-    // Video playback arrives with the courses backend (plan step 22).
+    // Video playback arrives with the courses backend (plan step 23).
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(context.l10n.lessonComingSoon)));

@@ -24,7 +24,7 @@ class SignUpDetails {
 }
 
 /// Authentication backend. The UI talks only to this interface: a fake
-/// implementation for now, Firebase from plan step 14.
+/// implementation for now, Firebase from plan step 15.
 ///
 /// Every method throws an `AuthException` on failure.
 abstract interface class AuthRepository {
