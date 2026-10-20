@@ -164,5 +164,20 @@
   "coursesTitle": "Courses",
   "communityTitle": "Community",
   "settingsTitle": "Settings",
-  "newHabitTitle": "New Habit"
+  "newHabitTitle": "New Habit",
+  "homeHabitsLabel": "Habits",
+  "homeQuote": "We first make our habits,\nand then our habits\nmake us.",
+  "@homeQuote": {
+    "description": "Home quote card. Shown uppercase; keep the line breaks short (3 lines). The design's \"makes us\" is fixed to \"make us\"."
+  },
+  "homeQuoteAuthor": "- Anonymous",
+  "homeProfileTooltip": "Profile",
+  "dayStatusDone": "done",
+  "dayStatusMissed": "missed",
+  "dayStatusNone": "not marked",
+  "homeEmptyTitle": "No habits yet",
+  "homeEmptyBody": "Tap + below to start your first habit.",
+  "loadErrorTitle": "Something went wrong",
+  "loadErrorBody": "We couldn’t load this. Check your connection and try again.",
+  "retry": "Try again"
 }

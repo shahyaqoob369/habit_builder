@@ -10,6 +10,7 @@ Severity: 🔴 broken behaviour · 🟠 wrong or misleading UX · 🟡 cleanup. 
 - 🟡 Login: the design has a stray 1 pt line across the screen at y 677 (behind the password field, visible only at its sides). Left out as a design leftover.
 - 🟡 Pages that scroll (Sign Up on small phones) slide their artwork under the transparent status bar. Standard edge-to-edge behaviour; revisit in step 24 if it looks busy.
 - 🟠 **Sign-in is sample data until step 14**: accounts live in memory and are lost on restart; Google and Facebook sign in a sample user; "Keep me signed in" and the marketing opt-in are collected but not stored yet.
+- 🟡 Home: the day strip scrolls sideways and opens on today, fully visible at the right (Figma cuts the last column at the screen edge). Tapping a cell cycles not marked → done → missed (not in the design). The avatar is the illustrated one, not the kit's stock photo.
 - 🟠 **13 pieces are missing from the design** (side menu, edit habit, empty states, delete account, Sign in with Apple, …). See [SCREENS.md](SCREENS.md#missing-from-the-design-needs-a-decision-or-a-simple-design).
 
 ## Resolved

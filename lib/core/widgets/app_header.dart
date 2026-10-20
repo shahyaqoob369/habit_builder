@@ -24,9 +24,11 @@ class AppHeader extends StatelessWidget {
   static const height = 48.0;
 
   /// Space between the bottom of the header row and the content below it.
-  /// Figma puts content 24 pt below the 44 pt circles; the row is 2 pt
-  /// taller than the circle.
-  static const double bottomGap = 24 - HeaderIconButton.inset;
+  ///
+  /// Figma puts content 24 pt below the circles, but its circles sit 5 pt
+  /// higher than ours (see [HeaderIconButton.topGap]); 19 pt keeps the
+  /// content at its Figma position. The row is 2 pt taller than the circle.
+  static const double bottomGap = 19 - HeaderIconButton.inset;
 
   @override
   Widget build(BuildContext context) {

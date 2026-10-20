@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-19 · **Progress: 5 / 28 steps** · Current: Step 6_
+_Last updated: 2026-10-19 · **Progress: 6 / 28 steps** · Current: Step 7_
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -39,7 +39,7 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 - Bottom nav (illustrated tabs, curved notch, center FAB), side menu (not in the design, built in its style), tab routes
 - One Figma export (2 API calls) for every icon and illustration of screens 9–20
 
-### ⬜ Step 6 — Home (screen 9)
+### ✅ Step 6 — Home (screen 9)
 - Quote card, week strip, habit grid with Full/Half cells, empty state, sample habits
 
 ### ⬜ Step 7 — New and Edit Habit with reminders (screens 10–12)
