@@ -180,11 +180,14 @@ Building habits "one step at a time … keeping a streak alive" (Branding Guidel
 **Alternative:** Supabase (Postgres, Auth and Storage) suits a team that wants SQL for analytics and community queries. Offline habit tracking then needs a local database (for example drift) with a sync layer, which is more work.
 
 ### Data layout (Firestore)
+
+**Built so far:** `users/{uid}` (step 15) and `users/{uid}/habits` (step 18); the rest is the plan. Days live in the habit document (`log`, `easiness`) rather than an `entries` subcollection, so Home loads everything with one query and works offline. A habit grows about 11 KB a year, far below Firestore's 1 MB document limit. The exact fields are in `HabitMapper`.
+
 ```
 users/{uid}                         name, email, avatarId, marketingOptIn, timezone, premium{...}, createdAt
-users/{uid}/habits/{habitId}        name, icon, color, frequency{type, days[]}, reminders[{time, enabled}],
-                                    notificationsEnabled, order, createdAt, archivedAt
-users/{uid}/habits/{habitId}/entries/{yyyy-MM-dd}   status, easiness, updatedAt
+users/{uid}/habits/{habitId}        name, icon, color, createdAt 'yyyy-MM-dd', sortKey, weekdays[1..7],
+                                    reminders['HH:mm'], notificationsEnabled,
+                                    log{'yyyy-MM-dd': 'done'|'missed'}, easiness{'yyyy-MM-dd': 1..10}
 users/{uid}/bookmarks/{courseId}    createdAt
 quotes/{id}                         text, author
 avatars/{id}                        imageUrl, isPremium

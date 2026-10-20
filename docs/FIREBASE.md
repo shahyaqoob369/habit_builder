@@ -42,9 +42,10 @@ CI (step 26) will write the same files from GitHub secrets before `flutter analy
 - **Code:** `FirebaseAuthRepository` (`lib/features/auth/data/`) implements `AuthRepository`. `main` overrides `authRepositoryProvider` with it, and tests use `FakeAuthRepository`.
 - **Routing:** the router redirects signed-out users to login (except splash, onboarding and the auth screens) and sends signed-in users away from the auth screens. The splash waits for the saved session. "Keep me signed in" unchecked means the user is signed out on the next launch (preference `auth_keep_signed_in`).
 - **Profile:** `users/{uid}` holds `name`, `email`, `marketingOptIn` and `createdAt` (rename adds `updatedAt`). Deleting the account asks for the password, deletes the profile, then the account. **Every later collection under the user must be deleted there too** (step 18 onwards).
-- **Rules:** `firestore.rules` (in git). Every user reads and writes only their own profile, and everything else is denied. Deploy them with `firebase deploy --only firestore:rules --non-interactive`.
+- **Habits:** `users/{uid}/habits/{habitId}`, one document per habit with its days inside (`HabitMapper` documents the fields). `FirestoreHabitRepository` doesn't wait for the server, so it works offline and Firestore syncs later. `main` gives each signed-in user their own repository.
+- **Rules:** `firestore.rules` (in git). Every user reads and writes only their own profile and habits, the fields are validated, and everything else is denied. Deploy them with `firebase deploy --only firestore:rules --non-interactive`.
 - **Database:** `(default)` in `nam5` (US multi-region). The location can't be changed.
-- **End-to-end test against the real project:** `flutter test integration_test/auth_flow_test.dart -d <simulator id>`. It creates a throwaway account, then deletes it.
+- **End-to-end tests against the real project:** `flutter test integration_test/auth_flow_test.dart -d <simulator id>`, and the same for `habits_flow_test.dart`. Each creates a throwaway account, then deletes it.
 - **Screens without Firebase sign-in (debug):** `flutter run --dart-define=FAKE_AUTH=true --dart-define=INITIAL_ROUTE=/home` starts signed in as the demo user.
 
 ## Analytics

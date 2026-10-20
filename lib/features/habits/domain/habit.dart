@@ -143,6 +143,7 @@ class Habit {
   }
 
   /// A copy with [day] marked as [status], or unmarked when it is null.
+  /// A day that isn't done loses its easiness rating.
   Habit withStatus(DateTime day, DayStatus? status) {
     final key = day.dateOnly;
     final next = Map<DateTime, DayStatus>.of(log);
@@ -151,7 +152,12 @@ class Habit {
     } else {
       next[key] = status;
     }
-    return copyWith(log: Map.unmodifiable(next));
+    return copyWith(
+      log: Map.unmodifiable(next),
+      easiness: status == DayStatus.done || !easiness.containsKey(key)
+          ? easiness
+          : Map.unmodifiable({...easiness}..remove(key)),
+    );
   }
 
   /// A copy with [day] rated [score] (1–10).

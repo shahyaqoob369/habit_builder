@@ -7,8 +7,8 @@ import 'package:habit_builder/features/habits/domain/habit.dart';
 import 'package:habit_builder/features/habits/domain/habit_repository.dart';
 
 /// In-memory [HabitRepository], seeded with the design's four sample habits
-/// and a few days of history ending today. Used until Firestore (plan
-/// step 18); changes last until the app restarts.
+/// and a few days of history ending today. Used by tests and `FAKE_AUTH`
+/// debug runs; the app uses `FirestoreHabitRepository`.
 class FakeHabitRepository implements HabitRepository {
   /// Starts with [habits], or the design's samples when null.
   FakeHabitRepository({DateTime? today, bool seed = true, List<Habit>? habits})
@@ -125,7 +125,8 @@ class FakeHabitRepository implements HabitRepository {
   }
 }
 
-/// The app's [HabitRepository].
+/// The app's [HabitRepository]. `main` overrides it with Firestore for the
+/// signed-in user.
 final habitRepositoryProvider = Provider<HabitRepository>(
   (ref) => FakeHabitRepository(),
 );

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habit_builder/features/auth/domain/auth_failure.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_user.dart';
+import 'package:habit_builder/features/habits/data/firestore_habit_repository.dart';
 
 /// [AuthRepository] backed by Firebase Auth, with each user's profile in
 /// Firestore at `users/{uid}` (see `firestore.rules`).
@@ -91,6 +92,9 @@ class FirebaseAuthRepository implements AuthRepository {
         EmailAuthProvider.credential(email: user.email!, password: password),
       );
     }
+    for (final collection in _userCollections) {
+      await _deleteAll(_profile(user.uid).collection(collection));
+    }
     await _profile(user.uid).delete();
     await user.delete();
   });
@@ -107,6 +111,27 @@ class FirebaseAuthRepository implements AuthRepository {
     await user.reload();
     return _toAuthUser(_auth.currentUser)!;
   });
+
+  /// Everything stored under `users/{uid}`, deleted with the account.
+  /// Add each new per-user collection here.
+  static const List<String> _userCollections = [
+    FirestoreHabitRepository.collection,
+  ];
+
+  static Future<void> _deleteAll(
+    CollectionReference<Map<String, Object?>> collection,
+  ) async {
+    // Batches hold at most 500 writes.
+    while (true) {
+      final page = await collection.limit(400).get();
+      if (page.docs.isEmpty) return;
+      final batch = collection.firestore.batch();
+      for (final doc in page.docs) {
+        batch.delete(doc.reference);
+      }
+      await batch.commit();
+    }
+  }
 
   static AuthUser? _toAuthUser(User? user) {
     if (user == null) return null;
