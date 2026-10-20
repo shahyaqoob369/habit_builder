@@ -6,7 +6,7 @@ import 'package:habit_builder/core/widgets/app_text_field.dart';
 import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/auth/presentation/login_page.dart';
 import 'package:habit_builder/features/auth/presentation/sign_up_page.dart';
-import 'package:habit_builder/features/design_system/presentation/design_system_page.dart';
+import 'package:habit_builder/features/home/presentation/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/pump_app.dart';
@@ -102,7 +102,7 @@ void main() {
       await tester.tap(find.text('Create Account'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(DesignSystemPage), findsOneWidget);
+      expect(find.byType(HomePage), findsOneWidget);
     });
 
     testWidgets('an email that already has an account shows an error', (

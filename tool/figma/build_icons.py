@@ -1,19 +1,25 @@
 #!/usr/bin/env python3
 """Build the app's icons from the Figma SVG exports.
 
-Reads the SVGs in docs/figma/assets/export/ (made by `figma_pull.py export`):
+Reads every docs/figma/assets/export/ic_*.svg (made by `figma_pull.py export`):
 
-* Single-color UI icons are rewritten as plain one-color SVGs in
-  assets/icons/<name>.svg. Figma exports outlined strokes as a fill plus a
-  masked stroke and wraps faded icons in an opacity group; flutter_svg can't
-  draw the mask, and the app tints icons at runtime, so both are flattened.
-* Brand icons keep their colors and Figma drop shadows (SVG filters, which
-  flutter_svg ignores), so they are rasterized with rsvg-convert into
-  assets/img/brand/{,2.0x/,3.0x/}<name>.webp on a common 55x55 pt canvas with
-  the 23x23 pt glyph at (16, 8).
+* Brand logos (BRAND) keep their colors and Figma drop shadows (SVG
+  filters, which flutter_svg ignores), so they are rasterized with
+  rsvg-convert into assets/img/brand/{,2.0x/,3.0x/}<name>.webp on a common
+  55x55 pt canvas with the 23x23 pt glyph at (16, 8).
+* Every other icon is written to assets/icons/<name>.svg, cleaned up for
+  flutter_svg:
+  - outlined strokes (Figma exports them as a fill plus a masked stroke)
+    become a fill plus a plain stroke; inside strokes are dropped, since the
+    fill already covers them;
+  - drop-shadow filters are removed (flutter_svg can't draw them);
+  - icons in TINTED are tinted at runtime (AppIcon with a color), so their
+    opacity attributes are removed too. The others are full-color and drawn
+    as exported.
 
 Usage: python3 tool/figma/build_icons.py   (needs rsvg-convert and Pillow)
 """
+import glob
 import os
 import re
 import subprocess
@@ -24,38 +30,57 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 EXPORT = os.path.join(ROOT, "docs", "figma", "assets", "export")
 
-MONO = ["ic_back", "ic_check", "ic_help", "ic_lock", "ic_mail", "ic_user"]
+# Single-color glyphs, tinted at runtime.
+TINTED = {
+    "back", "bell_plus", "book_reader", "card", "check", "check_bold",
+    "chevron_down", "chevron_left", "chevron_right", "clock", "edit",
+    "feedback", "flag", "hand_arrow", "heart", "help", "lock", "mail", "menu",
+    "notification", "plus", "repeat", "shield", "user",
+}
 
 # name -> top-left of the 23x23 glyph inside the exported SVG, in points.
-BRAND = {"ic_google": (8, 4), "ic_facebook": (16, 8)}
+BRAND = {"google": (8, 4), "facebook": (16, 8)}
 CANVAS = 55
 GLYPH_AT = (16, 8)
 
-# Tinted at runtime with ColorFilter(srcIn); the source color doesn't matter.
-COLOR = "#000000"
 
+def clean(svg, tinted):
+    opening = re.search(r"<svg [^>]*>", svg)
+    header = re.sub(r'\s+xmlns:xlink="[^"]*"', "", opening.group(0))
+    body = svg[opening.end():svg.rindex("</svg>")]
 
-def clean_mono(svg):
-    header = re.search(r"<svg [^>]*>", svg).group(0)
-    header = re.sub(r'\s+xmlns:xlink="[^"]*"', "", header)
-    defs = dict(re.findall(r'<path id="([^"]+)" d="([^"]+)"/>', svg))
-    paths = []
-    for tag in re.findall(r"<(?:path|circle)\b[^>]*/>", svg):
-        if " id=" in tag:
-            continue  # definitions used through <use>
-        if "mask=" in tag:
-            # Outside stroke (a centered stroke masked to the outside): the
-            # same centered stroke over the filled shape looks identical.
-            d = re.search(r' d="([^"]+)"', tag).group(1)
-            width = re.search(r'stroke-width="([^"]+)"', tag).group(1)
-            tag = (f'<path d="{d}" fill="{COLOR}" stroke="{COLOR}" '
-                   f'stroke-width="{width}"/>')
-        tag = re.sub(r'(stroke|fill)="#[0-9A-Fa-f]{6}"', rf'\1="{COLOR}"', tag)
-        paths.append(tag)
-    for ref in re.findall(r'<use xlink:href="#([^"]+)" fill="[^"]+"/>', svg):
-        if ref in defs and not any(defs[ref] in p for p in paths):
-            paths.append(f'<path d="{defs[ref]}" fill="{COLOR}"/>')
-    return header + "\n" + "\n".join(paths) + "\n</svg>\n"
+    # Outlined strokes: <use href=#p fill=…/> plus a masked stroke of #p.
+    defs = dict(re.findall(r'<path id="([^"]+)" d="([^"]+)"/>', body))
+    masks = dict(re.findall(r'<mask id="([^"]+)"([\s\S]*?)</mask>', body))
+
+    def unmask(m):
+        tag = m.group(0)
+        mask_id = re.search(r'mask="url\(#([^)]+)\)"', tag).group(1)
+        outside = "<rect" in masks.get(mask_id, "")
+        if not outside:
+            return ""  # inside stroke: hidden under the fill
+        return re.sub(r'\s*mask="url\(#[^)]+\)"', "", tag)
+
+    body = re.sub(r"<path\b[^>]*mask=\"url\(#[^)]+\)\"[^>]*/>", unmask, body)
+    body = re.sub(r"<mask\b[\s\S]*?</mask>", "", body)
+    body = re.sub(
+        r'<use xlink:href="#([^"]+)"([^>]*)/>',
+        lambda m: f'<path d="{defs[m.group(1)]}"{m.group(2)}/>',
+        body,
+    )
+    body = re.sub(r'<path id="[^"]+" d="[^"]+"/>', "", body)
+
+    # Drop shadows.
+    body = re.sub(r'<g filter="url\(#[^)]+\)">([\s\S]*?)</g>', r"\1", body)
+    body = re.sub(r"<filter\b[\s\S]*?</filter>", "", body)
+
+    if tinted:
+        body = re.sub(r'\s+opacity="[^"]+"', "", body)
+        body = re.sub(r'<g>([\s\S]*?)</g>', r"\1", body)
+
+    body = re.sub(r"<defs>\s*</defs>", "", body)
+    lines = [line.strip() for line in body.splitlines() if line.strip()]
+    return header + "\n" + "\n".join(lines) + "\n</svg>\n"
 
 
 def build_brand(name, origin):
@@ -65,7 +90,7 @@ def build_brand(name, origin):
             png = os.path.join(tmp, f"{name}@{scale}.png")
             subprocess.run(
                 ["rsvg-convert", "-z", str(scale),
-                 os.path.join(EXPORT, f"{name}.svg"), "-o", png],
+                 os.path.join(EXPORT, f"ic_{name}.svg"), "-o", png],
                 check=True,
             )
             glyph = Image.open(png).convert("RGBA")
@@ -75,20 +100,23 @@ def build_brand(name, origin):
             canvas.alpha_composite(glyph, offset)
             folder = os.path.join(out_dir, "" if scale == 1 else f"{scale}.0x")
             os.makedirs(folder, exist_ok=True)
-            canvas.save(os.path.join(folder, f"{name[3:]}.webp"),
+            canvas.save(os.path.join(folder, f"{name}.webp"),
                         "WEBP", lossless=True, method=6)
-    print(f"brand/{name[3:]}.webp")
+    print(f"brand/{name}.webp")
 
 
 def main():
     icons = os.path.join(ROOT, "assets", "icons")
     os.makedirs(icons, exist_ok=True)
-    for name in MONO:
-        with open(os.path.join(EXPORT, f"{name}.svg")) as f:
-            svg = clean_mono(f.read())
-        with open(os.path.join(icons, f"{name[3:]}.svg"), "w") as f:
+    for path in sorted(glob.glob(os.path.join(EXPORT, "ic_*.svg"))):
+        name = os.path.basename(path)[3:-4]
+        if name in BRAND:
+            continue
+        with open(path) as f:
+            svg = clean(f.read(), name in TINTED)
+        with open(os.path.join(icons, f"{name}.svg"), "w") as f:
             f.write(svg)
-        print(f"icons/{name[3:]}.svg")
+        print(f"icons/{name}.svg" + ("" if name in TINTED else "  (full color)"))
     for name, origin in BRAND.items():
         build_brand(name, origin)
 

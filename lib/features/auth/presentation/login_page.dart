@@ -33,8 +33,7 @@ class LoginPage extends ConsumerWidget {
     final controller = ref.read(loginFormProvider.notifier);
     Future<void> signIn(Future<bool> Function() request) async {
       if (await request() && context.mounted) {
-        // Becomes the home screen in plan step 5.
-        context.goNamed(AppRoute.designSystem.name);
+        context.goNamed(AppRoute.home.name);
       }
     }
 

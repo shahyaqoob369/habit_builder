@@ -6,7 +6,7 @@ How this project is built. Set by the owner on 2026-10-18. Claude follows these 
 
 The steps are listed in [PLAN.md](PLAN.md). For **every** step:
 
-1. **Wait for the owner's "go".** Never start the next step without it.
+1. **Keep going.** Since 2026-10-20 the owner wants the steps done back to back, without waiting for a "go" between them, until they stop for a review. Stop at any blocker (below).
 2. **Branch** from the latest `main`: `step/NN-short-name` (for example `step/03-design-tokens`).
 3. **Build** only that step's scope. Anything else that turns up goes into [KNOWN_ISSUES.md](KNOWN_ISSUES.md) or a later step.
 4. **Verify**: `flutter analyze` reports no new issues, and `flutter test` passes.
@@ -14,8 +14,8 @@ The steps are listed in [PLAN.md](PLAN.md). For **every** step:
 6. **Commit, push and open a PR** using the template in §2.
 7. **Self-review** the whole diff against the checklist in §3. Fix what it finds, then post the review result as a PR comment. (GitHub doesn't let an author approve their own PR.)
 8. **Merge**: squash merge, delete the branch, update local `main`.
-9. **Run the app** on the owner's connected device (`flutter run -d <device>`), which is currently the **Realme C3**. Take screenshots with `adb exec-out screencap -p` to compare against Figma, and say what to test.
-10. **Report and stop.** The report covers what changed, the PR link, review findings, what to test, and what the next step needs (decisions or account access).
+9. **Check it on the iOS Simulator** the owner has open (**iPhone and the App Store come first**, Android after). Open a screen directly with `--dart-define=INITIAL_ROUTE=/route` (debug builds) and screenshot with `xcrun simctl io booted screenshot`; compare against Figma.
+10. **Report** what changed, the PR link and review findings, then move to the next step. Stop and report fully when the owner asks for a review or a step is blocked.
 
 **Blockers:** if a step needs a decision, a paid action, or access to the owner's accounts (Firebase, Apple, Google, Facebook, RevenueCat, stores), stop and ask. Claude prepares exact instructions; the owner does or approves the action. Never guess on these.
 

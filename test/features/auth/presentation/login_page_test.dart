@@ -8,7 +8,7 @@ import 'package:habit_builder/features/auth/presentation/login_page.dart';
 import 'package:habit_builder/features/auth/presentation/reset_password_page.dart';
 import 'package:habit_builder/features/auth/presentation/sign_up_page.dart';
 import 'package:habit_builder/features/auth/presentation/widgets/email_login_panel.dart';
-import 'package:habit_builder/features/design_system/presentation/design_system_page.dart';
+import 'package:habit_builder/features/home/presentation/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/pump_app.dart';
@@ -106,7 +106,7 @@ void main() {
 
       await tester.pump(const Duration(seconds: 1));
       await tester.pumpAndSettle();
-      expect(find.byType(DesignSystemPage), findsOneWidget);
+      expect(find.byType(HomePage), findsOneWidget);
     });
 
     testWidgets('Continue with Google signs in', (tester) async {
@@ -115,7 +115,7 @@ void main() {
       await tester.tap(find.text('Continue with Google'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(DesignSystemPage), findsOneWidget);
+      expect(find.byType(HomePage), findsOneWidget);
     });
 
     testWidgets('Forgot Password? opens Reset Password; Back returns', (

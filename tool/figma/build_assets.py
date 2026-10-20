@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Build the app's image assets from the Figma exports.
 
-Reads tool/figma/app_assets.json and, for each entry, takes the 3x render in
-docs/figma/assets/export/<source>.png (made by `figma_pull.py export`), applies
-the optional crop (in 3x pixels) and writes Flutter resolution-aware variants:
+Reads tool/figma/app_assets.json and, for each entry, takes either the 3x
+render docs/figma/assets/export/<source>.png (made by `figma_pull.py export`)
+or an original image fill docs/figma/assets/fills/<fill> (made by
+`figma_pull.py fills`), applies the optional crop (in 3x pixels) or cover-fit
+to `size` (in points), and writes Flutter resolution-aware variants:
 
   assets/img/<out>.webp        1x
   assets/img/<dir>/2.0x/...    2x
@@ -14,10 +16,11 @@ Usage: python3 tool/figma/build_assets.py
 import json
 import os
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 EXPORT = os.path.join(ROOT, "docs", "figma", "assets", "export")
+FILLS = os.path.join(ROOT, "docs", "figma", "assets", "fills")
 RECIPES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "app_assets.json")
 
 
@@ -25,9 +28,15 @@ def main():
     with open(RECIPES) as f:
         recipes = json.load(f)
     for r in recipes:
-        img = Image.open(os.path.join(EXPORT, f"{r['source']}.png")).convert("RGBA")
+        if "fill" in r:
+            img = Image.open(os.path.join(FILLS, r["fill"])).convert("RGBA")
+        else:
+            img = Image.open(os.path.join(EXPORT, f"{r['source']}.png")).convert("RGBA")
         if r.get("crop3"):
             img = img.crop(tuple(r["crop3"]))
+        if r.get("size"):
+            # Cover-fit (centered), like a Figma image fill, at 3x.
+            img = ImageOps.fit(img, (r["size"][0] * 3, r["size"][1] * 3), Image.LANCZOS)
         # Logical size in points; renders are 3x.
         w, h = round(img.width / 3), round(img.height / 3)
         directory, name = os.path.split(r["out"])
