@@ -214,6 +214,26 @@ abstract final class AppTextStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
+  /// Habit names in the Home grid, "HABITS". 700 14/20.
+  static const rowLabel = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w700,
+    fontSize: 14,
+    height: 20 / 14,
+    letterSpacing: 14 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
+  /// Dates in the week strip ("18"). 700 16/13.
+  static const dateNumber = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w700,
+    fontSize: 16,
+    height: 13 / 16,
+    letterSpacing: 16 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
   /// Habit names, calendar day numbers. 700 14/13.
   static const labelStrong = TextStyle(
     fontFamily: AppFonts.body,
