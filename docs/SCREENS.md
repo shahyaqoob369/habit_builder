@@ -26,7 +26,7 @@ The UI is rebuilt from scratch (owner decision, 2026-10-18). Screens 1–7 were 
 | 14 | Congratulation Popup (dialog) | Habits | [congratulation_dialog.dart](../lib/features/habits/presentation/congratulation_dialog.dart) | ✅ | [png](figma/screens/14-congratulation-popup/main.png) · [spec](figma/screens/14-congratulation-popup/spec.txt) |
 | 15 | Course overview (courses list) | Courses | [courses_page.dart](../lib/features/courses/presentation/courses_page.dart) | ✅ | [png](figma/screens/15-course-overview/main.png) · [spec](figma/screens/15-course-overview/spec.txt) |
 | 16 | Course – what's inside (course detail) | Courses | [course_detail_page.dart](../lib/features/courses/presentation/course_detail_page.dart) | ✅ | [png](figma/screens/16-course-what-s-inside/main.png) · [spec](figma/screens/16-course-what-s-inside/spec.txt) |
-| 17 | Community Page | Community | — | ⬜ | [png](figma/screens/17-community-page/main.png) · [spec](figma/screens/17-community-page/spec.txt) |
+| 17 | Community Page | Community | [community_page.dart](../lib/features/community/presentation/community_page.dart) | ✅ | [png](figma/screens/17-community-page/main.png) · [spec](figma/screens/17-community-page/spec.txt) |
 | 18 | Profile Dashboard | Profile | — | ⬜ | [png](figma/screens/18-profile-dashboard/main.png) · [spec](figma/screens/18-profile-dashboard/spec.txt) |
 | 19 | Settings | Settings | — | ⬜ | [png](figma/screens/19-settings/main.png) · [spec](figma/screens/19-settings/spec.txt) |
 | 20 | Subscription Page ("Premium") | Premium | — | ⬜ | [png](figma/screens/20-subscription-page/main.png) · [spec](figma/screens/20-subscription-page/spec.txt) |

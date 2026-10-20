@@ -6,6 +6,7 @@ import 'package:habit_builder/features/auth/presentation/login_page.dart';
 import 'package:habit_builder/features/auth/presentation/reset_password_page.dart';
 import 'package:habit_builder/features/auth/presentation/sign_up_page.dart';
 import 'package:habit_builder/features/community/presentation/community_page.dart';
+import 'package:habit_builder/features/community/presentation/post_detail_page.dart';
 import 'package:habit_builder/features/courses/presentation/course_detail_page.dart';
 import 'package:habit_builder/features/courses/presentation/courses_page.dart';
 import 'package:habit_builder/features/design_system/presentation/design_system_page.dart';
@@ -118,6 +119,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: AppRoute.community.path,
                 name: AppRoute.community.name,
                 builder: (context, state) => const CommunityPage(),
+                routes: [
+                  GoRoute(
+                    path: AppRoute.postDetail.path,
+                    name: AppRoute.postDetail.name,
+                    builder: (context, state) =>
+                        PostDetailPage(postId: state.pathParameters['id']!),
+                  ),
+                ],
               ),
             ],
           ),

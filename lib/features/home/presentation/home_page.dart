@@ -14,6 +14,7 @@ import 'package:habit_builder/features/habits/domain/habit.dart';
 import 'package:habit_builder/features/home/presentation/widgets/habit_grid.dart';
 import 'package:habit_builder/features/home/presentation/widgets/quote_card.dart';
 import 'package:habit_builder/features/shell/presentation/widgets/menu_button.dart';
+import 'package:habit_builder/features/shell/presentation/widgets/profile_button.dart';
 import 'package:habit_builder/l10n/l10n.dart';
 
 /// Home (Figma "Homepage – Tracking Habits"): quote of the day and the
@@ -43,7 +44,7 @@ class HomePage extends ConsumerWidget {
               AppHeader(
                 title: l10n.homeTitle,
                 leading: const MenuButton(),
-                trailing: const _ProfileButton(),
+                trailing: const ProfileButton(),
               ),
               Expanded(
                 child: ListView(
@@ -105,30 +106,6 @@ class HomePage extends ConsumerWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// The user's avatar, top right; opens the profile (plan step 11).
-class _ProfileButton extends StatelessWidget {
-  const _ProfileButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      image: true,
-      label: context.l10n.homeProfileTooltip,
-      child: Padding(
-        padding: const EdgeInsets.all(2),
-        child: ClipOval(
-          child: Image.asset(
-            AppImages.avatar,
-            width: 44,
-            height: 44,
-            excludeFromSemantics: true,
-          ),
-        ),
       ),
     );
   }
