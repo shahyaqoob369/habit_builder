@@ -292,5 +292,80 @@
     }
   },
   "congratulationCreate": "Create New Habit",
-  "congratulationContinue": "Continue"
+  "congratulationContinue": "Continue",
+  "coursesSearch": "Search courses",
+  "coursesSearchHint": "Search courses",
+  "coursesBannerTitle": "Habit courses",
+  "coursesBannerBody": "Find what fascinates you as you explore these habit courses.",
+  "coursesSortBy": "Sort By:",
+  "coursesSortPopular": "Popular",
+  "coursesSortNewest": "Newest",
+  "coursesSortShortest": "Shortest",
+  "coursesFilters": "Filters",
+  "coursesFiltersOn": "Saved",
+  "coursesFilterAll": "All courses",
+  "coursesFilterSaved": "Saved courses only",
+  "coursesEmptyTitle": "No courses here",
+  "coursesEmptySaved": "Tap the bookmark on a course to save it.",
+  "coursesEmptySearch": "Try another search.",
+  "courseLessons": "{count, plural, =1{1 Lesson} other{{count} Lessons}}",
+  "@courseLessons": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "courseLessonsLength": "{count, plural, =1{1 Lesson} other{{count} Lessons}} ({length})",
+  "@courseLessonsLength": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "length": {
+        "type": "String"
+      }
+    }
+  },
+  "courseShowAll": "Show all {count} lessons",
+  "@courseShowAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "courseSave": "Save course",
+  "courseNotFoundTitle": "Course not found",
+  "courseNotFoundBody": "It may have been removed.",
+  "durationMinutes": "{minutes}m",
+  "@durationMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHoursMinutes": "{hours}h {minutes}m",
+  "@durationHoursMinutes": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "lessonPlay": "Play {lesson}",
+  "@lessonPlay": {
+    "placeholders": {
+      "lesson": {
+        "type": "String"
+      }
+    }
+  },
+  "lessonComingSoon": "Video lessons are coming soon.",
+  "lessonLocked": "This lesson is part of Premium.",
+  "lessonLockedLabel": "locked"
 }

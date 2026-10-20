@@ -314,6 +314,16 @@ abstract final class AppTextStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
+  /// Text under a banner title. 500 12/18.
+  static const bannerBody = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w500,
+    fontSize: 12,
+    height: 18 / 12,
+    letterSpacing: 12 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
   /// Meta text ("41m ago", "37 Lessons"). 500 12/14.
   static const caption = TextStyle(
     fontFamily: AppFonts.body,
