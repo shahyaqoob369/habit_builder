@@ -45,14 +45,18 @@ class AppHeader extends StatelessWidget {
           children: [
             leading ?? side,
             Expanded(
-              child: Semantics(
-                header: true,
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.title,
+              child: Padding(
+                // Keeps long titles off the buttons.
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.title,
+                  ),
                 ),
               ),
             ),

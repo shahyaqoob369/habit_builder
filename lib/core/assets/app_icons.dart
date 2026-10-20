@@ -78,7 +78,6 @@ abstract final class AppIcons {
 
   static const repeat = 'assets/icons/repeat.svg';
 
-  /// Full color.
   static const search = 'assets/icons/search.svg';
 
   /// Full color.

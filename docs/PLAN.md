@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-19 · **Progress: 8 / 28 steps** · Current: Step 9_
+_Last updated: 2026-10-19 · **Progress: 9 / 28 steps** · Current: Step 10_
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -48,7 +48,7 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 ### ✅ Step 8 — Habit detail and congratulation popup (screens 13–14)
 - Month calendar, stat tiles, mark complete or missed, easiness rating sheet, congratulation dialog
 
-### ⬜ Step 9 — Courses (screens 15–16)
+### ✅ Step 9 — Courses (screens 15–16)
 - Courses list (banner, sort, filters, search, bookmark), course detail (video header, lesson list, locks)
 
 ### ⬜ Step 10 — Community (screen 17)

@@ -24,6 +24,9 @@ enum AppRoute {
   /// Nested under [habitDetail].
   editHabit('edit'),
   courses('/courses'),
+
+  /// Nested under [courses]: `/courses/course/:id`.
+  courseDetail('course/:id'),
   community('/community'),
   settings('/settings'),
 

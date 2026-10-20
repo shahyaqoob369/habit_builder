@@ -35,8 +35,12 @@ TINTED = {
     "back", "bell_plus", "book_reader", "card", "check", "check_bold",
     "chevron_down", "chevron_left", "chevron_right", "clock", "edit",
     "feedback", "flag", "hand_arrow", "heart", "help", "lock", "mail", "menu",
-    "notification", "plus", "repeat", "shield", "user",
+    "notification", "plus", "repeat", "search", "shield", "user",
 }
+
+# Icons exported with their button background: keep only the glyph, at
+# this viewBox (x y w h).
+GLYPH_ONLY = {"search": "21 22 22 22"}
 
 # name -> top-left of the 23x23 glyph inside the exported SVG, in points.
 BRAND = {"google": (8, 4), "facebook": (16, 8)}
@@ -114,6 +118,12 @@ def main():
             continue
         with open(path) as f:
             svg = clean(f.read(), name in TINTED)
+        if name in GLYPH_ONLY:
+            box = GLYPH_ONLY[name]
+            w, h = box.split()[2:]
+            svg = re.sub(r"<rect\b[^>]*/>\n", "", svg, count=1)
+            svg = re.sub(r'width="[^"]+" height="[^"]+" viewBox="[^"]+"',
+                         f'width="{w}" height="{h}" viewBox="{box}"', svg, count=1)
         with open(os.path.join(icons, f"{name}.svg"), "w") as f:
             f.write(svg)
         print(f"icons/{name}.svg" + ("" if name in TINTED else "  (full color)"))
