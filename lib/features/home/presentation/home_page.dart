@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:habit_builder/app/router/app_route.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/core/assets/app_images.dart';
 import 'package:habit_builder/core/widgets/app_header.dart';
@@ -86,8 +88,10 @@ class HomePage extends ConsumerWidget {
                                 DayStatus.cycle(habit.statusOn(day)),
                               ),
                         ),
-                        // Habit detail arrives in plan step 8.
-                        onHabitTap: (_) {},
+                        onHabitTap: (habit) => context.goNamed(
+                          AppRoute.habitDetail.name,
+                          pathParameters: {'id': habit.id},
+                        ),
                       ),
                       AsyncValue(hasError: true) => MessageView.error(
                         context,

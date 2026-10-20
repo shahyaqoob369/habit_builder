@@ -13,6 +13,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.primaryLight,
     required this.primarySoft,
     required this.background,
+    required this.backgroundDeep,
     required this.surface,
     required this.surfaceTinted,
     required this.textPrimary,
@@ -34,6 +35,7 @@ class AppColors extends ThemeExtension<AppColors> {
     primaryLight: AppPalette.orangeLight,
     primarySoft: Color(0x33FDA758),
     background: AppPalette.cream,
+    backgroundDeep: AppPalette.sand,
     surface: AppPalette.white,
     surfaceTinted: AppPalette.linen,
     textPrimary: AppPalette.eclipse,
@@ -63,6 +65,9 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// Screen background.
   final Color background;
+
+  /// A shade darker than [background], for soft section bands.
+  final Color backgroundDeep;
 
   /// Cards, fields and sheets.
   final Color surface;
@@ -103,6 +108,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? primaryLight,
     Color? primarySoft,
     Color? background,
+    Color? backgroundDeep,
     Color? surface,
     Color? surfaceTinted,
     Color? textPrimary,
@@ -123,6 +129,7 @@ class AppColors extends ThemeExtension<AppColors> {
       primaryLight: primaryLight ?? this.primaryLight,
       primarySoft: primarySoft ?? this.primarySoft,
       background: background ?? this.background,
+      backgroundDeep: backgroundDeep ?? this.backgroundDeep,
       surface: surface ?? this.surface,
       surfaceTinted: surfaceTinted ?? this.surfaceTinted,
       textPrimary: textPrimary ?? this.textPrimary,
@@ -149,6 +156,7 @@ class AppColors extends ThemeExtension<AppColors> {
       primaryLight: mix(primaryLight, other.primaryLight),
       primarySoft: mix(primarySoft, other.primarySoft),
       background: mix(background, other.background),
+      backgroundDeep: mix(backgroundDeep, other.backgroundDeep),
       surface: mix(surface, other.surface),
       surfaceTinted: mix(surfaceTinted, other.surfaceTinted),
       textPrimary: mix(textPrimary, other.textPrimary),

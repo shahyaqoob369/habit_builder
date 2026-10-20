@@ -17,6 +17,12 @@ enum AppRoute {
 
   /// Nested under [home].
   newHabit('new-habit'),
+
+  /// Nested under [home]: `/home/habit/:id`.
+  habitDetail('habit/:id'),
+
+  /// Nested under [habitDetail].
+  editHabit('edit'),
   courses('/courses'),
   community('/community'),
   settings('/settings'),

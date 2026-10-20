@@ -8,6 +8,7 @@ import 'package:habit_builder/features/auth/presentation/sign_up_page.dart';
 import 'package:habit_builder/features/community/presentation/community_page.dart';
 import 'package:habit_builder/features/courses/presentation/courses_page.dart';
 import 'package:habit_builder/features/design_system/presentation/design_system_page.dart';
+import 'package:habit_builder/features/habits/presentation/habit_detail_page.dart';
 import 'package:habit_builder/features/habits/presentation/new_habit_page.dart';
 import 'package:habit_builder/features/home/presentation/home_page.dart';
 import 'package:habit_builder/features/onboarding/presentation/onboarding_page.dart';
@@ -71,6 +72,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     path: AppRoute.newHabit.path,
                     name: AppRoute.newHabit.name,
                     builder: (context, state) => const NewHabitPage(),
+                  ),
+                  GoRoute(
+                    path: AppRoute.habitDetail.path,
+                    name: AppRoute.habitDetail.name,
+                    builder: (context, state) => HabitDetailPage(
+                      habitId: state.pathParameters['id']!,
+                    ),
+                    routes: [
+                      GoRoute(
+                        path: AppRoute.editHabit.path,
+                        name: AppRoute.editHabit.name,
+                        builder: (context, state) => NewHabitPage(
+                          habitId: state.pathParameters['id'],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

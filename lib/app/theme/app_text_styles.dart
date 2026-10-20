@@ -184,6 +184,16 @@ abstract final class AppTextStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
+  /// Card and calendar titles ("Read a Book", "January"). 700 16/32.
+  static const subtitle = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w700,
+    fontSize: 16,
+    height: 2,
+    letterSpacing: 16 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
   /// Buttons, typed input text and row values. 700 16/16.
   static const button = TextStyle(
     fontFamily: AppFonts.body,

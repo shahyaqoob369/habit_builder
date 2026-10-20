@@ -20,6 +20,7 @@ abstract final class AppPalette {
   static const magenta = Color(0xFF973456);
   static const cream = Color(0xFFFFF3E9);
   static const linen = Color(0xFFFFF6ED);
+  static const sand = Color(0xFFFBEADB);
   static const white = Color(0xFFFFFFFF);
   static const lilacGrey = Color(0xFFC8C1C8);
   static const midnight = Color(0xFF040920);

@@ -28,7 +28,10 @@ class AppShell extends ConsumerStatefulWidget {
   final String? topRouteName;
 
   /// Routes whose center button saves the habit being edited.
-  static final Set<String> editorRoutes = {AppRoute.newHabit.name};
+  static final Set<String> editorRoutes = {
+    AppRoute.newHabit.name,
+    AppRoute.editHabit.name,
+  };
 
   @override
   ConsumerState<AppShell> createState() => _AppShellState();
