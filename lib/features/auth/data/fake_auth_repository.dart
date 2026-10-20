@@ -4,7 +4,7 @@ import 'package:habit_builder/features/auth/domain/auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_user.dart';
 
 /// In-memory [AuthRepository] with sample data, used until the Firebase one
-/// exists (plan step 14). Accounts last until the app restarts.
+/// exists (plan step 15). Accounts last until the app restarts.
 ///
 /// One demo account is built in: [demoEmail] / [demoPassword].
 class FakeAuthRepository implements AuthRepository {

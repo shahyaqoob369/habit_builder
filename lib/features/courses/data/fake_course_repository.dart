@@ -6,7 +6,7 @@ import 'package:habit_builder/features/courses/domain/course.dart';
 import 'package:habit_builder/features/courses/domain/course_repository.dart';
 
 /// In-memory [CourseRepository] with the design's two sample courses. Used
-/// until the courses backend (plan step 22).
+/// until the courses backend (plan step 23).
 class FakeCourseRepository implements CourseRepository {
   FakeCourseRepository() : _courses = _samples();
 

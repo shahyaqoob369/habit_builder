@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_builder/features/premium/domain/premium.dart';
 
 /// Sample store with the design's three plans; purchases always succeed and
-/// last until the app restarts. Replaced by RevenueCat in plan step 21.
+/// last until the app restarts. Replaced by RevenueCat in plan step 22.
 class FakePremiumRepository implements PremiumRepository {
   FakePremiumRepository({
     this.latency = const Duration(milliseconds: 800),

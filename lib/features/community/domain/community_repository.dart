@@ -1,7 +1,7 @@
 import 'package:habit_builder/features/community/domain/post.dart';
 
 /// The community feed. A fake with sample posts for now; Firestore and
-/// Cloud Functions arrive in plan step 23.
+/// Cloud Functions arrive in plan step 24.
 abstract interface class CommunityRepository {
   /// Posts, newest first, without those of blocked members.
   Stream<List<Post>> watchPosts();

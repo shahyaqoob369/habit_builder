@@ -9,7 +9,7 @@ final splashDurationProvider = Provider<Duration>(
 
 /// Where to go once the splash has been shown.
 ///
-/// Startup checks (auth, from plan step 14) will run here in parallel with
+/// Startup checks (auth, from plan step 15) will run here in parallel with
 /// the minimum splash time.
 final FutureProvider<AppRoute> splashDestinationProvider =
     FutureProvider.autoDispose<AppRoute>((ref) async {

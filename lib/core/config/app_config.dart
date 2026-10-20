@@ -1,4 +1,4 @@
-/// App-wide constants the owner sets before release (plan step 27).
+/// App-wide constants the owner sets before release (plan step 28).
 abstract final class AppConfig {
   /// Where Contact and Feedback emails go. Placeholder until the owner
   /// provides the real address.
