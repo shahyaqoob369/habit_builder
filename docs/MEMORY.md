@@ -79,6 +79,9 @@ Record each decision as: date, what was decided, why.
 - Each screen's `spec.txt` gives exact positions, sizes, colors and fonts, so build from the spec and use `main.png` only for a visual check. Positions are absolute, so turn them into Flutter layout (padding, rows and columns), not `Positioned` everywhere.
 - **Material 3 text fields add a hidden 4 pt gap**: without a prefix icon the text starts at contentPadding.start + 4; with one, contentPadding.start is ignored and the text sits 4 pt after the icon. The theme uses 16 pt padding and `AppTextField`'s icon cell is 61 pt wide to land on Figma's 20 / 65 pt.
 - **Tests load the real fonts** (`test/flutter_test_config.dart`), so layout tests can assert Figma positions. Use `tester.useScreen(designSize)` and, for a 44 pt status bar, `tester.view.padding = FakeViewPadding(top: 44 * 3)`.
+- **Riverpod 3 pauses providers nobody listens to.** In tests, `container.listen(provider, …)` before awaiting `provider.future`, or it never completes.
+- **No `timeout` command on macOS.** Use `flutter test --timeout 60s` to stop hung tests, and run long suites in the foreground.
+- **Checking sheets and dialogs without tapping the simulator:** pump them in a throwaway widget test at `designSize` and write a golden (`--update-goldens`), then compare the PNG with Figma. FontAwesome glyphs show as boxes in tests (font not loaded there).
 - Line endings: `.gitattributes` forces LF (fixed in step 2). Files created on Windows can come back with CRLF; `git ls-files --eol | grep w/crlf` finds them.
 
 ## Session log

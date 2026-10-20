@@ -24,6 +24,9 @@ class AppTextField extends StatefulWidget {
     this.enabled = true,
     this.validator,
     this.onFieldSubmitted,
+    this.onChanged,
+    this.errorText,
+    this.contentPadding,
     super.key,
   });
 
@@ -48,6 +51,13 @@ class AppTextField extends StatefulWidget {
   final bool enabled;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String>? onChanged;
+
+  /// An error shown below the field, outside of a [Form].
+  final String? errorText;
+
+  /// Overrides the theme's padding, for fields shorter than 56 pt.
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -104,6 +114,7 @@ class _AppTextFieldState extends State<AppTextField> {
       enabled: widget.enabled,
       validator: widget.validator,
       onFieldSubmitted: widget.onFieldSubmitted,
+      onChanged: widget.onChanged,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
       autofillHints: widget.autofillHints,
@@ -117,6 +128,8 @@ class _AppTextFieldState extends State<AppTextField> {
       decoration: InputDecoration(
         hintText: widget.hintText,
         fillColor: widget.fillColor,
+        errorText: widget.errorText,
+        contentPadding: widget.contentPadding,
         prefixIcon: icon == null
             ? null
             : _IconCell(

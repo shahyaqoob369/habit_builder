@@ -11,6 +11,7 @@ Severity: 🔴 broken behaviour · 🟠 wrong or misleading UX · 🟡 cleanup. 
 - 🟡 Pages that scroll (Sign Up on small phones) slide their artwork under the transparent status bar. Standard edge-to-edge behaviour; revisit in step 24 if it looks busy.
 - 🟠 **Sign-in is sample data until step 14**: accounts live in memory and are lost on restart; Google and Facebook sign in a sample user; "Keep me signed in" and the marketing opt-in are collected but not stored yet.
 - 🟡 Home: the day strip scrolls sideways and opens on today, fully visible at the right (Figma cuts the last column at the screen edge). Tapping a cell cycles not marked → done → missed (not in the design). The avatar is the illustrated one, not the kit's stock photo.
+- 🟡 New Habit: the design has two variants (screen 10: name field + icon button; screen 11: "Habit Name" card). Screen 10 is built. The icon and color picker, frequency presets and Delete (edit mode) aren't in the design; they're built in its style (owner Q4–Q6 defaults). Days off show as half cells, as in the design. The time picker's lower ±2 row shows the real next hour (the design repeats "08").
 - 🟠 **13 pieces are missing from the design** (side menu, edit habit, empty states, delete account, Sign in with Apple, …). See [SCREENS.md](SCREENS.md#missing-from-the-design-needs-a-decision-or-a-simple-design).
 
 ## Resolved

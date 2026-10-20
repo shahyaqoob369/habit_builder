@@ -124,6 +124,26 @@ abstract final class AppTextStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
+  /// The selected half of the am / pm switch. 700 22/24.
+  static const periodSelected = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w700,
+    fontSize: 22,
+    height: 24 / 22,
+    letterSpacing: 22 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
+  /// The other half of the am / pm switch. 500 22/24.
+  static const period = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w500,
+    fontSize: 22,
+    height: 24 / 22,
+    letterSpacing: 22 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
   /// Reminder time tiles ("06:00 AM"). 700 20/16.
   static const timeTile = TextStyle(
     fontFamily: AppFonts.body,
@@ -260,6 +280,16 @@ abstract final class AppTextStyles {
     fontWeight: FontWeight.w500,
     fontSize: 14,
     height: 22 / 14,
+    letterSpacing: 14 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
+  /// Short tips under a heading ("Start this habit"). 500 14/18.
+  static const note = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    height: 18 / 14,
     letterSpacing: 14 * _bodyTracking,
     leadingDistribution: TextLeadingDistribution.even,
   );

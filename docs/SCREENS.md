@@ -19,9 +19,9 @@ The UI is rebuilt from scratch (owner decision, 2026-10-18). Screens 1–7 were 
 | 7 | Sign Up page | Auth | [sign_up_page.dart](../lib/features/auth/presentation/sign_up_page.dart) | ✅ | [png](figma/screens/07-sign-up-page/main.png) · [spec](figma/screens/07-sign-up-page/spec.txt) |
 | 8 | Reset Password | Auth | [reset_password_page.dart](../lib/features/auth/presentation/reset_password_page.dart) | ✅ | [png](figma/screens/08-reset-password/main.png) · [spec](figma/screens/08-reset-password/spec.txt) |
 | 9 | Homepage – Tracking Habits | Home | [home_page.dart](../lib/features/home/presentation/home_page.dart) | ✅ | [png](figma/screens/09-homepage-tracking-habits/main.png) · [spec](figma/screens/09-homepage-tracking-habits/spec.txt) |
-| 10 | Homepage – New Habit | Habits | — | ⬜ | [png](figma/screens/10-homepage-new-habit/main.png) · [spec](figma/screens/10-homepage-new-habit/spec.txt) |
-| 11 | New Habit – Reminder (bottom sheet) | Habits | — | ⬜ | [png](figma/screens/11-homepage-new-habit-reminder/main.png) · [spec](figma/screens/11-homepage-new-habit-reminder/spec.txt) |
-| 12 | New Habit – Set Time (bottom sheet) | Habits | — | ⬜ | [png](figma/screens/12-homepage-set-time/main.png) · [spec](figma/screens/12-homepage-set-time/spec.txt) |
+| 10 | Homepage – New Habit | Habits | [new_habit_page.dart](../lib/features/habits/presentation/new_habit_page.dart) | ✅ | [png](figma/screens/10-homepage-new-habit/main.png) · [spec](figma/screens/10-homepage-new-habit/spec.txt) |
+| 11 | New Habit – Reminder (bottom sheet) | Habits | [reminders_sheet.dart](../lib/features/habits/presentation/sheets/reminders_sheet.dart) | ✅ | [png](figma/screens/11-homepage-new-habit-reminder/main.png) · [spec](figma/screens/11-homepage-new-habit-reminder/spec.txt) |
+| 12 | New Habit – Set Time (bottom sheet) | Habits | [time_picker_sheet.dart](../lib/features/habits/presentation/sheets/time_picker_sheet.dart) | ✅ | [png](figma/screens/12-homepage-set-time/main.png) · [spec](figma/screens/12-homepage-set-time/spec.txt) |
 | 13 | Analytics (habit detail, 414×1332, scrolls) | Habits | — | ⬜ | [png](figma/screens/13-analytics/main.png) · [spec](figma/screens/13-analytics/spec.txt) |
 | 14 | Congratulation Popup (dialog) | Habits | — | ⬜ | [png](figma/screens/14-congratulation-popup/main.png) · [spec](figma/screens/14-congratulation-popup/spec.txt) |
 | 15 | Course overview (courses list) | Courses | — | ⬜ | [png](figma/screens/15-course-overview/main.png) · [spec](figma/screens/15-course-overview/spec.txt) |
