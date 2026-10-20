@@ -366,7 +366,6 @@
     }
   },
   "lessonComingSoon": "Video lessons are coming soon.",
-  "lessonLocked": "This lesson is part of Premium.",
   "lessonLockedLabel": "locked",
   "communityEmptyTitle": "No posts yet",
   "communityEmptyBody": "Be the first to share your progress.",
@@ -494,5 +493,55 @@
   "feedbackBody": "Tell us what you like or what we could do better.",
   "feedbackHint": "Your feedback",
   "feedbackSend": "Send",
-  "feedbackThanks": "Thanks for your feedback!"
+  "feedbackThanks": "Thanks for your feedback!",
+  "premiumDiscount": "{percent}% off your upgrade",
+  "@premiumDiscount": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "premiumExpiresIn": "Expires in",
+  "premiumExpiresInLabel": "Offer ends in {hours} hours {minutes} minutes",
+  "@premiumExpiresInLabel": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "premiumUnlock": "Unlock Monumental Habits",
+  "premiumUnlimitedHabits": "Unlimited habits",
+  "premiumAllCourses": "Access to all courses",
+  "premiumAllAvatars": "Access to all avatar illustrations",
+  "planMostPopular": "Most Popular",
+  "planMonthly": "Monthly",
+  "planYearly": "Yearly",
+  "planLifetime": "Lifetime",
+  "planMonthlyDetail": "billed every month",
+  "planYearlyDetail": "billed once a year",
+  "planLifetimeDetail": "one-time purchase",
+  "premiumSubscribe": "Subscribe Now",
+  "premiumActive": "You have Premium",
+  "premiumSecured": "Secured with {store}. Cancel anytime",
+  "@premiumSecured": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumStoreApple": "the App Store",
+  "premiumStoreGoogle": "Google Play",
+  "premiumRestore": "Restore Purchase",
+  "premiumTerms": "Terms of Service",
+  "premiumAnd": "and",
+  "premiumWelcome": "Welcome to Premium!",
+  "premiumRestored": "Your purchase is restored.",
+  "premiumNothingToRestore": "No purchase to restore on this account.",
+  "premiumFailed": "The purchase didn’t go through. Please try again."
 }

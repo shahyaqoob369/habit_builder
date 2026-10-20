@@ -29,7 +29,7 @@ The UI is rebuilt from scratch (owner decision, 2026-10-18). Screens 1–7 were 
 | 17 | Community Page | Community | [community_page.dart](../lib/features/community/presentation/community_page.dart) | ✅ | [png](figma/screens/17-community-page/main.png) · [spec](figma/screens/17-community-page/spec.txt) |
 | 18 | Profile Dashboard | Profile | [profile_page.dart](../lib/features/profile/presentation/profile_page.dart) | ✅ | [png](figma/screens/18-profile-dashboard/main.png) · [spec](figma/screens/18-profile-dashboard/spec.txt) |
 | 19 | Settings | Settings | [settings_page.dart](../lib/features/settings/presentation/settings_page.dart) | ✅ | [png](figma/screens/19-settings/main.png) · [spec](figma/screens/19-settings/spec.txt) |
-| 20 | Subscription Page ("Premium") | Premium | — | ⬜ | [png](figma/screens/20-subscription-page/main.png) · [spec](figma/screens/20-subscription-page/spec.txt) |
+| 20 | Subscription Page ("Premium") | Premium | [premium_page.dart](../lib/features/premium/presentation/premium_page.dart) | ✅ | [png](figma/screens/20-subscription-page/main.png) · [spec](figma/screens/20-subscription-page/spec.txt) |
 
 ## Navigation map (inferred from the design)
 

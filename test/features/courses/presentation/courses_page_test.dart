@@ -125,13 +125,13 @@ void main() {
       expect(find.text('6.  Day 2'), findsOneWidget);
     });
 
-    testWidgets('a locked lesson explains Premium', (tester) async {
+    testWidgets('a free lesson says videos are coming', (tester) async {
       await pumpDetail(tester, 'journal-challenge');
 
-      await tester.tap(find.text('2.  Adopting Prompts to Your Day'));
+      await tester.tap(find.text('1.  Introduction'));
       await tester.pump();
 
-      expect(find.text('This lesson is part of Premium.'), findsOneWidget);
+      expect(find.text('Video lessons are coming soon.'), findsOneWidget);
     });
 
     testWidgets('an unknown course shows a message', (tester) async {
