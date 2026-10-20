@@ -135,7 +135,13 @@ Line heights are the exact Figma values, with `leadingDistribution: even` (Figma
 | **PostCard** (`Share Post`) | — | Avatar, name, time, share button, text, ♥ and 💬 counts |
 | **PageDots** ✅ `core/widgets/page_dots.dart` (`Onboarding`) | 3 states | Active: 13 plum dot in a 17 ring at 20 %; others: 11 `#F9B566`; 7 apart |
 | **HighlightedText** ✅ `core/widgets/highlighted_text.dart` | — | Words in `<h>…</h>` get the highlight color (`#FC9D45` on onboarding) |
-| **CongratulationDialog** | — | Illustration, Klasik title, body, 2 buttons, close button |
+| **CongratulationDialog** ✅ `features/habits/presentation/congratulation_dialog.dart` | — | Illustration, Klasik title, body, 2 buttons, close button |
+| **AppHeader** ✅ `core/widgets/app_header.dart` | — | Round button · centered title (700 18/32) · round button |
+| **AppBottomBar** ✅ `features/shell/presentation/widgets/app_bottom_bar.dart` | add / save | Figma notch path, illustrated tabs (grayscale when inactive), 64/52 orange button |
+| **AppToggle** ✅ `core/widgets/app_toggle.dart` | On, Off | 54 × 30 pill |
+| **SettingsRow / IconTile** ✅ `core/widgets/settings_row.dart` | 50 / 74 tall | 38 tile, title, subtitle, value, chevron |
+| **HabitCell** ✅ `features/habits/presentation/widgets/habit_cell.dart` | Full / Half / empty, any size | painter |
+| **PrimaryButton tones** ✅ | primary, surface (white), soft (cream) | Figma Button Variant4 / 2 / 3 |
 
 ## Imagery
 

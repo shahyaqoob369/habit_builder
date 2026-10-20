@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:habit_builder/app/router/app_route.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
 import 'package:habit_builder/core/assets/app_icons.dart';
@@ -12,6 +15,7 @@ import 'package:habit_builder/core/widgets/state_views.dart';
 import 'package:habit_builder/features/courses/application/courses_providers.dart';
 import 'package:habit_builder/features/courses/domain/course.dart';
 import 'package:habit_builder/features/courses/presentation/course_format.dart';
+import 'package:habit_builder/features/premium/application/premium_providers.dart';
 import 'package:habit_builder/l10n/l10n.dart';
 
 /// Course detail (Figma "Course – what's inside"): the video header and
@@ -61,31 +65,28 @@ class CourseDetailPage extends ConsumerWidget {
   }
 }
 
-class _CourseContent extends StatefulWidget {
+class _CourseContent extends ConsumerStatefulWidget {
   const _CourseContent({required this.course});
 
   final Course course;
 
   @override
-  State<_CourseContent> createState() => _CourseContentState();
+  ConsumerState<_CourseContent> createState() => _CourseContentState();
 }
 
-class _CourseContentState extends State<_CourseContent> {
+class _CourseContentState extends ConsumerState<_CourseContent> {
   bool _showAll = false;
 
   void _open(Lesson lesson) {
-    final l10n = context.l10n;
-    // Video playback arrives with the courses backend (plan step 22), and
-    // the paywall in step 12.
+    final premium = ref.read(isPremiumProvider).value ?? false;
+    if (!lesson.isFree && !premium) {
+      unawaited(context.pushNamed(AppRoute.premium.name));
+      return;
+    }
+    // Video playback arrives with the courses backend (plan step 22).
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(
-            lesson.isFree ? l10n.lessonComingSoon : l10n.lessonLocked,
-          ),
-        ),
-      );
+      ..showSnackBar(SnackBar(content: Text(context.l10n.lessonComingSoon)));
   }
 
   @override
@@ -93,6 +94,7 @@ class _CourseContentState extends State<_CourseContent> {
     final l10n = context.l10n;
     final colors = context.colors;
     final course = widget.course;
+    final premium = ref.watch(isPremiumProvider).value ?? false;
     final lessons = _showAll
         ? course.lessons
         : course.lessons.take(CourseDetailPage.previewCount).toList();
@@ -140,6 +142,7 @@ class _CourseContentState extends State<_CourseContent> {
                 _LessonRow(
                   number: i + 1,
                   lesson: lesson,
+                  locked: !lesson.isFree && !premium,
                   onTap: () => _open(lesson),
                 ),
               ],
@@ -219,11 +222,13 @@ class _LessonRow extends StatelessWidget {
   const _LessonRow({
     required this.number,
     required this.lesson,
+    required this.locked,
     required this.onTap,
   });
 
   final int number;
   final Lesson lesson;
+  final bool locked;
   final VoidCallback onTap;
 
   @override
@@ -235,7 +240,7 @@ class _LessonRow extends StatelessWidget {
       label:
           '$number. ${lesson.title}, '
           '${formatLessonLength(lesson.duration)}'
-          '${lesson.isFree ? '' : ', ${l10n.lessonLockedLabel}'}',
+          '${locked ? ', ${l10n.lessonLockedLabel}' : ''}',
       excludeSemantics: true,
       child: InkWell(
         onTap: onTap,
@@ -246,7 +251,7 @@ class _LessonRow extends StatelessWidget {
             child: Row(
               children: [
                 AppIcon.original(
-                  lesson.isFree ? AppIcons.lessonPlay : AppIcons.lessonLocked,
+                  locked ? AppIcons.lessonLocked : AppIcons.lessonPlay,
                 ),
                 const SizedBox(width: 14),
                 Expanded(

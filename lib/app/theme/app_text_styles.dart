@@ -344,6 +344,16 @@ abstract final class AppTextStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
+  /// Paywall footer links ("Restore Purchase"). 700 12/16.
+  static const legal = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w700,
+    fontSize: 12,
+    height: 16 / 12,
+    letterSpacing: 12 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
   /// Short bold labels ("Monthly", "Most Popular"). 700 12/13.
   static const captionStrong = TextStyle(
     fontFamily: AppFonts.body,

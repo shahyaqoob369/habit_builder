@@ -7,4 +7,8 @@ abstract final class AppConfig {
   /// The published privacy policy. Placeholder until the owner provides
   /// the real page (required by the App Store).
   static const privacyPolicyUrl = 'https://example.com/privacy';
+
+  /// Terms of service (shown on the paywall, required with subscriptions).
+  /// Placeholder until the owner provides the real page.
+  static const termsUrl = 'https://example.com/terms';
 }
