@@ -4,6 +4,7 @@ import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/config/app_config.dart';
 import 'package:habit_builder/core/links/link_launcher.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
+import 'package:habit_builder/features/settings/data/feedback_repositories.dart';
 import 'package:habit_builder/features/settings/data/settings_repository.dart';
 import 'package:habit_builder/features/settings/presentation/notification_settings_page.dart';
 import 'package:habit_builder/features/settings/presentation/settings_page.dart';
@@ -16,11 +17,13 @@ void main() {
   late SharedPreferencesWithCache preferences;
   late List<Uri> opened;
   late RecordingAnalytics analytics;
+  late List<String> feedback;
 
   setUp(() async {
     preferences = await createTestPreferences();
     opened = [];
     analytics = RecordingAnalytics();
+    feedback = [];
   });
 
   Future<void> pump(WidgetTester tester, Widget page, {bool canOpen = true}) {
@@ -30,6 +33,9 @@ void main() {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(preferences),
         analyticsProvider.overrideWithValue(analytics),
+        sendFeedbackProvider.overrideWithValue((message) async {
+          feedback.add(message);
+        }),
         openLinkProvider.overrideWithValue((uri) async {
           opened.add(uri);
           return canOpen;
@@ -84,7 +90,7 @@ void main() {
       );
     });
 
-    testWidgets('feedback is thanked', (tester) async {
+    testWidgets('feedback is sent and thanked', (tester) async {
       await pump(tester, const SettingsPage());
 
       await tester.tap(find.text('Feedback'));
@@ -95,6 +101,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Thanks for your feedback!'), findsOneWidget);
+      expect(feedback, ['Love the teepee']);
     });
   });
 

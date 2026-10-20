@@ -81,7 +81,7 @@ class SettingsPage extends ConsumerWidget {
                   (
                     AppIcons.feedback,
                     l10n.settingsFeedback,
-                    () => unawaited(showFeedbackSheet(context)),
+                    () => unawaited(showFeedbackSheet(context, ref)),
                   ),
                   (
                     AppIcons.privacy,

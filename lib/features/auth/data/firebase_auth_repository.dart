@@ -7,6 +7,7 @@ import 'package:habit_builder/features/auth/domain/auth_failure.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_user.dart';
 import 'package:habit_builder/features/habits/data/firestore_habit_repository.dart';
+import 'package:habit_builder/features/settings/data/feedback_repositories.dart';
 
 /// [AuthRepository] backed by Firebase Auth, with each user's profile in
 /// Firestore at `users/{uid}` (see `firestore.rules`).
@@ -133,6 +134,7 @@ class FirebaseAuthRepository implements AuthRepository {
   /// Add each new per-user collection here.
   static const List<String> _userCollections = [
     FirestoreHabitRepository.collection,
+    feedbackCollection,
   ];
 
   static Future<void> _deleteAll(

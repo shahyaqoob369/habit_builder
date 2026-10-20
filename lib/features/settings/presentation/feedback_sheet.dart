@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
 import 'package:habit_builder/core/extensions/build_context_x.dart';
 import 'package:habit_builder/core/widgets/app_sheet.dart';
 import 'package:habit_builder/core/widgets/primary_button.dart';
+import 'package:habit_builder/features/settings/data/feedback_repositories.dart';
 import 'package:habit_builder/l10n/l10n.dart';
 
-/// Feedback form (not in the design). Sending is stored with the backend in
-/// plan step 21; for now it thanks the user.
-Future<void> showFeedbackSheet(BuildContext context) async {
+/// Feedback form (not in the design), sent with [sendFeedbackProvider].
+Future<void> showFeedbackSheet(BuildContext context, WidgetRef ref) async {
   final messenger = ScaffoldMessenger.of(context);
   final thanks = context.l10n.feedbackThanks;
+  final send = ref.read(sendFeedbackProvider);
   final text = await showAppSheet<String>(
     context: context,
     builder: (_) => const _FeedbackSheet(),
   );
-  if (text != null) messenger.showSnackBar(SnackBar(content: Text(thanks)));
+  if (text == null) return;
+  await send(text);
+  messenger.showSnackBar(SnackBar(content: Text(thanks)));
 }
 
 class _FeedbackSheet extends StatefulWidget {

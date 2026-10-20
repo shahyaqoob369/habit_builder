@@ -8,6 +8,7 @@ import 'package:habit_builder/features/auth/data/firebase_auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
 import 'package:habit_builder/features/habits/data/firestore_habit_repository.dart';
 import 'package:habit_builder/features/habits/domain/habit.dart';
+import 'package:habit_builder/features/settings/data/feedback_repositories.dart';
 import 'package:habit_builder/firebase_options.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -102,10 +103,20 @@ void main() {
     expect(habits.single.name, 'Walk');
     await firestore.waitForPendingWrites();
 
-    // Deleting the account deletes its habits too.
+    // Feedback is saved under the user.
+    await firestoreFeedback(uid: user.id)('Love it');
+    await firestore.waitForPendingWrites();
+    final feedback = firestore.collection('users/${user.id}/feedback');
+    expect((await feedback.get()).docs.single.data()['message'], 'Love it');
+
+    // Deleting the account deletes its habits and feedback too.
     await auth.deleteAccount(password: password);
     expect(auth.currentUser, isNull);
     final leftover = await mine.get(const GetOptions(source: Source.cache));
     expect(leftover.docs, isEmpty);
+    final leftoverFeedback = await feedback.get(
+      const GetOptions(source: Source.cache),
+    );
+    expect(leftoverFeedback.docs, isEmpty);
   });
 }

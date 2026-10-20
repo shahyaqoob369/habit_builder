@@ -196,7 +196,7 @@ courses/{id}/lessons/{id}           order, title, durationSec, videoUrl, isFreeP
 posts/{id}                          authorId, authorName, authorAvatar, text, createdAt, likeCount, commentCount
 posts/{id}/likes/{uid}              createdAt
 posts/{id}/comments/{id}            authorId, text, createdAt
-feedback/{id}                       uid, message, createdAt
+users/{uid}/feedback/{id}           message, createdAt, platform, appVersion   (built, step 21: under the user so it goes with the account)
 ```
 
 ---
