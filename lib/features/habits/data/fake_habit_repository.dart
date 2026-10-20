@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_builder/core/time/date_only.dart';
 import 'package:habit_builder/features/habits/domain/habit.dart';
@@ -9,10 +10,18 @@ import 'package:habit_builder/features/habits/domain/habit_repository.dart';
 /// and a few days of history ending today. Used until Firestore (plan
 /// step 17); changes last until the app restarts.
 class FakeHabitRepository implements HabitRepository {
-  FakeHabitRepository({DateTime? today, bool seed = true})
-    : _habits = seed ? _sampleHabits((today ?? DateTime.now()).dateOnly) : [];
+  /// Starts with [habits], or the design's samples when null.
+  FakeHabitRepository({DateTime? today, bool seed = true, List<Habit>? habits})
+    : _habits =
+          habits ??
+          (seed ? _sampleHabits((today ?? DateTime.now()).dateOnly) : []);
 
   List<Habit> _habits;
+
+  /// The current habits, for tests: awaiting [watchHabits] inside a widget
+  /// test's fake clock never completes.
+  @visibleForTesting
+  List<Habit> get habits => _habits;
   final _changes = StreamController<List<Habit>>.broadcast();
   var _nextId = 100;
 
@@ -44,6 +53,7 @@ class FakeHabitRepository implements HabitRepository {
       reminders: habit.reminders,
       notificationsEnabled: habit.notificationsEnabled,
       log: habit.log,
+      easiness: habit.easiness,
     );
     _emit([..._habits, added]);
     return added;

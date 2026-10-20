@@ -22,8 +22,8 @@ The UI is rebuilt from scratch (owner decision, 2026-10-18). Screens 1–7 were 
 | 10 | Homepage – New Habit | Habits | [new_habit_page.dart](../lib/features/habits/presentation/new_habit_page.dart) | ✅ | [png](figma/screens/10-homepage-new-habit/main.png) · [spec](figma/screens/10-homepage-new-habit/spec.txt) |
 | 11 | New Habit – Reminder (bottom sheet) | Habits | [reminders_sheet.dart](../lib/features/habits/presentation/sheets/reminders_sheet.dart) | ✅ | [png](figma/screens/11-homepage-new-habit-reminder/main.png) · [spec](figma/screens/11-homepage-new-habit-reminder/spec.txt) |
 | 12 | New Habit – Set Time (bottom sheet) | Habits | [time_picker_sheet.dart](../lib/features/habits/presentation/sheets/time_picker_sheet.dart) | ✅ | [png](figma/screens/12-homepage-set-time/main.png) · [spec](figma/screens/12-homepage-set-time/spec.txt) |
-| 13 | Analytics (habit detail, 414×1332, scrolls) | Habits | — | ⬜ | [png](figma/screens/13-analytics/main.png) · [spec](figma/screens/13-analytics/spec.txt) |
-| 14 | Congratulation Popup (dialog) | Habits | — | ⬜ | [png](figma/screens/14-congratulation-popup/main.png) · [spec](figma/screens/14-congratulation-popup/spec.txt) |
+| 13 | Analytics (habit detail, 414×1332, scrolls) | Habits | [habit_detail_page.dart](../lib/features/habits/presentation/habit_detail_page.dart) | ✅ | [png](figma/screens/13-analytics/main.png) · [spec](figma/screens/13-analytics/spec.txt) |
+| 14 | Congratulation Popup (dialog) | Habits | [congratulation_dialog.dart](../lib/features/habits/presentation/congratulation_dialog.dart) | ✅ | [png](figma/screens/14-congratulation-popup/main.png) · [spec](figma/screens/14-congratulation-popup/spec.txt) |
 | 15 | Course overview (courses list) | Courses | — | ⬜ | [png](figma/screens/15-course-overview/main.png) · [spec](figma/screens/15-course-overview/spec.txt) |
 | 16 | Course – what's inside (course detail) | Courses | — | ⬜ | [png](figma/screens/16-course-what-s-inside/main.png) · [spec](figma/screens/16-course-what-s-inside/spec.txt) |
 | 17 | Community Page | Community | — | ⬜ | [png](figma/screens/17-community-page/main.png) · [spec](figma/screens/17-community-page/spec.txt) |

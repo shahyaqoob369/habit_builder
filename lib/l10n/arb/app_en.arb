@@ -226,5 +226,71 @@
   "timeAm": "am",
   "timePm": "pm",
   "iconPickerTitle": "Icon",
-  "iconPickerColor": "Color"
+  "iconPickerColor": "Color",
+  "close": "Close",
+  "skip": "Skip",
+  "calendarPrevious": "Previous month",
+  "calendarNext": "Next month",
+  "habitNotFoundTitle": "Habit not found",
+  "habitNotFoundBody": "It may have been deleted.",
+  "habitNoReminders": "No reminders",
+  "habitReminders": "Reminders: {times}",
+  "@habitReminders": {
+    "placeholders": {
+      "times": {
+        "type": "String"
+      }
+    }
+  },
+  "habitRepeat": "Repeat: {days}",
+  "@habitRepeat": {
+    "description": "Habit frequency on the detail card, e.g. \"Repeat: Every day\" or \"Repeat: Mon, Wed\".",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "habitAnalytics": "Analytics",
+  "habitMarkComplete": "Mark Habit as Complete",
+  "habitMarkMissed": "Mark Habit as Missed",
+  "habitCompletedToday": "Completed today",
+  "habitMissedToday": "Missed today",
+  "statDays": "{count, plural, =1{1 day} other{{count} days}}",
+  "@statDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statPercent": "{value} %",
+  "@statPercent": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "statLongestStreak": "Longest Streak",
+  "statCurrentStreak": "Current Streak",
+  "statCompletionRate": "Completion Rate",
+  "statAverageEasiness": "Average Easiness\nScore",
+  "easinessTitle": "How easy was it?",
+  "easinessBody": "Rate today from 1 (hard) to 10 (easy).",
+  "congratulationTitle": "Congratulations!",
+  "congratulationBody": "{count} days of {habit} in a row. Keep the streak going!",
+  "@congratulationBody": {
+    "description": "Replaces the design's lorem ipsum.",
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "congratulationCreate": "Create New Habit",
+  "congratulationContinue": "Continue"
 }

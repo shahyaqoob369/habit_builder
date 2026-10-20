@@ -89,6 +89,7 @@ class Habit {
     this.reminders = const [],
     this.notificationsEnabled = false,
     this.log = const {},
+    this.easiness = const {},
   });
 
   /// Every day of the week, as [DateTime.weekday] values (Monday = 1).
@@ -109,6 +110,10 @@ class Habit {
   /// Marked days, keyed by calendar day (see [DateOnly.dateOnly]).
   final Map<DateTime, DayStatus> log;
 
+  /// How easy each completed day felt, 1 (hard) – 10 (easy), keyed by
+  /// calendar day (owner question Q2).
+  final Map<DateTime, int> easiness;
+
   DayStatus? statusOn(DateTime day) => log[day.dateOnly];
 
   bool isDueOn(DateTime day) => weekdays.contains(day.weekday);
@@ -121,6 +126,7 @@ class Habit {
     List<ReminderTime>? reminders,
     bool? notificationsEnabled,
     Map<DateTime, DayStatus>? log,
+    Map<DateTime, int>? easiness,
   }) {
     return Habit(
       id: id,
@@ -132,6 +138,7 @@ class Habit {
       reminders: reminders ?? this.reminders,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       log: log ?? this.log,
+      easiness: easiness ?? this.easiness,
     );
   }
 
@@ -145,5 +152,13 @@ class Habit {
       next[key] = status;
     }
     return copyWith(log: Map.unmodifiable(next));
+  }
+
+  /// A copy with [day] rated [score] (1–10).
+  Habit withEasiness(DateTime day, int score) {
+    assert(score >= 1 && score <= 10, 'score must be 1–10');
+    return copyWith(
+      easiness: Map.unmodifiable({...easiness, day.dateOnly: score}),
+    );
   }
 }

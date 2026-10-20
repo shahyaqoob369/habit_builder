@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:habit_builder/app/router/app_route.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
 import 'package:habit_builder/core/assets/app_icons.dart';
@@ -97,7 +98,8 @@ class _NewHabitPageState extends ConsumerState<NewHabitPage> {
     );
     if (confirmed != true || !mounted) return;
     await ref.read(habitEditorProvider.notifier).delete();
-    if (mounted) context.pop(true);
+    // The habit's detail screen is gone too.
+    if (mounted) context.goNamed(AppRoute.home.name);
   }
 
   @override
