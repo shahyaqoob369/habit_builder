@@ -1272,7 +1272,11 @@ PODS:
     - PromisesObjC (~> 2.4)
   - FirebaseSharedSwift (12.19.0)
   - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - flutter_native_splash (2.4.3):
+    - Flutter
+  - flutter_timezone (0.0.1):
     - Flutter
   - GoogleAppMeasurement/Core (12.19.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
@@ -1426,7 +1430,9 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
+  - flutter_timezone (from `.symlinks/plugins/flutter_timezone/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
@@ -1470,8 +1476,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
+  flutter_timezone:
+    :path: ".symlinks/plugins/flutter_timezone/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
   package_info_plus:
@@ -1503,7 +1513,9 @@ SPEC CHECKSUMS:
   FirebaseInstallations: f70a49eed611f5602f373e40974b3b01556ac217
   FirebaseSharedSwift: c91f36aeaa566e12b682caacc40d34c8303c3124
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_local_notifications: 643a3eda1ce1c0599413ca31672536d423dee214
   flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
+  flutter_timezone: 7c838e17ffd4645d261e87037e5bebf6d38fe544
   GoogleAppMeasurement: f2f676480e4c97936df934aa181bc29caea46975
   GoogleUtilities: 7dc09b3fa9ecb5c2298b952313d14628b61b9da3
   "gRPC-C++": cc207623316fb041a7a3e774c252cf68a058b9e8

@@ -9,6 +9,8 @@ import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/analytics/firebase_analytics_service.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
 import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
+import 'package:habit_builder/features/reminders/application/reminder_sync.dart';
+import 'package:habit_builder/features/reminders/data/reminder_scheduler.dart';
 import 'package:habit_builder/firebase_options.dart';
 
 /// Debug builds can skip Firebase sign-in and start signed in as the demo
@@ -35,6 +37,11 @@ Future<void> main() async {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(preferences),
         analyticsProvider.overrideWithValue(analytics),
+        reminderSchedulerProvider.overrideWithValue(
+          LocalReminderScheduler(
+            channelName: deviceLocalizations().reminderChannel,
+          ),
+        ),
         if (_debugFakeAuth)
           authRepositoryProvider.overrideWithValue(
             FakeAuthRepository(signedIn: true),

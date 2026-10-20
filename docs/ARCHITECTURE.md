@@ -52,7 +52,7 @@ test/                             mirrors lib/; helpers/pump_app.dart wraps widg
 
 Example: `features/auth/` has `domain/` (AuthUser, AuthFailure, the `AuthRepository` interface, AuthValidators), `data/` (FakeAuthRepository + `authRepositoryProvider`), `application/` (AuthFormController, one provider per screen) and `presentation/` (the three pages and their widgets).
 
-Planned features: `onboarding`, `auth`, `shell`, `home`, `habits`, `courses`, `community`, `profile`, `settings`, `premium`. `design_system` is a developer preview page.
+Planned features: `onboarding`, `auth`, `shell`, `home`, `habits`, `reminders`, `courses`, `community`, `profile`, `settings`, `premium`. `design_system` is a developer preview page.
 
 ## Rules of thumb
 

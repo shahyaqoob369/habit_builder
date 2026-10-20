@@ -9,6 +9,7 @@ Severity: 🔴 broken behaviour · 🟠 wrong or misleading UX · 🟡 cleanup. 
 - 🟠 **The design has placeholder copy**: lorem ipsum, "6-month plan for 39.99 usd", "Goggle Play", "TUE 18" twice, "habits makes us". Replace it with real copy when building each screen (RULES §5).
 - 🟡 Login: the design has a stray 1 pt line across the screen at y 677 (behind the password field, visible only at its sides). Left out as a design leftover.
 - 🟡 Pages that scroll (Sign Up on small phones) slide their artwork under the transparent status bar. Standard edge-to-edge behaviour; revisit in step 25 if it looks busy.
+- 🟡 **Reminders:** tapping a reminder opens the habit only while the app is running or in the background; from a cold start the app opens on Home. Over 64 reminders (many habits × weekdays × times), the latest habits' reminders are dropped (iOS limit).
 - 🟡 **The free-plan habit limit (3) is enforced in the app only.** The Firestore rules can enforce it once Premium status is stored server-side (RevenueCat, step 22).
 - 🟠 **Google and Facebook sign-in say "coming soon"** until steps 16 and 17. Email sign-in is real (Firebase) since step 15.
 - 🟡 **CocoaPods:** Firebase stops publishing iOS SDK releases to CocoaPods in October 2026 (`firebase_core` pins 12.19.0). Move the iOS build to Swift Package Manager before the next Firebase upgrade.
