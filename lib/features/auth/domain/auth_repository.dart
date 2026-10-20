@@ -46,4 +46,11 @@ abstract interface class AuthRepository {
   Future<AuthUser> signInWithFacebook();
 
   Future<void> signOut();
+
+  /// Deletes the signed-in account and its data, then signs out. Required
+  /// in-app by App Store guideline 5.1.1(v).
+  Future<void> deleteAccount();
+
+  /// Changes the signed-in user's display name.
+  Future<AuthUser> updateName(String name);
 }

@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-19 · **Progress: 10 / 28 steps** · Current: Step 11_
+_Last updated: 2026-10-19 · **Progress: 11 / 28 steps** · Current: Step 12_
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -54,7 +54,7 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 ### ✅ Step 10 — Community (screen 17)
 - Feed with post cards, likes, share, post detail with comments, create post
 
-### ⬜ Step 11 — Profile and settings (screens 18–19)
+### ✅ Step 11 — Profile and settings (screens 18–19)
 - Profile stats, progress rings, edit profile, avatar picker; settings and its subpages
 
 ### ⬜ Step 12 — Premium paywall (screen 20)

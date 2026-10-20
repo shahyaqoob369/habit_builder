@@ -5,8 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// [all], which is the cache's allow-list.
 abstract final class PreferenceKeys {
   static const onboardingCompleted = 'onboarding_completed';
+  static const habitReminders = 'settings_habit_reminders';
+  static const communityNotifications = 'settings_community_notifications';
+  static const showQuote = 'settings_show_quote';
 
-  static const Set<String> all = {onboardingCompleted};
+  static const Set<String> all = {
+    onboardingCompleted,
+    habitReminders,
+    communityNotifications,
+    showQuote,
+  };
 }
 
 /// Creates the app's preferences store. Called once at startup in `main`.

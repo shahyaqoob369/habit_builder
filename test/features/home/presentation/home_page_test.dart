@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:habit_builder/core/storage/preferences.dart';
 import 'package:habit_builder/features/habits/application/habits_providers.dart';
 import 'package:habit_builder/features/habits/data/fake_habit_repository.dart';
 import 'package:habit_builder/features/habits/domain/habit.dart';
 import 'package:habit_builder/features/home/presentation/home_page.dart';
 import 'package:habit_builder/features/home/presentation/widgets/quote_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/pump_app.dart';
+import '../../../helpers/test_preferences.dart';
 
 void main() {
   group('HomePage', () {
     final today = DateTime(2026, 10, 20); // a Tuesday
+    late SharedPreferencesWithCache preferences;
+
+    setUp(() async => preferences = await createTestPreferences());
 
     Future<void> pumpHome(
       WidgetTester tester, {
@@ -23,6 +29,7 @@ void main() {
       await tester.pumpApp(
         const HomePage(),
         overrides: [
+          sharedPreferencesProvider.overrideWithValue(preferences),
           todayProvider.overrideWithValue(today),
           habitRepositoryProvider.overrideWithValue(
             repository ?? FakeHabitRepository(today: today),
@@ -108,6 +115,7 @@ void main() {
       await tester.pumpApp(
         const HomePage(),
         overrides: [
+          sharedPreferencesProvider.overrideWithValue(preferences),
           todayProvider.overrideWithValue(today),
           habitRepositoryProvider.overrideWithValue(
             FakeHabitRepository(today: today),

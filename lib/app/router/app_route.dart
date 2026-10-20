@@ -33,6 +33,18 @@ enum AppRoute {
   postDetail('post/:id'),
   settings('/settings'),
 
+  /// Nested under [settings].
+  profile('profile'),
+
+  /// Nested under [settings].
+  notificationSettings('notifications'),
+
+  /// Nested under [settings].
+  customize('customize'),
+
+  /// Full screen, above the shell.
+  premium('/premium'),
+
   /// Developer preview of the design tokens (side menu, debug builds).
   designSystem('/design-system')
   ;

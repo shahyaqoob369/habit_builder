@@ -256,7 +256,7 @@
   "habitMarkMissed": "Mark Habit as Missed",
   "habitCompletedToday": "Completed today",
   "habitMissedToday": "Missed today",
-  "statDays": "{count, plural, =1{1 day} other{{count} days}}",
+  "statDays": "{count, plural, =1{1 Day} other{{count} Days}}",
   "@statDays": {
     "placeholders": {
       "count": {
@@ -436,5 +436,63 @@
         "type": "int"
       }
     }
-  }
+  },
+  "profileTitle": "Profile",
+  "profileEdit": "Edit profile",
+  "profileThisWeek": "This week",
+  "profileLastWeek": "Last week",
+  "profilePerfectDays": "Perfect Days",
+  "profileTasksCompleted": "Tasks Completed",
+  "profileToday": "Today",
+  "profileDayProgress": "{date}: {done} of {due} done",
+  "@profileDayProgress": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "due": {
+        "type": "int"
+      }
+    }
+  },
+  "profileBilling": "Billing methods",
+  "profileLongestStreak": "Longest Streak",
+  "profileDeleteAccount": "Delete account",
+  "profileDeleteTitle": "Delete your account?",
+  "profileDeleteBody": "Your habits, history and posts will be deleted. This can’t be undone.",
+  "premiumTitle": "Premium",
+  "settingsCheckProfile": "Check Your Profile",
+  "settingsView": "View",
+  "settingsGeneral": "General",
+  "settingsSupport": "Support",
+  "settingsNotifications": "Notifications",
+  "settingsNotificationsBody": "Customize notifications",
+  "settingsCustomize": "More customization",
+  "settingsCustomizeBody": "Customize it more to fit your usage",
+  "settingsContact": "Contact",
+  "settingsFeedback": "Feedback",
+  "settingsPrivacy": "Privacy Policy",
+  "settingsAbout": "About",
+  "settingsAboutBody": "Monumental Habits helps you build good habits, one day at a time.",
+  "settingsCannotOpen": "Couldn’t open {link}",
+  "@settingsCannotOpen": {
+    "placeholders": {
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsHabitReminders": "Habit reminders",
+  "settingsHabitRemindersBody": "Remind me at each habit’s times",
+  "settingsCommunityNotifications": "Community",
+  "settingsCommunityNotificationsBody": "Likes and comments on my posts",
+  "settingsShowQuote": "Daily quote",
+  "settingsShowQuoteBody": "Show the quote card on Home",
+  "feedbackBody": "Tell us what you like or what we could do better.",
+  "feedbackHint": "Your feedback",
+  "feedbackSend": "Send",
+  "feedbackThanks": "Thanks for your feedback!"
 }

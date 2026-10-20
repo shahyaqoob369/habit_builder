@@ -65,6 +65,25 @@ class FakeAuthRepository implements AuthRepository {
   @override
   Future<void> signOut() async => _currentUser = null;
 
+  @override
+  Future<void> deleteAccount() async {
+    await Future<void>.delayed(latency);
+    final user = _currentUser;
+    if (user != null) _accounts.remove(user.email);
+    _currentUser = null;
+  }
+
+  @override
+  Future<AuthUser> updateName(String name) async {
+    final user = _currentUser;
+    if (user == null) throw const AuthException(AuthFailure.unknown);
+    final account = _accounts[user.email];
+    if (account != null) {
+      _accounts[user.email] = (name: name, password: account.password);
+    }
+    return _currentUser = AuthUser(id: user.id, email: user.email, name: name);
+  }
+
   Future<AuthUser> _signInWithProvider(String provider) async {
     await Future<void>.delayed(latency);
     return _signIn('$provider.user@example.com', null);
