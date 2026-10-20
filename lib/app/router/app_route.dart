@@ -28,6 +28,9 @@ enum AppRoute {
   /// Nested under [courses]: `/courses/course/:id`.
   courseDetail('course/:id'),
   community('/community'),
+
+  /// Nested under [community]: `/community/post/:id`.
+  postDetail('post/:id'),
   settings('/settings'),
 
   /// Developer preview of the design tokens (side menu, debug builds).

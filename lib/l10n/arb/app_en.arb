@@ -367,5 +367,74 @@
   },
   "lessonComingSoon": "Video lessons are coming soon.",
   "lessonLocked": "This lesson is part of Premium.",
-  "lessonLockedLabel": "locked"
+  "lessonLockedLabel": "locked",
+  "communityEmptyTitle": "No posts yet",
+  "communityEmptyBody": "Be the first to share your progress.",
+  "composeTitle": "New post",
+  "composeHint": "Share your progress…",
+  "composePost": "Post",
+  "postTitle": "Post",
+  "postNotFoundTitle": "Post not found",
+  "postNotFoundBody": "It may have been removed.",
+  "postNoComments": "No comments yet. Say something nice!",
+  "postCommentHint": "Write a comment",
+  "postSendComment": "Send",
+  "postLike": "Like",
+  "postUnlike": "Unlike",
+  "postComments": "Comments",
+  "postShare": "Share",
+  "postShareText": "{name} on Monumental Habits: {text}",
+  "@postShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "postReport": "Report post",
+  "postReported": "Thanks. We’ll review this post.",
+  "postBlock": "Hide posts from {name}",
+  "@postBlock": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "postBlocked": "You won’t see posts from {name} anymore.",
+  "@postBlocked": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "timeJustNow": "just now",
+  "timeMinutesAgo": "{minutes}m ago",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{hours}h ago",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{days}d ago",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  }
 }
