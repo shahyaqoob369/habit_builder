@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:habit_builder/app/router/app_route.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/assets/app_icons.dart';
 import 'package:habit_builder/core/extensions/build_context_x.dart';
 import 'package:habit_builder/core/widgets/app_header.dart';
@@ -77,9 +78,26 @@ class _CourseContent extends ConsumerStatefulWidget {
 class _CourseContentState extends ConsumerState<_CourseContent> {
   bool _showAll = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _log(AnalyticsEvent.courseOpened(widget.course.id));
+  }
+
+  void _log(AnalyticsEvent event) =>
+      unawaited(ref.read(analyticsProvider).logEvent(event));
+
   void _open(Lesson lesson) {
     final premium = ref.read(isPremiumProvider).value ?? false;
-    if (!lesson.isFree && !premium) {
+    final locked = !lesson.isFree && !premium;
+    _log(
+      AnalyticsEvent.lessonOpened(
+        courseId: widget.course.id,
+        lesson: widget.course.lessons.indexOf(lesson) + 1,
+        locked: locked,
+      ),
+    );
+    if (locked) {
       unawaited(context.pushNamed(AppRoute.premium.name));
       return;
     }

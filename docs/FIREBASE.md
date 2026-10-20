@@ -2,11 +2,12 @@
 
 | | |
 |---|---|
-| Project | **Monumental Habits** · ID `monumental-habits-app` · [console](https://console.firebase.google.com/project/monumental-habits-app/overview) |
+| Project | **Monumental Habits**. The project ID is kept out of this public repo: it's in the local `.firebaserc` and in the owner's [Firebase console](https://console.firebase.google.com) |
 | Owner account | The owner's Google account (logged in to the Firebase CLI on the dev Mac) |
 | iOS app | bundle ID `com.luminalabs.monumentalhabits` |
 | Android app | application ID `com.luminalabs.monumentalhabits` |
 | Created | 2026-10-20 (plan step 13) |
+| Google Analytics | Linked 2026-10-20 to the owner's "Default Account for Firebase"; one stream per app |
 
 ## Config files are local-only
 
@@ -17,11 +18,11 @@ The repo is public, so the owner chose to keep the Firebase app config out of gi
 - `android/app/google-services.json`
 - `firebase.json`, `.firebaserc`
 
-On a fresh clone, or after adding a platform, regenerate them (needs `firebase login` with access to the project):
+On a fresh clone, or after adding a platform, regenerate them (needs `firebase login` with access to the project). On a fresh clone, first run `firebase use --add` to pick the project, which writes `.firebaserc`:
 
 ```bash
 dart pub global activate flutterfire_cli   # once; puts flutterfire in ~/.pub-cache/bin
-flutterfire configure --project=monumental-habits-app --platforms=ios,android \
+flutterfire configure --project="$(jq -r .projects.default .firebaserc)" --platforms=ios,android \
   --ios-bundle-id=com.luminalabs.monumentalhabits \
   --android-package-name=com.luminalabs.monumentalhabits \
   --out=lib/firebase_options.dart --yes
@@ -35,8 +36,20 @@ CI (step 26) will write the same files from GitHub secrets before `flutter analy
 - Run CLI commands with `--non-interactive`. Otherwise the first-run prompts wait for input and the command hangs.
 - Some settings are console-only and need the owner: linking Google Analytics, sign-in providers, the Blaze plan.
 
+## Analytics
+
+- **Events:** the catalog is `AnalyticsEvent` in `lib/core/analytics/analytics.dart`. Screen views are logged by the router (`app_router.dart`), named after the route (`home`, `habitDetail`, …). The SDK's automatic screen reporting is off (`FirebaseAutomaticScreenReportingEnabled` in `Info.plist`), so there are no duplicates.
+- **No personal data in events:** ids, counts and methods only. There's no `setUserId` yet.
+- **No advertising ID:** the iOS Podfile sets `$FirebaseAnalyticsWithoutAdIdSupport` (the log says "IDFA will not be accessible"), and Android removes the `AD_ID` permission. That means no App Tracking Transparency prompt.
+- **Opt-out:** Settings → More customization → Share usage data. It calls `setAnalyticsCollectionEnabled`, which is also applied at startup.
+- **See events live (DebugView):** launch on the simulator with the debug flag, then open Firebase console → Analytics → DebugView:
+  ```bash
+  xcrun simctl launch booted com.luminalabs.monumentalhabits -FIRAnalyticsDebugEnabled
+  ```
+  The flag sticks until the app is launched with `-noFIRAnalyticsDebugEnabled`. Without it, events are uploaded about once an hour, and the reports take up to 24 h.
+- **App Store privacy labels** (step 28): Identifiers → Device ID, Usage Data → Product Interaction, and Diagnostics. All are used for Analytics, not linked to the user and not used for tracking. The Play data-safety form gets the same answers.
+
 ## Still to do
 
 - Restrict the API keys in Google Cloud: the iOS key to the bundle ID, the Android key to the package name + SHA-1 (step 28; needs `gcloud` or the Cloud console).
-- Link Google Analytics (step 14, owner in the console).
 - Firestore database and security rules (step 15 onwards).

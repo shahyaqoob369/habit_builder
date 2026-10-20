@@ -44,7 +44,11 @@ class _HabitDetailPageState extends ConsumerState<HabitDetailPage> {
 
   Future<void> _complete(Habit habit, DateTime today) async {
     final actions = ref.read(habitActionsProvider);
-    final result = await actions.complete(habit, today);
+    final result = await actions.complete(
+      habit,
+      today,
+      source: MarkSource.detail,
+    );
     if (!mounted) return;
     final score = await showEasinessSheet(context);
     if (score != null) await actions.rate(result.habit, today, score);
@@ -103,7 +107,9 @@ class _HabitDetailPageState extends ConsumerState<HabitDetailPage> {
                 onMonthChanged: (month) => setState(() => _month = month),
                 onComplete: () => unawaited(_complete(habit, today)),
                 onMiss: () => unawaited(
-                  ref.read(habitActionsProvider).miss(habit, today),
+                  ref
+                      .read(habitActionsProvider)
+                      .miss(habit, today, source: MarkSource.detail),
                 ),
               ),
               AsyncValue(hasError: true) => MessageView.error(

@@ -1,5 +1,9 @@
-# Uncomment this line to define a global platform for your project
+# Firebase iOS SDK 12 needs iOS 15.
 platform :ios, '15.0'
+
+# Google Analytics without the advertising ID (IDFA): no App Tracking
+# Transparency prompt needed.
+$FirebaseAnalyticsWithoutAdIdSupport = true
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/features/auth/application/auth_form_controller.dart';
 import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_failure.dart';
@@ -10,12 +11,17 @@ import 'package:habit_builder/features/auth/domain/auth_user.dart';
 void main() {
   group('AuthFormController', () {
     late _ControlledAuth auth;
+    late RecordingAnalytics analytics;
     late ProviderContainer container;
 
     setUp(() {
       auth = _ControlledAuth();
+      analytics = RecordingAnalytics();
       container = ProviderContainer.test(
-        overrides: [authRepositoryProvider.overrideWithValue(auth)],
+        overrides: [
+          authRepositoryProvider.overrideWithValue(auth),
+          analyticsProvider.overrideWithValue(analytics),
+        ],
       )..listen(loginFormProvider, (_, _) {});
     });
 
@@ -33,6 +39,7 @@ void main() {
       expect(await result, isTrue);
       expect(state().isBusy, isFalse);
       expect(state().failure, isNull);
+      expect(analytics.events, [AnalyticsEvent.login('google')]);
     });
 
     test('records why a request failed', () async {
@@ -42,6 +49,7 @@ void main() {
       expect(await result, isFalse);
       expect(state().failure, AuthFailure.invalidCredentials);
       expect(state().isBusy, isFalse);
+      expect(analytics.events, isEmpty);
     });
 
     test('turns unexpected exceptions into an unknown failure', () async {

@@ -11,13 +11,14 @@ _Set up in step 2 (2026-10-18). Update this file whenever the structure changes.
 | Lints | **very_good_analysis 10** (strict) | Catches bugs and keeps style consistent. `public_member_api_docs` is off because this is an app. |
 | Text and translation | **gen-l10n** (`lib/l10n/arb/app_en.arb`) | All user-facing text in one place, ready for more languages |
 | Theme | Tokens in `lib/app/theme/` + `ThemeExtension` for colors | One source of truth from Figma; dark mode is possible later |
-| Backend (from step 13) | Firebase + RevenueCat (default, see BACKEND_SPEC) | |
+| Backend (from step 13) | Firebase + RevenueCat (default, see BACKEND_SPEC) | Firebase setup and config files: [FIREBASE.md](FIREBASE.md) |
+| Analytics | **Google Analytics for Firebase** behind the `Analytics` interface | Screen views from the router, typed `AnalyticsEvent`s; a recording fake in tests |
 
 ## Folder layout
 
 ```
 lib/
-├── main.dart                     bootstrap: bindings, portrait lock, edge-to-edge, ProviderScope
+├── main.dart                     bootstrap: Firebase, bindings, portrait lock, edge-to-edge, ProviderScope overrides
 ├── app/
 │   ├── app.dart                  MaterialApp.router: theme, localization, status bar style
 │   ├── router/app_router.dart    AppRoute enum + appRouterProvider (GoRouter)
@@ -28,6 +29,7 @@ lib/
 │       ├── app_dimens.dart       AppSpacing, AppRadii, AppShadows
 │       └── app_theme.dart        ThemeData built from the tokens
 ├── core/
+│   ├── analytics/                Analytics interface, AnalyticsEvent catalog, Firebase implementation
 │   ├── assets/                   asset paths: app_images.dart (WebP, 1x/2x/3x), app_icons.dart (SVG)
 │   ├── extensions/               BuildContext helpers (context.colors)
 │   ├── storage/preferences.dart  SharedPreferencesWithCache + PreferenceKeys + provider

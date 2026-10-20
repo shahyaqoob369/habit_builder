@@ -49,6 +49,12 @@ class ToggleSettingsPage extends ConsumerWidget {
           settings.showQuote,
           (bool v) => controller.setShowQuote(enabled: v),
         ),
+        (
+          l10n.settingsShareUsage,
+          l10n.settingsShareUsageBody,
+          settings.shareUsageData,
+          (bool v) => controller.setShareUsageData(enabled: v),
+        ),
       ],
     };
 

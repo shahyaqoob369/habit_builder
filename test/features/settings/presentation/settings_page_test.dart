@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/config/app_config.dart';
 import 'package:habit_builder/core/links/link_launcher.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
@@ -14,10 +15,12 @@ import '../../../helpers/test_preferences.dart';
 void main() {
   late SharedPreferencesWithCache preferences;
   late List<Uri> opened;
+  late RecordingAnalytics analytics;
 
   setUp(() async {
     preferences = await createTestPreferences();
     opened = [];
+    analytics = RecordingAnalytics();
   });
 
   Future<void> pump(WidgetTester tester, Widget page, {bool canOpen = true}) {
@@ -26,6 +29,7 @@ void main() {
       page,
       overrides: [
         sharedPreferencesProvider.overrideWithValue(preferences),
+        analyticsProvider.overrideWithValue(analytics),
         openLinkProvider.overrideWithValue((uri) async {
           opened.add(uri);
           return canOpen;
@@ -112,6 +116,17 @@ void main() {
 
       expect(preferences.getBool(PreferenceKeys.showQuote), isFalse);
       expect(const AppSettings().showQuote, isTrue);
+    });
+
+    testWidgets('sharing usage data can be turned off', (tester) async {
+      await pump(tester, const ToggleSettingsPage.customize());
+
+      await tester.tap(find.text('Share usage data'));
+      await tester.pump();
+
+      expect(preferences.getBool(PreferenceKeys.shareUsageData), isFalse);
+      expect(analytics.collectionEnabled, isFalse);
+      expect(const AppSettings().shareUsageData, isTrue);
     });
   });
 }

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_failure.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
@@ -38,29 +41,44 @@ class AuthFormController extends Notifier<AuthFormState> {
         email: email.trim(),
         password: password,
       ),
+      success: AnalyticsEvent.login(AuthMethod.email.name),
     );
   }
 
-  Future<bool> signUp(SignUpDetails details) =>
-      _run(AuthMethod.email, () => _repository.signUp(details));
+  Future<bool> signUp(SignUpDetails details) => _run(
+    AuthMethod.email,
+    () => _repository.signUp(details),
+    success: AnalyticsEvent.signUp(AuthMethod.email.name),
+  );
 
   Future<bool> sendPasswordReset(String email) => _run(
     AuthMethod.email,
     () => _repository.sendPasswordResetEmail(email.trim()),
   );
 
-  Future<bool> signInWithGoogle() =>
-      _run(AuthMethod.google, _repository.signInWithGoogle);
+  // Logged as log-ins: whether the account is new is only known once
+  // Firebase Auth is connected (plan step 16).
+  Future<bool> signInWithGoogle() => _run(
+    AuthMethod.google,
+    _repository.signInWithGoogle,
+    success: AnalyticsEvent.login(AuthMethod.google.name),
+  );
 
-  Future<bool> signInWithFacebook() =>
-      _run(AuthMethod.facebook, _repository.signInWithFacebook);
+  Future<bool> signInWithFacebook() => _run(
+    AuthMethod.facebook,
+    _repository.signInWithFacebook,
+    success: AnalyticsEvent.login(AuthMethod.facebook.name),
+  );
 
   Future<bool> _run(
     AuthMethod method,
-    Future<Object?> Function() request,
-  ) async {
+    Future<Object?> Function() request, {
+    AnalyticsEvent? success,
+  }) async {
     // One request at a time: ignore taps while one is running.
     if (state.isBusy) return false;
+    // Read now: the screen may close (and dispose this) while waiting.
+    final analytics = ref.read(analyticsProvider);
     state = AuthFormState(pending: method);
     AuthFailure? failure;
     try {
@@ -73,6 +91,9 @@ class AuthFormController extends Notifier<AuthFormState> {
       // Also runs when an unexpected error escapes, so the screen never
       // stays busy. Skipped if the screen was closed in the meantime.
       if (ref.mounted) state = AuthFormState(failure: failure);
+    }
+    if (failure == null && success != null) {
+      unawaited(analytics.logEvent(success));
     }
     return ref.mounted && failure == null;
   }
