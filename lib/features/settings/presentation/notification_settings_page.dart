@@ -10,6 +10,7 @@ import 'package:habit_builder/core/extensions/build_context_x.dart';
 import 'package:habit_builder/core/widgets/app_header.dart';
 import 'package:habit_builder/core/widgets/app_toggle.dart';
 import 'package:habit_builder/core/widgets/header_icon_button.dart';
+import 'package:habit_builder/features/reminders/application/reminder_sync.dart';
 import 'package:habit_builder/features/settings/data/settings_repository.dart';
 import 'package:habit_builder/l10n/l10n.dart';
 
@@ -33,7 +34,11 @@ class ToggleSettingsPage extends ConsumerWidget {
           l10n.settingsHabitReminders,
           l10n.settingsHabitRemindersBody,
           settings.habitReminders,
-          (bool v) => controller.setHabitReminders(enabled: v),
+          (bool v) async {
+            // Turning reminders on asks for notification permission first.
+            if (v && !await ensureReminderPermission(context, ref)) return;
+            await controller.setHabitReminders(enabled: v);
+          },
         ),
         (
           l10n.settingsCommunityNotifications,

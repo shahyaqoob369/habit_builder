@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
+import 'package:habit_builder/core/widgets/app_toggle.dart';
 import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/habits/presentation/new_habit_page.dart';
 import 'package:habit_builder/features/habits/presentation/sheets/reminders_sheet.dart';
 import 'package:habit_builder/features/habits/presentation/sheets/time_picker_sheet.dart';
 import 'package:habit_builder/features/home/presentation/home_page.dart';
 import 'package:habit_builder/features/premium/data/fake_premium_repository.dart';
+import 'package:habit_builder/features/reminders/data/reminder_scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/pump_app.dart';
@@ -23,7 +25,10 @@ void main() {
     });
 
     /// Signs in, then opens New Habit with the center button.
-    Future<void> openNewHabit(WidgetTester tester) async {
+    Future<void> openNewHabit(
+      WidgetTester tester, {
+      ReminderScheduler? reminders,
+    }) async {
       tester.useScreen(designSize);
       await tester.pumpFullApp(
         preferences,
@@ -33,6 +38,8 @@ void main() {
           premiumRepositoryProvider.overrideWithValue(
             FakePremiumRepository(latency: Duration.zero, premium: true),
           ),
+          if (reminders != null)
+            reminderSchedulerProvider.overrideWithValue(reminders),
         ],
       );
       await tester.pumpAndSettle();
@@ -128,6 +135,29 @@ void main() {
       Navigator.of(tester.element(find.byType(RemindersSheet))).pop();
       await tester.pumpAndSettle();
       expect(find.text('06:00AM +2'), findsOneWidget);
+    });
+
+    testWidgets('notifications stay off when permission is refused', (
+      tester,
+    ) async {
+      await openNewHabit(
+        tester,
+        reminders: RecordingReminderScheduler(permission: false),
+      );
+
+      final toggle = find.descendant(
+        of: find.byType(NewHabitPage),
+        matching: find.byType(AppToggle),
+      );
+      await tester.scrollPageTo(toggle);
+      await tester.tap(toggle);
+      await tester.pumpAndSettle();
+
+      expect(
+        find.textContaining('Notifications are off for Monumental Habits'),
+        findsOneWidget,
+      );
+      expect(tester.widget<AppToggle>(toggle).value, isFalse);
     });
   });
 }

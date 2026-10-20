@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-20 · **Progress: 17 / 29 steps** · Current: Step 20 (reminder notifications). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
+_Last updated: 2026-10-20 · **Progress: 18 / 29 steps** · Current: Step 21 (profile and settings, real data). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -96,8 +96,11 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 - Profile saves no longer wait for the server (sign up finishes faster, works like habits)
 - `integration_test/app_flow_test.dart` drives the real UI against Firebase: sign up → empty Home → add habit → complete → Firestore + analytics checked → delete account
 
-### ⬜ Step 20 — Reminder notifications
-- Local notifications on due days, permission prompts, rescheduling
+### ✅ Step 20 — Reminder notifications
+- Local notifications (flutter_local_notifications, device time zone): an every-day habit gets one daily reminder per time, other habits a weekly one per due day; at most 64 (the iOS limit)
+- `reminderSyncProvider` keeps them in step with the habits, the Settings switch and sign-out; marking days doesn't reschedule; schedules again when the app comes back (permission may have been granted in Settings); tapping a reminder opens the habit
+- Permission is asked when a reminder is first turned on (New Habit toggle, Settings switch); a refusal explains where to turn it on and opens Settings
+- `integration_test/reminders_test.dart` checks the real iOS pending notifications
 
 ### ⬜ Step 21 — Profile and settings, real data ⚠️ (Q3)
 - Stats, edit profile, feedback, sign out, **delete account**

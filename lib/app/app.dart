@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_builder/app/router/app_router.dart';
 import 'package:habit_builder/app/theme/app_theme.dart';
+import 'package:habit_builder/features/reminders/application/reminder_sync.dart';
 import 'package:habit_builder/l10n/l10n.dart';
 
 class App extends ConsumerWidget {
@@ -10,6 +11,7 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(reminderSyncProvider);
     return MaterialApp.router(
       onGenerateTitle: (context) => context.l10n.appTitle,
       debugShowCheckedModeBanner: false,

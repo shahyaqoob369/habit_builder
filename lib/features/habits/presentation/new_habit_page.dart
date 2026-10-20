@@ -23,6 +23,7 @@ import 'package:habit_builder/features/habits/presentation/widgets/form_row.dart
 import 'package:habit_builder/features/habits/presentation/widgets/frequency_card.dart';
 import 'package:habit_builder/features/habits/presentation/widgets/habit_name_row.dart';
 import 'package:habit_builder/features/habits/presentation/widgets/start_habit_card.dart';
+import 'package:habit_builder/features/reminders/application/reminder_sync.dart';
 import 'package:habit_builder/l10n/l10n.dart';
 
 /// New Habit and Edit Habit (Figma "Homepage – New Habit"): name and icon,
@@ -38,6 +39,13 @@ class NewHabitPage extends ConsumerStatefulWidget {
 }
 
 class _NewHabitPageState extends ConsumerState<NewHabitPage> {
+  /// Turning reminders on asks for notification permission first.
+  Future<void> _setNotifications({required bool enabled}) async {
+    if (enabled && !await ensureReminderPermission(context, ref)) return;
+    if (!mounted) return;
+    ref.read(habitEditorProvider.notifier).setNotifications(enabled: enabled);
+  }
+
   final _name = TextEditingController();
 
   @override
@@ -190,8 +198,9 @@ class _NewHabitPageState extends ConsumerState<NewHabitPage> {
                               trailing: AppToggle(
                                 value: draft.notificationsEnabled,
                                 semanticLabel: l10n.newHabitNotification,
-                                onChanged: (enabled) =>
-                                    editor.setNotifications(enabled: enabled),
+                                onChanged: (enabled) => unawaited(
+                                  _setNotifications(enabled: enabled),
+                                ),
                               ),
                             ),
                             if (draft.isEditing) ...[
