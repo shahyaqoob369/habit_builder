@@ -3,10 +3,14 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_builder/core/analytics/analytics.dart';
+import 'package:habit_builder/core/storage/preferences.dart';
 import 'package:habit_builder/features/auth/application/auth_form_controller.dart';
 import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_failure.dart';
+import 'package:habit_builder/features/auth/domain/auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_user.dart';
+
+import '../../../helpers/test_preferences.dart';
 
 void main() {
   group('AuthFormController', () {
@@ -14,13 +18,16 @@ void main() {
     late RecordingAnalytics analytics;
     late ProviderContainer container;
 
-    setUp(() {
+    setUp(() async {
       auth = _ControlledAuth();
       analytics = RecordingAnalytics();
       container = ProviderContainer.test(
         overrides: [
           authRepositoryProvider.overrideWithValue(auth),
           analyticsProvider.overrideWithValue(analytics),
+          sharedPreferencesProvider.overrideWithValue(
+            await createTestPreferences(),
+          ),
         ],
       )..listen(loginFormProvider, (_, _) {});
     });
@@ -88,6 +95,34 @@ void main() {
       unawaited(controller().signInWithGoogle());
 
       expect(state().failure, isNull);
+    });
+  });
+
+  group('Keep me signed in', () {
+    test('is saved after signing up', () async {
+      final preferences = await createTestPreferences();
+      final container = ProviderContainer.test(
+        overrides: [
+          authRepositoryProvider.overrideWithValue(
+            FakeAuthRepository(latency: Duration.zero),
+          ),
+          sharedPreferencesProvider.overrideWithValue(preferences),
+        ],
+      )..listen(signUpFormProvider, (_, _) {});
+
+      await container
+          .read(signUpFormProvider.notifier)
+          .signUp(
+            const SignUpDetails(
+              name: 'Ana',
+              email: 'ana@example.com',
+              password: 'password1',
+              keepSignedIn: false,
+              marketingOptIn: false,
+            ),
+          );
+
+      expect(preferences.getBool(PreferenceKeys.keepSignedIn), isFalse);
     });
   });
 }

@@ -23,12 +23,15 @@ class SignUpDetails {
   final bool marketingOptIn;
 }
 
-/// Authentication backend. The UI talks only to this interface: a fake
-/// implementation for now, Firebase from plan step 15.
+/// Authentication backend. The UI talks only to this interface:
+/// `FirebaseAuthRepository` in the app, `FakeAuthRepository` in tests.
 ///
 /// Every method throws an `AuthException` on failure.
 abstract interface class AuthRepository {
   AuthUser? get currentUser;
+
+  /// The signed-in user (or null), now and after every change.
+  Stream<AuthUser?> authStateChanges();
 
   Future<AuthUser> signInWithEmail({
     required String email,
@@ -48,8 +51,9 @@ abstract interface class AuthRepository {
   Future<void> signOut();
 
   /// Deletes the signed-in account and its data, then signs out. Required
-  /// in-app by App Store guideline 5.1.1(v).
-  Future<void> deleteAccount();
+  /// in-app by App Store guideline 5.1.1(v). Accounts with a password
+  /// must confirm it ([AuthUser.hasPassword]).
+  Future<void> deleteAccount({String? password});
 
   /// Changes the signed-in user's display name.
   Future<AuthUser> updateName(String name);

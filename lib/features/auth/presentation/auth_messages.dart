@@ -19,6 +19,9 @@ extension AuthMessages on AppLocalizations {
     AuthFailure.invalidCredentials => authErrorInvalidCredentials,
     AuthFailure.emailAlreadyInUse => authErrorEmailInUse,
     AuthFailure.network => authErrorNetwork,
+    AuthFailure.tooManyAttempts => authErrorTooManyAttempts,
+    AuthFailure.requiresRecentLogin => authErrorRequiresRecentLogin,
+    AuthFailure.unavailable => authErrorUnavailable,
     AuthFailure.cancelled || AuthFailure.unknown => authErrorUnknown,
   };
 }

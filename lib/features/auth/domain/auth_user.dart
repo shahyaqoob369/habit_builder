@@ -3,7 +3,12 @@ import 'package:flutter/foundation.dart';
 /// The signed-in user, as far as authentication knows them.
 @immutable
 class AuthUser {
-  const AuthUser({required this.id, required this.email, this.name});
+  const AuthUser({
+    required this.id,
+    required this.email,
+    this.name,
+    this.hasPassword = true,
+  });
 
   final String id;
   final String email;
@@ -11,13 +16,25 @@ class AuthUser {
   /// Display name; social accounts may not share one.
   final String? name;
 
+  /// Signs in with email and password (so deleting the account asks for
+  /// the password again).
+  final bool hasPassword;
+
+  AuthUser copyWith({String? name}) => AuthUser(
+    id: id,
+    email: email,
+    name: name ?? this.name,
+    hasPassword: hasPassword,
+  );
+
   @override
   bool operator ==(Object other) =>
       other is AuthUser &&
       other.id == id &&
       other.email == email &&
-      other.name == name;
+      other.name == name &&
+      other.hasPassword == hasPassword;
 
   @override
-  int get hashCode => Object.hash(id, email, name);
+  int get hashCode => Object.hash(id, email, name, hasPassword);
 }

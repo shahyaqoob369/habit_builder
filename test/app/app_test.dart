@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_builder/app/app.dart';
 import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
+import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/auth/presentation/login_page.dart';
+import 'package:habit_builder/features/home/presentation/home_page.dart';
 import 'package:habit_builder/features/onboarding/data/onboarding_repository.dart';
 import 'package:habit_builder/features/onboarding/presentation/onboarding_page.dart';
 import 'package:habit_builder/features/splash/application/splash_controller.dart';
@@ -68,6 +70,23 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(OnboardingPage), findsNothing);
+      expect(find.byType(LoginPage), findsOneWidget);
+    });
+  });
+
+  group('Auth guard', () {
+    testWidgets('signing out from anywhere returns to login', (tester) async {
+      final preferences = await createTestPreferences({
+        PreferenceKeys.onboardingCompleted: true,
+      });
+      final auth = FakeAuthRepository(latency: Duration.zero, signedIn: true);
+      await tester.pumpFullApp(preferences, auth: auth);
+      await tester.pumpAndSettle();
+      expect(find.byType(HomePage), findsOneWidget);
+
+      await auth.signOut();
+      await tester.pumpAndSettle();
+
       expect(find.byType(LoginPage), findsOneWidget);
     });
   });

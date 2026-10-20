@@ -22,7 +22,7 @@ class FakeCourseRepository implements CourseRepository {
         controller.add(_courses);
         changes = _changes.stream.listen(controller.add);
       },
-      onCancel: () => changes?.cancel(),
+      onCancel: () => unawaited(changes?.cancel()),
     );
     return controller.stream;
   }

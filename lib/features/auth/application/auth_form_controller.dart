@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_builder/core/analytics/analytics.dart';
+import 'package:habit_builder/core/storage/preferences.dart';
 import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_failure.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
@@ -49,6 +50,7 @@ class AuthFormController extends Notifier<AuthFormState> {
     AuthMethod.email,
     () => _repository.signUp(details),
     success: AnalyticsEvent.signUp(AuthMethod.email.name),
+    keepSignedIn: details.keepSignedIn,
   );
 
   Future<bool> sendPasswordReset(String email) => _run(
@@ -74,11 +76,13 @@ class AuthFormController extends Notifier<AuthFormState> {
     AuthMethod method,
     Future<Object?> Function() request, {
     AnalyticsEvent? success,
+    bool keepSignedIn = true,
   }) async {
     // One request at a time: ignore taps while one is running.
     if (state.isBusy) return false;
     // Read now: the screen may close (and dispose this) while waiting.
     final analytics = ref.read(analyticsProvider);
+    final preferences = ref.read(sharedPreferencesProvider);
     state = AuthFormState(pending: method);
     AuthFailure? failure;
     try {
@@ -93,6 +97,8 @@ class AuthFormController extends Notifier<AuthFormState> {
       if (ref.mounted) state = AuthFormState(failure: failure);
     }
     if (failure == null && success != null) {
+      // Only Sign Up asks; logging in keeps the session.
+      await preferences.setBool(PreferenceKeys.keepSignedIn, keepSignedIn);
       unawaited(analytics.logEvent(success));
     }
     return ref.mounted && failure == null;
