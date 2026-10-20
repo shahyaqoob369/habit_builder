@@ -9,12 +9,15 @@ class FakePremiumRepository implements PremiumRepository {
   FakePremiumRepository({
     this.latency = const Duration(milliseconds: 800),
     DateTime Function()? clock,
-  }) : _clock = clock ?? DateTime.now;
+    bool premium = false,
+  }) : _clock = clock ?? DateTime.now,
+       _premium = premium,
+       _everPurchased = premium;
 
   final Duration latency;
   final DateTime Function() _clock;
-  bool _premium = false;
-  bool _everPurchased = false;
+  bool _premium;
+  bool _everPurchased;
   final _changes = StreamController<bool>.broadcast();
 
   @override

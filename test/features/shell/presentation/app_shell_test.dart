@@ -7,6 +7,8 @@ import 'package:habit_builder/features/community/presentation/community_page.dar
 import 'package:habit_builder/features/courses/presentation/courses_page.dart';
 import 'package:habit_builder/features/habits/presentation/new_habit_page.dart';
 import 'package:habit_builder/features/home/presentation/home_page.dart';
+import 'package:habit_builder/features/premium/data/fake_premium_repository.dart';
+import 'package:habit_builder/features/premium/presentation/premium_page.dart';
 import 'package:habit_builder/features/settings/presentation/settings_page.dart';
 import 'package:habit_builder/features/shell/presentation/widgets/app_bottom_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +32,12 @@ void main() {
       await tester.pumpFullApp(
         preferences,
         auth: FakeAuthRepository(latency: Duration.zero),
+        // The four sample habits are over the free limit.
+        overrides: [
+          premiumRepositoryProvider.overrideWithValue(
+            FakePremiumRepository(latency: Duration.zero, premium: true),
+          ),
+        ],
       );
       await tester.pumpAndSettle();
       await tester.tap(find.text('Continue with Google'));
@@ -144,6 +152,31 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(LoginPage), findsOneWidget);
+    });
+
+    testWidgets('a free user at the habit limit gets the paywall', (
+      tester,
+    ) async {
+      tester.useScreen(designSize);
+      await tester.pumpFullApp(
+        preferences,
+        auth: FakeAuthRepository(latency: Duration.zero),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Continue with Google'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.bySemanticsLabel('New habit'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      expect(find.byType(PremiumPage), findsOneWidget);
+      expect(
+        find.text(
+          'The free plan includes 3 habits. Go Premium for unlimited habits.',
+        ),
+        findsOneWidget,
+      );
     });
   });
 }

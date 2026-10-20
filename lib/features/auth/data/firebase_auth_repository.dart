@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:habit_builder/features/auth/domain/auth_failure.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_user.dart';
@@ -47,12 +50,14 @@ class FirebaseAuthRepository implements AuthRepository {
     final user = credential.user!;
     final name = details.name.trim();
     await user.updateDisplayName(name);
-    await _profile(user.uid).set({
-      'name': name,
-      'email': user.email,
-      'marketingOptIn': details.marketingOptIn,
-      'createdAt': FieldValue.serverTimestamp(),
-    });
+    _write(
+      _profile(user.uid).set({
+        'name': name,
+        'email': user.email,
+        'marketingOptIn': details.marketingOptIn,
+        'createdAt': FieldValue.serverTimestamp(),
+      }),
+    );
     // updateDisplayName doesn't refresh the cached user on every platform.
     await user.reload();
     return _toAuthUser(_auth.currentUser)!;
@@ -104,13 +109,25 @@ class FirebaseAuthRepository implements AuthRepository {
     final user = _auth.currentUser;
     if (user == null) throw const AuthException(AuthFailure.unknown);
     await user.updateDisplayName(name);
-    await _profile(user.uid).set({
-      'name': name,
-      'updatedAt': FieldValue.serverTimestamp(),
-    }, SetOptions(merge: true));
+    _write(
+      _profile(user.uid).set({
+        'name': name,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true)),
+    );
     await user.reload();
     return _toAuthUser(_auth.currentUser)!;
   });
+
+  /// Saves to Firestore without waiting for the server, like the habits:
+  /// the local copy updates at once and syncs when online.
+  static void _write(Future<void> write) {
+    unawaited(
+      write.catchError((Object error) {
+        debugPrint('Profile write failed: $error');
+      }),
+    );
+  }
 
   /// Everything stored under `users/{uid}`, deleted with the account.
   /// Add each new per-user collection here.

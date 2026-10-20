@@ -45,7 +45,7 @@ CI (step 26) will write the same files from GitHub secrets before `flutter analy
 - **Habits:** `users/{uid}/habits/{habitId}`, one document per habit with its days inside (`HabitMapper` documents the fields). `FirestoreHabitRepository` doesn't wait for the server, so it works offline and Firestore syncs later. `main` gives each signed-in user their own repository.
 - **Rules:** `firestore.rules` (in git). Every user reads and writes only their own profile and habits, the fields are validated, and everything else is denied. Deploy them with `firebase deploy --only firestore:rules --non-interactive`.
 - **Database:** `(default)` in `nam5` (US multi-region). The location can't be changed.
-- **End-to-end tests against the real project:** `flutter test integration_test/auth_flow_test.dart -d <simulator id>`, and the same for `habits_flow_test.dart`. Each creates a throwaway account, then deletes it.
+- **End-to-end tests against the real project:** `flutter test integration_test/<name>_test.dart -d <simulator id>` for `auth_flow`, `habits_flow` and `app_flow` (`app_flow` drives the real UI). Each creates a throwaway `integration-…@example.com` account, then deletes it (`app_flow` deletes it even when it fails). To check for leftovers: `firebase auth:export <file> --format=json`, then delete the file.
 - **Screens without Firebase sign-in (debug):** `flutter run --dart-define=FAKE_AUTH=true --dart-define=INITIAL_ROUTE=/home` starts signed in as the demo user.
 
 ## Analytics

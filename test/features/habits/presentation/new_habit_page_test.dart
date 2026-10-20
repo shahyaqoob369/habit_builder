@@ -6,6 +6,7 @@ import 'package:habit_builder/features/habits/presentation/new_habit_page.dart';
 import 'package:habit_builder/features/habits/presentation/sheets/reminders_sheet.dart';
 import 'package:habit_builder/features/habits/presentation/sheets/time_picker_sheet.dart';
 import 'package:habit_builder/features/home/presentation/home_page.dart';
+import 'package:habit_builder/features/premium/data/fake_premium_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/pump_app.dart';
@@ -27,6 +28,12 @@ void main() {
       await tester.pumpFullApp(
         preferences,
         auth: FakeAuthRepository(latency: Duration.zero),
+        // The four sample habits are over the free limit.
+        overrides: [
+          premiumRepositoryProvider.overrideWithValue(
+            FakePremiumRepository(latency: Duration.zero, premium: true),
+          ),
+        ],
       );
       await tester.pumpAndSettle();
       await tester.tap(find.text('Continue with Google'));
