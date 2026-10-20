@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/features/habits/application/habits_providers.dart';
 import 'package:habit_builder/features/habits/data/fake_habit_repository.dart';
 import 'package:habit_builder/features/habits/domain/habit.dart';
@@ -158,6 +161,7 @@ class HabitEditorController extends Notifier<HabitDraft> {
     }
     state = draft.copyWith(isSaving: true);
     final repository = ref.read(habitRepositoryProvider);
+    final analytics = ref.read(analyticsProvider);
     final original = draft.original;
     try {
       if (original == null) {
@@ -171,6 +175,15 @@ class HabitEditorController extends Notifier<HabitDraft> {
             weekdays: draft.weekdays,
             reminders: draft.reminders,
             notificationsEnabled: draft.notificationsEnabled,
+          ),
+        );
+        unawaited(
+          analytics.logEvent(
+            AnalyticsEvent.habitCreated(
+              icon: draft.icon.name,
+              days: draft.weekdays.length,
+              reminders: draft.reminders.length,
+            ),
           ),
         );
       } else {
@@ -195,7 +208,9 @@ class HabitEditorController extends Notifier<HabitDraft> {
   Future<void> delete() async {
     final original = state.original;
     if (original == null) return;
+    final analytics = ref.read(analyticsProvider);
     await ref.read(habitRepositoryProvider).deleteHabit(original.id);
+    unawaited(analytics.logEvent(const AnalyticsEvent.habitDeleted()));
   }
 }
 

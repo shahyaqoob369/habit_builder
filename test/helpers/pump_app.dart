@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_builder/app/app.dart';
 import 'package:habit_builder/app/theme/app_theme.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
 import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
@@ -39,11 +40,12 @@ extension PumpApp on WidgetTester {
 
   /// Pumps the whole [App] (router included) with test [preferences], a
   /// configurable splash duration (zero by default) and an instant fake
-  /// auth backend (or [auth]).
+  /// auth backend (or [auth]). Pass [analytics] to check what was logged.
   Future<void> pumpFullApp(
     SharedPreferencesWithCache preferences, {
     Duration splashDuration = Duration.zero,
     AuthRepository? auth,
+    Analytics? analytics,
   }) {
     return pumpWidget(
       ProviderScope(
@@ -53,6 +55,7 @@ extension PumpApp on WidgetTester {
           authRepositoryProvider.overrideWithValue(
             auth ?? FakeAuthRepository(latency: Duration.zero),
           ),
+          if (analytics != null) analyticsProvider.overrideWithValue(analytics),
         ],
         child: const App(),
       ),

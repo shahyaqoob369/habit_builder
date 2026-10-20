@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habit_builder/app/router/app_route.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/features/auth/presentation/login_page.dart';
 import 'package:habit_builder/features/auth/presentation/reset_password_page.dart';
 import 'package:habit_builder/features/auth/presentation/sign_up_page.dart';
@@ -175,6 +178,21 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
     ],
   );
-  ref.onDispose(router.dispose);
+  // Every screen change (push, pop, tab switch) is a screen view, named
+  // after its route. Sheets and dialogs aren't routes and aren't counted.
+  String? lastScreen;
+  void trackScreen() {
+    final screen =
+        router.routerDelegate.currentConfiguration.lastOrNull?.route.name;
+    if (screen == null || screen == lastScreen) return;
+    lastScreen = screen;
+    unawaited(ref.read(analyticsProvider).logScreenView(screen));
+  }
+
+  router.routerDelegate.addListener(trackScreen);
+  ref.onDispose(() {
+    router.routerDelegate.removeListener(trackScreen);
+    router.dispose();
+  });
   return router;
 });

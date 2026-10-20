@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,6 +11,7 @@ class AppSettings {
     this.habitReminders = true,
     this.communityNotifications = true,
     this.showQuote = true,
+    this.shareUsageData = true,
   });
 
   /// Master switch for habit reminder notifications.
@@ -20,6 +22,9 @@ class AppSettings {
 
   /// The quote card on Home.
   final bool showQuote;
+
+  /// Google Analytics collection (on by default; no advertising ID).
+  final bool shareUsageData;
 }
 
 /// Settings kept on this device.
@@ -36,6 +41,8 @@ class SettingsController extends Notifier<AppSettings> {
       communityNotifications:
           preferences.getBool(PreferenceKeys.communityNotifications) ?? true,
       showQuote: preferences.getBool(PreferenceKeys.showQuote) ?? true,
+      shareUsageData:
+          preferences.getBool(PreferenceKeys.shareUsageData) ?? true,
     );
   }
 
@@ -47,6 +54,11 @@ class SettingsController extends Notifier<AppSettings> {
 
   Future<void> setShowQuote({required bool enabled}) =>
       _set(PreferenceKeys.showQuote, enabled);
+
+  Future<void> setShareUsageData({required bool enabled}) async {
+    await ref.read(analyticsProvider).setCollectionEnabled(enabled: enabled);
+    await _set(PreferenceKeys.shareUsageData, enabled);
+  }
 
   Future<void> _set(String key, bool value) async {
     await _preferences.setBool(key, value);

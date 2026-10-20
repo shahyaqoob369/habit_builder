@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habit_builder/app/router/app_route.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/extensions/build_context_x.dart';
 import 'package:habit_builder/features/onboarding/data/onboarding_repository.dart';
 import 'package:habit_builder/features/onboarding/domain/onboarding_slide.dart';
@@ -61,6 +62,11 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     _finishing = true;
     await ref.read(onboardingRepositoryProvider).complete();
     if (!mounted) return;
+    unawaited(
+      ref
+          .read(analyticsProvider)
+          .logEvent(const AnalyticsEvent.onboardingComplete()),
+    );
     context.goNamed(AppRoute.login.name);
   }
 

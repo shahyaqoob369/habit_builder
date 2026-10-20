@@ -8,9 +8,8 @@ import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/core/assets/app_images.dart';
 import 'package:habit_builder/core/widgets/app_header.dart';
 import 'package:habit_builder/core/widgets/state_views.dart';
+import 'package:habit_builder/features/habits/application/habit_actions.dart';
 import 'package:habit_builder/features/habits/application/habits_providers.dart';
-import 'package:habit_builder/features/habits/data/fake_habit_repository.dart';
-import 'package:habit_builder/features/habits/domain/habit.dart';
 import 'package:habit_builder/features/home/presentation/widgets/habit_grid.dart';
 import 'package:habit_builder/features/home/presentation/widgets/quote_card.dart';
 import 'package:habit_builder/features/settings/data/settings_repository.dart';
@@ -89,13 +88,7 @@ class HomePage extends ConsumerWidget {
                         days: days,
                         today: today,
                         onCellTap: (habit, day) => unawaited(
-                          ref
-                              .read(habitRepositoryProvider)
-                              .setStatus(
-                                habit.id,
-                                day,
-                                DayStatus.cycle(habit.statusOn(day)),
-                              ),
+                          ref.read(habitActionsProvider).cycle(habit, day),
                         ),
                         onHabitTap: (habit) => context.goNamed(
                           AppRoute.habitDetail.name,

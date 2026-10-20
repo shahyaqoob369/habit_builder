@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:habit_builder/app/router/app_route.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/assets/app_images.dart';
 import 'package:habit_builder/core/extensions/build_context_x.dart';
 import 'package:habit_builder/core/widgets/app_header.dart';
@@ -92,9 +93,12 @@ class CommunityPage extends ConsumerWidget {
   }
 
   static Future<void> _compose(BuildContext context, WidgetRef ref) async {
+    final repository = ref.read(communityRepositoryProvider);
+    final analytics = ref.read(analyticsProvider);
     final text = await showComposeSheet(context);
     if (text != null) {
-      await ref.read(communityRepositoryProvider).addPost(text);
+      await repository.addPost(text);
+      unawaited(analytics.logEvent(const AnalyticsEvent.postCreated()));
     }
   }
 }

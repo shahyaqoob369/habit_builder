@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/assets/app_icons.dart';
 import 'package:habit_builder/core/config/app_config.dart';
 import 'package:habit_builder/core/extensions/build_context_x.dart';
@@ -36,13 +37,29 @@ class _PremiumPageState extends ConsumerState<PremiumPage> {
   String? _selectedId;
   bool _busy = false;
 
-  Future<void> _run(Future<void> Function() action, String success) async {
+  @override
+  void initState() {
+    super.initState();
+    _log(const AnalyticsEvent.paywallShown());
+  }
+
+  // Read up front: a purchase can finish after the page has closed.
+  late final Analytics _analytics = ref.read(analyticsProvider);
+
+  void _log(AnalyticsEvent event) => unawaited(_analytics.logEvent(event));
+
+  Future<void> _run(
+    Future<void> Function() action,
+    String success,
+    AnalyticsEvent event,
+  ) async {
     if (_busy) return;
     setState(() => _busy = true);
     final messenger = ScaffoldMessenger.of(context);
     final l10n = context.l10n;
     try {
       await action();
+      _log(event);
       messenger.showSnackBar(SnackBar(content: Text(success)));
       if (mounted) context.pop();
     } on PurchaseException catch (e) {
@@ -98,10 +115,18 @@ class _PremiumPageState extends ConsumerState<PremiumPage> {
                 clock: ref.watch(clockProvider),
                 onSelect: (id) => setState(() => _selectedId = id),
                 onSubscribe: (plan) => unawaited(
-                  _run(() => repository.purchase(plan), l10n.premiumWelcome),
+                  _run(
+                    () => repository.purchase(plan),
+                    l10n.premiumWelcome,
+                    AnalyticsEvent.premiumPurchase(plan.id),
+                  ),
                 ),
                 onRestore: () => unawaited(
-                  _run(repository.restore, l10n.premiumRestored),
+                  _run(
+                    repository.restore,
+                    l10n.premiumRestored,
+                    const AnalyticsEvent.premiumRestore(),
+                  ),
                 ),
                 onTerms: () => _openLink(AppConfig.termsUrl),
                 onPrivacy: () => _openLink(AppConfig.privacyPolicyUrl),

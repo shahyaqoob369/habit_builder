@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_builder/app/app.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
 import 'package:habit_builder/features/auth/presentation/login_page.dart';
 import 'package:habit_builder/features/onboarding/data/onboarding_repository.dart';
@@ -68,6 +69,22 @@ void main() {
 
       expect(find.byType(OnboardingPage), findsNothing);
       expect(find.byType(LoginPage), findsOneWidget);
+    });
+  });
+
+  group('Analytics', () {
+    testWidgets('logs each screen and the end of onboarding', (tester) async {
+      final preferences = await createTestPreferences();
+      final analytics = RecordingAnalytics();
+      await tester.pumpFullApp(preferences, analytics: analytics);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Skip'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LoginPage), findsOneWidget);
+      expect(analytics.screens, ['splash', 'onboarding', 'login']);
+      expect(analytics.events, [const AnalyticsEvent.onboardingComplete()]);
     });
   });
 }

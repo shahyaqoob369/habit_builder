@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
+import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/extensions/build_context_x.dart';
 import 'package:habit_builder/core/share/share_service.dart';
 import 'package:habit_builder/core/widgets/app_sheet.dart';
@@ -22,14 +23,19 @@ class PostActions {
     _ref.read(communityRepositoryProvider).toggleLike(post.id),
   );
 
-  void share(BuildContext context, Post post, Rect? origin) => unawaited(
-    _ref
-        .read(shareTextProvider)
-        .call(
-          context.l10n.postShareText(post.author.name, post.text),
-          origin: origin,
-        ),
-  );
+  void share(BuildContext context, Post post, Rect? origin) {
+    unawaited(
+      _ref
+          .read(shareTextProvider)
+          .call(
+            context.l10n.postShareText(post.author.name, post.text),
+            origin: origin,
+          ),
+    );
+    unawaited(
+      _ref.read(analyticsProvider).logEvent(AnalyticsEvent.postShared(post.id)),
+    );
+  }
 
   /// Report or hide (not in the design; App Store guideline 1.2 asks for
   /// both on user posts).

@@ -490,6 +490,8 @@
   "settingsCommunityNotificationsBody": "Likes and comments on my posts",
   "settingsShowQuote": "Daily quote",
   "settingsShowQuoteBody": "Show the quote card on Home",
+  "settingsShareUsage": "Share usage data",
+  "settingsShareUsageBody": "Anonymous statistics that help us improve the app. No ads, no tracking.",
   "feedbackBody": "Tell us what you like or what we could do better.",
   "feedbackHint": "Your feedback",
   "feedbackSend": "Send",

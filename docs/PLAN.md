@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-20 · **Progress: 13 / 29 steps** · Current: Step 14 (Google Analytics) — **waiting for the owner** (turn on Google Analytics for the Firebase project)_
+_Last updated: 2026-10-20 · **Progress: 14 / 29 steps** · Current: Step 15 (Email authentication)_
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -63,15 +63,15 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 ## Phase C — Backend and integration
 
 ### ✅ Step 13 — Firebase setup
-- Firebase project `monumental-habits-app` (created with the owner's Firebase CLI login); app name **Monumental Habits**; bundle and application ID `com.luminalabs.monumentalhabits`
+- Firebase project "Monumental Habits" (created with the owner's Firebase CLI login); app name **Monumental Habits**; bundle and application ID `com.luminalabs.monumentalhabits`
 - iOS and Android apps registered with `flutterfire configure`; `firebase_core` starts in `main.dart`; iOS minimum raised to 15.0
 - Config files stay local-only (owner decision, public repo): see [FIREBASE.md](FIREBASE.md)
 
-### ⬜ Step 14 — Google Analytics ⚠️ (owner turns it on in the Firebase console)
-- Owner links Google Analytics to the Firebase project (console → Project settings → Integrations → Google Analytics)
-- `firebase_analytics` behind an `Analytics` interface (a no-op fake in tests); screen views from the router; key events: onboarding done, sign up, log in, habit created / completed / missed, streak milestone, course and lesson opened, post created, paywall shown, purchase and restore
-- Privacy: no advertising ID (no tracking prompt needed), a "Share usage data" switch in settings, App Store privacy labels and the Play data-safety form list analytics data
-- Check events live in Analytics DebugView on the iOS Simulator
+### ✅ Step 14 — Google Analytics
+- Owner linked Google Analytics in the Firebase console (one stream per app)
+- `firebase_analytics` behind an `Analytics` interface (`RecordingAnalytics` in tests); a screen view for every route change; the event catalog in `AnalyticsEvent` (onboarding, sign up, log in, habit created / deleted / completed / missed / rated, streak milestone, course and lesson opened, post created and shared, paywall shown, purchase, restore)
+- Privacy: no advertising ID on iOS (pods without IDFA) or Android (AD_ID permission removed), so no tracking prompt; a "Share usage data" switch in More customization; no names, emails or post text in events
+- Checked on the iOS Simulator: the SDK starts without IDFA and uploads events; see DebugView in [FIREBASE.md](FIREBASE.md#analytics)
 
 ### ⬜ Step 15 — Email authentication
 - Sign up, log in, reset email, routing by auth state, sign out, Firestore `users/{uid}`

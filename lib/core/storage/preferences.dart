@@ -8,12 +8,14 @@ abstract final class PreferenceKeys {
   static const habitReminders = 'settings_habit_reminders';
   static const communityNotifications = 'settings_community_notifications';
   static const showQuote = 'settings_show_quote';
+  static const shareUsageData = 'settings_share_usage_data';
 
   static const Set<String> all = {
     onboardingCompleted,
     habitReminders,
     communityNotifications,
     showQuote,
+    shareUsageData,
   };
 }
 
