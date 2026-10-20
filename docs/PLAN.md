@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-20 · **Progress: 18 / 29 steps** · Current: Step 21 (profile and settings, real data). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
+_Last updated: 2026-10-20 · **Progress: 19 / 29 steps** · Current: Step 22 (Premium with RevenueCat) — **needs the owner** (App Store Connect products, RevenueCat account). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -102,8 +102,10 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 - Permission is asked when a reminder is first turned on (New Habit toggle, Settings switch); a refusal explains where to turn it on and opens Settings
 - `integration_test/reminders_test.dart` checks the real iOS pending notifications
 
-### ⬜ Step 21 — Profile and settings, real data ⚠️ (Q3)
-- Stats, edit profile, feedback, sign out, **delete account**
+### ✅ Step 21 — Profile and settings, real data
+- Stats come from the Firestore habits; rename, sign out and delete account go through Firebase (steps 15–19)
+- Feedback is saved at `users/{uid}/feedback` (message, time, platform, app version) and deleted with the account; rules validate it
+- Settings stay on the device (`SharedPreferences`)
 
 ### ⬜ Step 22 — Premium with RevenueCat ⚠️ (Q13, Q14, store products)
 - Plans, intro offer, restore, gating (habits, courses, avatars)

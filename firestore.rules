@@ -38,6 +38,22 @@ service cloud.firestore {
         && request.resource.data.sortKey == resource.data.sortKey;
     }
 
+    // users/{uid}/feedback/{id}: messages from Settings → Feedback.
+    match /users/{uid}/feedback/{feedbackId} {
+      allow read, delete: if signedInAs(uid);
+      allow create: if signedInAs(uid)
+        && request.resource.data.keys().hasOnly(
+             ['message', 'createdAt', 'platform', 'appVersion'])
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 1000
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.platform is string
+        && request.resource.data.platform.size() <= 20
+        && request.resource.data.appVersion is string
+        && request.resource.data.appVersion.size() <= 40;
+    }
+
     function validHabit(data) {
       return data.keys().hasOnly(['name', 'color', 'icon', 'createdAt',
              'sortKey', 'weekdays', 'reminders', 'notificationsEnabled',
