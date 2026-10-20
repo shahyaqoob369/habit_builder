@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habit_builder/app/router/app_route.dart';
 import 'package:habit_builder/features/habits/application/habit_editor_controller.dart';
+import 'package:habit_builder/features/habits/application/habit_limit.dart';
 import 'package:habit_builder/features/shell/presentation/widgets/app_bottom_bar.dart';
 import 'package:habit_builder/features/shell/presentation/widgets/app_drawer.dart';
 
@@ -57,6 +58,8 @@ class _AppShellState extends ConsumerState<AppShell> {
   Widget build(BuildContext context) {
     final shell = widget.navigationShell;
     final editing = AppShell.editorRoutes.contains(widget.topRouteName);
+    // Keeps the habit count and Premium status loaded for the + button.
+    ref.watch(canAddHabitProvider);
     return AppShellScope(
       openMenu: _openMenu,
       child: Scaffold(
@@ -76,7 +79,7 @@ class _AppShellState extends ConsumerState<AppShell> {
           fabMode: editing ? FabMode.save : FabMode.add,
           onFabPressed: editing
               ? () => unawaited(_saveHabit())
-              : () => context.goNamed(AppRoute.newHabit.name),
+              : () => openNewHabit(context, ref),
         ),
       ),
     );

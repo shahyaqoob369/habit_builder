@@ -13,6 +13,7 @@ import 'package:habit_builder/core/widgets/header_icon_button.dart';
 import 'package:habit_builder/core/widgets/primary_button.dart';
 import 'package:habit_builder/core/widgets/state_views.dart';
 import 'package:habit_builder/features/habits/application/habit_actions.dart';
+import 'package:habit_builder/features/habits/application/habit_limit.dart';
 import 'package:habit_builder/features/habits/application/habits_providers.dart';
 import 'package:habit_builder/features/habits/domain/habit.dart';
 import 'package:habit_builder/features/habits/domain/habit_stats.dart';
@@ -60,7 +61,7 @@ class _HabitDetailPageState extends ConsumerState<HabitDetailPage> {
       streak: milestone,
     );
     if (choice == CongratulationChoice.createHabit && mounted) {
-      context.goNamed(AppRoute.newHabit.name);
+      openNewHabit(context, ref);
     }
   }
 

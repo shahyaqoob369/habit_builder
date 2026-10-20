@@ -46,6 +46,7 @@ extension PumpApp on WidgetTester {
     Duration splashDuration = Duration.zero,
     AuthRepository? auth,
     Analytics? analytics,
+    List<Override> overrides = const [],
   }) {
     return pumpWidget(
       ProviderScope(
@@ -56,6 +57,7 @@ extension PumpApp on WidgetTester {
             auth ?? FakeAuthRepository(latency: Duration.zero),
           ),
           if (analytics != null) analyticsProvider.overrideWithValue(analytics),
+          ...overrides,
         ],
         child: const App(),
       ),

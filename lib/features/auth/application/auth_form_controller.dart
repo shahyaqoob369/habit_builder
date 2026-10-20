@@ -97,9 +97,9 @@ class AuthFormController extends Notifier<AuthFormState> {
       if (ref.mounted) state = AuthFormState(failure: failure);
     }
     if (failure == null && success != null) {
+      unawaited(analytics.logEvent(success));
       // Only Sign Up asks; logging in keeps the session.
       await preferences.setBool(PreferenceKeys.keepSignedIn, keepSignedIn);
-      unawaited(analytics.logEvent(success));
     }
     return ref.mounted && failure == null;
   }

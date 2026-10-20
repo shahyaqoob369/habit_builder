@@ -149,6 +149,12 @@
   "authErrorInvalidCredentials": "That email and password don’t match. Please try again.",
   "authErrorEmailInUse": "An account with this email already exists. Try logging in.",
   "authErrorNetwork": "No connection. Check your internet and try again.",
+  "habitLimitReached": "The free plan includes {count} habits. Go Premium for unlimited habits.",
+  "@habitLimitReached": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
   "authErrorUnknown": "Something went wrong. Please try again.",
   "authErrorTooManyAttempts": "Too many attempts. Please wait a few minutes and try again.",
   "authErrorRequiresRecentLogin": "For your security, please log in again first.",

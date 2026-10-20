@@ -43,6 +43,8 @@ void main() {
     expect(user.name, 'Integration');
     expect(user.hasPassword, isTrue);
     final profile = FirebaseFirestore.instance.doc('users/${user.id}');
+    // The profile is saved in the background; wait until the server has it.
+    await FirebaseFirestore.instance.waitForPendingWrites();
     final saved = (await profile.get()).data();
     expect(saved?['name'], 'Integration');
     expect(saved?['marketingOptIn'], isTrue);
@@ -75,6 +77,7 @@ void main() {
     // Rename.
     final renamed = await repository.updateName('Renamed');
     expect(renamed.name, 'Renamed');
+    await FirebaseFirestore.instance.waitForPendingWrites();
     expect((await profile.get()).data()?['name'], 'Renamed');
 
     // Reset emails don't reveal whether an account exists.
