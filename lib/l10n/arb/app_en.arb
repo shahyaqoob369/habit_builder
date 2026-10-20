@@ -179,5 +179,52 @@
   "homeEmptyBody": "Tap + below to start your first habit.",
   "loadErrorTitle": "Something went wrong",
   "loadErrorBody": "We couldn’t load this. Check your connection and try again.",
-  "retry": "Try again"
+  "retry": "Try again",
+  "toggleOn": "On",
+  "toggleOff": "Off",
+  "cancel": "Cancel",
+  "save": "Save",
+  "delete": "Delete",
+  "done": "Done",
+  "editHabitTitle": "Edit Habit",
+  "newHabitNameHint": "Enter habit name",
+  "newHabitNameRequired": "Please name your habit",
+  "newHabitIconTooltip": "Choose icon and color",
+  "newHabitFrequency": "Habit Frequency",
+  "frequencyEveryDay": "Every day",
+  "frequencyWeekdays": "Weekdays",
+  "frequencyWeekends": "Weekends",
+  "frequencyCustom": "Custom",
+  "frequencyCustomHint": "For other days, tap them on the card.",
+  "newHabitReminder": "Reminder",
+  "reminderNone": "None",
+  "reminderMore": "{first} +{count}",
+  "@reminderMore": {
+    "description": "Reminder row when there are several: the first time and how many more.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "newHabitNotification": "Notification",
+  "startHabitTitle": "Start this habit",
+  "startHabitBody": "Pick your days and reminders, then tap the button below to save.",
+  "@startHabitBody": {
+    "description": "Replaces the design's lorem ipsum. Points at the ✓ button under the card."
+  },
+  "deleteHabit": "Delete habit",
+  "deleteHabitTitle": "Delete this habit?",
+  "deleteHabitBody": "Its history goes too. This can’t be undone.",
+  "remindersAdd": "Add Reminder",
+  "timePickerTitle": "Add Reminders",
+  "timePickerHours": "Hours",
+  "timePickerMinutes": "Minutes",
+  "timeAm": "am",
+  "timePm": "pm",
+  "iconPickerTitle": "Icon",
+  "iconPickerColor": "Color"
 }

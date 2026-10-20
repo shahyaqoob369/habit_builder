@@ -39,6 +39,7 @@ class FakeHabitRepository implements HabitRepository {
       name: habit.name,
       color: habit.color,
       createdAt: habit.createdAt,
+      icon: habit.icon,
       weekdays: habit.weekdays,
       reminders: habit.reminders,
       notificationsEnabled: habit.notificationsEnabled,
@@ -78,12 +79,14 @@ class FakeHabitRepository implements HabitRepository {
       String id,
       String name,
       HabitColor color,
+      HabitIcon icon,
       List<DayStatus?> days,
     ) {
       return Habit(
         id: id,
         name: name,
         color: color,
+        icon: icon,
         createdAt: start.subtract(const Duration(days: 30)),
         reminders: const [ReminderTime(10, 0)],
         log: {
@@ -96,16 +99,16 @@ class FakeHabitRepository implements HabitRepository {
     const done = DayStatus.done;
     const missed = DayStatus.missed;
     return List.unmodifiable([
-      sample('read', 'Read A Book', HabitColor.orange, [
+      sample('read', 'Read A Book', HabitColor.orange, HabitIcon.book, [
         done, done, missed, done, done, //
       ]),
-      sample('exercise', 'Exercise', HabitColor.red, [
+      sample('exercise', 'Exercise', HabitColor.red, HabitIcon.workout, [
         done, done, missed, done, null, //
       ]),
-      sample('wake', 'Wake Up Early', HabitColor.blue, [
+      sample('wake', 'Wake Up Early', HabitColor.blue, HabitIcon.wakeUp, [
         done, missed, done, null, null, //
       ]),
-      sample('walk', 'Walk Dog', HabitColor.magenta, [
+      sample('walk', 'Walk Dog', HabitColor.magenta, HabitIcon.dog, [
         done, missed, done, missed, null, //
       ]),
     ]);

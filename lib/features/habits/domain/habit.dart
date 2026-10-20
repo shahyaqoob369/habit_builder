@@ -4,6 +4,35 @@ import 'package:habit_builder/core/time/date_only.dart';
 /// The four habit colors of the design.
 enum HabitColor { orange, red, blue, magenta }
 
+/// Icons a habit can have (not designed beyond the book: a fixed free set,
+/// owner question Q5).
+enum HabitIcon {
+  book,
+  run,
+  workout,
+  walk,
+  bike,
+  swim,
+  sleep,
+  wakeUp,
+  water,
+  fruit,
+  veggies,
+  meds,
+  teeth,
+  relax,
+  pray,
+  learn,
+  write,
+  language,
+  music,
+  dog,
+  plants,
+  clean,
+  save,
+  quit,
+}
+
 /// How a day went for a habit. A day with no entry is "not marked".
 ///
 /// The design draws [done] as a full cell and [missed] as a half cell.
@@ -55,6 +84,7 @@ class Habit {
     required this.name,
     required this.color,
     required this.createdAt,
+    this.icon = HabitIcon.book,
     this.weekdays = allWeekdays,
     this.reminders = const [],
     this.notificationsEnabled = false,
@@ -68,6 +98,7 @@ class Habit {
   final String name;
   final HabitColor color;
   final DateTime createdAt;
+  final HabitIcon icon;
 
   /// Days of the week the habit is due ([DateTime.weekday] values).
   final Set<int> weekdays;
@@ -85,6 +116,7 @@ class Habit {
   Habit copyWith({
     String? name,
     HabitColor? color,
+    HabitIcon? icon,
     Set<int>? weekdays,
     List<ReminderTime>? reminders,
     bool? notificationsEnabled,
@@ -95,6 +127,7 @@ class Habit {
       name: name ?? this.name,
       color: color ?? this.color,
       createdAt: createdAt,
+      icon: icon ?? this.icon,
       weekdays: weekdays ?? this.weekdays,
       reminders: reminders ?? this.reminders,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,

@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habit_builder/app/router/app_route.dart';
+import 'package:habit_builder/features/habits/application/habit_editor_controller.dart';
 import 'package:habit_builder/features/shell/presentation/widgets/app_bottom_bar.dart';
 import 'package:habit_builder/features/shell/presentation/widgets/app_drawer.dart';
 
@@ -10,16 +14,27 @@ import 'package:habit_builder/features/shell/presentation/widgets/app_drawer.dar
 /// Each tab keeps its own navigation stack ([StatefulNavigationShell]).
 /// Pages draw edge to edge behind the bar; their scrollables get the bar's
 /// height as bottom padding through [MediaQuery].
-class AppShell extends StatefulWidget {
-  const AppShell({required this.navigationShell, super.key});
+class AppShell extends ConsumerStatefulWidget {
+  const AppShell({
+    required this.navigationShell,
+    this.topRouteName,
+    super.key,
+  });
 
   final StatefulNavigationShell navigationShell;
 
+  /// The name of the screen on top; the habit editor turns the center
+  /// button into ✓ (save).
+  final String? topRouteName;
+
+  /// Routes whose center button saves the habit being edited.
+  static final Set<String> editorRoutes = {AppRoute.newHabit.name};
+
   @override
-  State<AppShell> createState() => _AppShellState();
+  ConsumerState<AppShell> createState() => _AppShellState();
 }
 
-class _AppShellState extends State<AppShell> {
+class _AppShellState extends ConsumerState<AppShell> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _openMenu() => _scaffoldKey.currentState?.openDrawer();
@@ -30,9 +45,15 @@ class _AppShellState extends State<AppShell> {
     shell.goBranch(tab.index, initialLocation: tab.index == shell.currentIndex);
   }
 
+  Future<void> _saveHabit() async {
+    final saved = await ref.read(habitEditorProvider.notifier).save();
+    if (saved && mounted) GoRouter.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final shell = widget.navigationShell;
+    final editing = AppShell.editorRoutes.contains(widget.topRouteName);
     return AppShellScope(
       openMenu: _openMenu,
       child: Scaffold(
@@ -49,8 +70,10 @@ class _AppShellState extends State<AppShell> {
         bottomNavigationBar: AppBottomBar(
           currentTab: AppTab.values[shell.currentIndex],
           onTabSelected: _selectTab,
-          fabMode: FabMode.add,
-          onFabPressed: () => context.goNamed(AppRoute.newHabit.name),
+          fabMode: editing ? FabMode.save : FabMode.add,
+          onFabPressed: editing
+              ? () => unawaited(_saveHabit())
+              : () => context.goNamed(AppRoute.newHabit.name),
         ),
       ),
     );
