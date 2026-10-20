@@ -45,6 +45,14 @@ flutter:
     - assets/img/onboarding/
     - assets/img/auth/
     - assets/img/brand/
+    - assets/img/nav/
+    - assets/img/home/
+    - assets/img/habits/
+    - assets/img/courses/
+    - assets/img/community/
+    - assets/img/settings/
+    - assets/img/premium/
+    - assets/img/profile/
 
   fonts:
     # Body text. The design only uses Medium and Bold.

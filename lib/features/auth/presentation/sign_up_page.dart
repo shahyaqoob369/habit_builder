@@ -53,8 +53,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
   Future<void> _run(Future<bool> Function() request) async {
     if (await request() && mounted) {
-      // Becomes the home screen in plan step 5.
-      context.goNamed(AppRoute.designSystem.name);
+      context.goNamed(AppRoute.home.name);
     }
   }
 

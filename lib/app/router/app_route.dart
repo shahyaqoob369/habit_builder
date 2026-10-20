@@ -12,8 +12,16 @@ enum AppRoute {
   /// Nested under [login], so Back returns to it.
   resetPassword('reset-password'),
 
-  /// Developer preview of the design tokens. Also the temporary destination
-  /// after signing in, until the home screen exists (plan step 5).
+  // The four tabs of the signed-in shell, each with its own stack.
+  home('/home'),
+
+  /// Nested under [home].
+  newHabit('new-habit'),
+  courses('/courses'),
+  community('/community'),
+  settings('/settings'),
+
+  /// Developer preview of the design tokens (side menu, debug builds).
   designSystem('/design-system')
   ;
 

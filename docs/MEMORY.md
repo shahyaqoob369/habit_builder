@@ -2,7 +2,7 @@
 
 The project's long-term memory. Read it at the start of every session and update it whenever something is decided or learned. Keep entries short, and keep facts that will still be true next month. Short-lived status goes in [PLAN.md](PLAN.md) or [SCREENS.md](SCREENS.md).
 
-_Last updated: 2026-10-19_
+_Last updated: 2026-10-20_
 
 ---
 
@@ -14,6 +14,7 @@ _Last updated: 2026-10-19_
 - **Design source:** the Figma file **"Pixel True – Habit Builder UI Kit"** (key `4i8xPGsRhPXs1Gs076OpeN`, last edited 2025-05-29). It has 3 pages: Introduction (promo only), **Screens (20 app screens)** and Branding Guideline (one image). It was pulled on 2026-10-18 into `docs/figma/`. See [SCREENS.md](SCREENS.md), [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) and [BACKEND_SPEC.md](BACKEND_SPEC.md).
 - **App areas in the design:** onboarding, auth (login, sign up, reset), habit tracking (home grid, new habit, reminders, habit detail and analytics, congratulation), courses (list, detail with video lessons), community feed, profile stats, settings, premium subscription.
 - **Goal:** build the full app so that it matches the Figma design.
+- **Target: iPhone and the App Store first** (owner, 2026-10-20), Google Play after. Check work on the iOS Simulator (an iPhone 17 Pro, 402 × 874 pt, is usually booted).
 - **Owner's Figma team is on the free Starter plan.**
 
 ## Toolchain (as of 2026-10-18)
@@ -41,6 +42,9 @@ The full rules are in [RULES.md](RULES.md) and [ARCHITECTURE.md](ARCHITECTURE.md
 - **Shared widgets** live in `lib/core/widgets/`: PrimaryButton, PageDots, HighlightedText, AppTextField, AppCheckbox, HeaderIconButton, TextLink, AppIcon. Highlighted words in strings use `<h>…</h>` markers.
 - **Icons:** single-color SVGs in `assets/icons/` (paths in `AppIcons`, drawn with `AppIcon`, tinted at runtime). Brand logos with Figma shadows are WebP in `assets/img/brand/`. Both come from `tool/figma/build_icons.py` (needs `rsvg-convert`).
 - **Auth:** UI talks to the `AuthRepository` interface; `authRepositoryProvider` returns `FakeAuthRepository` until step 14. Each auth screen has its own `AuthFormController` provider (pending method + last failure). Field rules are in `AuthValidators`; messages in `auth_messages.dart`.
+- **Shell:** `StatefulShellRoute.indexedStack` with 4 branches (home, courses, community, settings) in `AppShell`; the bar is `AppBottomBar` (Scaffold `extendBody`, so pages draw behind it and get its height as bottom padding). Pages use `AppHeader` (button · centered title · button) and `MenuButton`, which opens the drawer through `AppShellScope`.
+- **Icons:** `AppIcon(AppIcons.x, color: …)` for single-color glyphs, `AppIcon.original(...)` for the full-color ones (stat, settings, lesson tiles…); `AppIcons` marks which is which.
+- **Simulator shortcut:** debug builds accept `--dart-define=INITIAL_ROUTE=/home` to open any route directly (there is no tap automation for the simulator on this Mac).
 - **Routes:** Sign Up and Reset Password are nested under Login (`/login/sign-up`, `/login/reset-password`), so Back and the "Login"/"Sign In" links return to it with `goNamed(AppRoute.login.name)`.
 - **Persistence:** `SharedPreferencesWithCache` via `sharedPreferencesProvider` (overridden in `main` and in tests). Every key must be in `PreferenceKeys.all`.
 
@@ -58,6 +62,7 @@ Record each decision as: date, what was decided, why.
 | 2026-10-18 | **Rebuild the UI from scratch, UI first** (sample data), then connect the backend. Old screens were deleted in step 2. | Owner: "start on the UI from scratch… pixel perfect… best practice". |
 | 2026-10-18 | Stack: very_good_analysis, Riverpod 3, go_router 17, gen-l10n, theme tokens with an `AppColors` ThemeExtension. Generated l10n is not committed. | Best-practice baseline the owner asked for. |
 | 2026-10-18 | **Responsive, not scaled:** design values in dp, widths flex, fonts never scale with screen size. | The test phone is 360 dp wide versus a 414 dp design; scaling everything would hurt accessibility and tablets. |
+| 2026-10-20 | **Steps run back to back** without a "go" between them, until the owner stops for a review. **iPhone / App Store first**; test on the iOS Simulator. | Owner instructions, 2026-10-20. |
 | 2026-10-18 | Plan defaults, until the owner overrides them: Firebase + RevenueCat, Riverpod + go_router, Android + iOS. | Needed to plan the 30 steps. The owner can change them before the step that uses them. |
 
 ## Gotchas and lessons
@@ -69,7 +74,7 @@ Record each decision as: date, what was decided, why.
 - **Figma export offsets:** a rendered group's PNG can be larger than its render bounds. Find the crop by matching against the screen's `main.png` (done for the splash: crop at (179, 153) px at 3×).
 - `Color.red`, `.green`, `.blue`, `.value` and `.withOpacity()` are deprecated on this SDK. Use `.r`, `.g`, `.b` (0–1), `.toARGB32()` and `.withValues(alpha: …)`.
 - **Figma API budget is tiny.** The owner's Figma team is on the free Starter plan, so Tier 1 REST calls (GET file, GET images) are capped at roughly 6–20 per month. Always work from the cache in `docs/figma/raw/` (made by `tool/figma/figma_pull.py`). Batch any new render into one call, and never `--force` without a reason.
-- The Figma token has only the `file_content:read` scope. It can't list team files or call `/v1/me`; it needs a file link. The token is **not** stored in the repo. To pull again, the owner sets `FIGMA_TOKEN` in `~/.zshrc`. API calls used so far: 4 Tier 1 + 1 Tier 2 (2 on 2026-10-18, 2 on 2026-10-19 for the step 3–4 asset export).
+- The Figma token has only the `file_content:read` scope. It can't list team files or call `/v1/me`; it needs a file link. The token is **not** stored in the repo. To pull again, the owner sets `FIGMA_TOKEN` in `~/.zshrc`. API calls used so far: 6 Tier 1 + 1 Tier 2 (2 on 2026-10-18, 2 on 2026-10-19 for the step 3–4 assets, 2 on 2026-10-20 for **all** remaining screens 9–20). Every asset the design needs is now exported; no more calls should be needed.
 - **The design contains placeholder copy.** Don't copy it as-is: lorem ipsum on the New Habit card and the Congratulation popup, "6-month plan for 39.99 usd" under every price, "Goggle Play", "TUE 18" twice in the week strip, and "habits makes us". Prices must come from the store.
 - Each screen's `spec.txt` gives exact positions, sizes, colors and fonts, so build from the spec and use `main.png` only for a visual check. Positions are absolute, so turn them into Flutter layout (padding, rows and columns), not `Positioned` everywhere.
 - **Material 3 text fields add a hidden 4 pt gap**: without a prefix icon the text starts at contentPadding.start + 4; with one, contentPadding.start is ignored and the text sits 4 pt after the icon. The theme uses 16 pt padding and `AppTextField`'s icon cell is 61 pt wide to land on Figma's 20 / 65 pt.
@@ -87,3 +92,4 @@ One line per session: date, what was done, where it stopped.
 - **2026-10-18:** Step 2: foundation and design system (clean slate, strict lints, Riverpod, go_router, l10n, Figma theme tokens, design-system preview page, tests). Plan reshaped to UI-first (28 steps). **Next:** Step 3, splash and onboarding, after the owner's "go".
 - **2026-10-19:** Step 3: splash and onboarding rebuilt pixel-perfect (Figma asset export, WebP 1×/2×/3× pipeline, native splash refreshed, PrimaryButton, PageDots, HighlightedText, onboarding-seen flag, 25 tests). Assets for step 4 (auth) are already exported locally. **Next:** Step 4, after the owner's "go".
 - **2026-10-19:** Step 4: Login, Sign Up and Reset Password pixel-matched (icon pipeline, AppTextField, SocialButton, AppCheckbox, HeaderIconButton, TextLink, fake `AuthRepository` with a demo account, real fonts in tests, 76 tests). **Next:** Step 5, app shell, after the owner's "go".
+- **2026-10-20:** Owner: run steps back to back; iPhone first, test on the simulator. Exported every remaining Figma asset (2 calls). Step 5: app shell (bottom bar with notch and FAB, drawer, 4 tab branches, AppHeader, INITIAL_ROUTE). **Next:** Step 6 (Home).

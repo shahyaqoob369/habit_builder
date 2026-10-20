@@ -149,5 +149,20 @@
   "authErrorInvalidCredentials": "That email and password don’t match. Please try again.",
   "authErrorEmailInUse": "An account with this email already exists. Try logging in.",
   "authErrorNetwork": "No connection. Check your internet and try again.",
-  "authErrorUnknown": "Something went wrong. Please try again."
+  "authErrorUnknown": "Something went wrong. Please try again.",
+  "backTooltip": "Back",
+  "menuTooltip": "Menu",
+  "navHome": "Home",
+  "navCourses": "Courses",
+  "navCommunity": "Community",
+  "navSettings": "Settings",
+  "navNewHabit": "New habit",
+  "navSaveHabit": "Save habit",
+  "menuGuest": "Guest",
+  "menuSignOut": "Sign out",
+  "homeTitle": "Homepage",
+  "coursesTitle": "Courses",
+  "communityTitle": "Community",
+  "settingsTitle": "Settings",
+  "newHabitTitle": "New Habit"
 }

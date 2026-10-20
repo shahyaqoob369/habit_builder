@@ -1,12 +1,12 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-19 · **Progress: 4 / 28 steps** · Current: waiting for the owner's "go" for Step 5_
+_Last updated: 2026-10-19 · **Progress: 5 / 28 steps** · Current: Step 6_
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
 **Approach (owner, 2026-10-18):** rebuild the UI **from scratch**, including the screens that already existed. **UI first** with sample data, so every screen can be checked on the device early; then connect the backend.
 
-**How each step runs:** see [RULES.md §1](RULES.md#1-step-workflow): branch → build → ✅ here → PR → self-review → merge → run on the Realme C3 → wait for "go".
+**How each step runs:** see [RULES.md §1](RULES.md#1-step-workflow): branch → build → ✅ here → PR → self-review → merge → check on the iOS Simulator → next step (since 2026-10-20 the steps run back to back until the owner stops for a review).
 
 Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account access before it can start.
 
@@ -35,8 +35,9 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 ### ✅ Step 4 — Login, Sign Up, Reset Password (screens 6–8)
 - AppTextField, SocialButton, AppCheckbox, HeaderIconButton, TextLink; validation, loading and error states; a fake auth service behind an interface (`AuthRepository`, demo account `demo@example.com` / `habits123`)
 
-### ⬜ Step 5 — App shell
+### ✅ Step 5 — App shell
 - Bottom nav (illustrated tabs, curved notch, center FAB), side menu (not in the design, built in its style), tab routes
+- One Figma export (2 API calls) for every icon and illustration of screens 9–20
 
 ### ⬜ Step 6 — Home (screen 9)
 - Quote card, week strip, habit grid with Full/Half cells, empty state, sample habits
