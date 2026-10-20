@@ -47,7 +47,7 @@ class FakeCommunityRepository implements CommunityRepository {
         controller.add(_visible);
         changes = _changes.stream.listen(controller.add);
       },
-      onCancel: () => changes?.cancel(),
+      onCancel: () => unawaited(changes?.cancel()),
     );
     return controller.stream;
   }

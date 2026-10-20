@@ -7,7 +7,10 @@ import 'package:habit_builder/features/profile/domain/profile_stats.dart';
 /// The signed-in user, kept up to date when the profile is edited.
 class CurrentUserController extends Notifier<AuthUser?> {
   @override
-  AuthUser? build() => ref.watch(authRepositoryProvider).currentUser;
+  AuthUser? build() => switch (ref.watch(authStateProvider)) {
+    AsyncData(:final value) => value,
+    _ => ref.read(authRepositoryProvider).currentUser,
+  };
 
   Future<void> rename(String name) async {
     state = await ref.read(authRepositoryProvider).updateName(name.trim());
@@ -18,8 +21,9 @@ class CurrentUserController extends Notifier<AuthUser?> {
     state = null;
   }
 
-  Future<void> deleteAccount() async {
-    await ref.read(authRepositoryProvider).deleteAccount();
+  /// Throws an `AuthException` if it fails (wrong password, offline…).
+  Future<void> deleteAccount({String? password}) async {
+    await ref.read(authRepositoryProvider).deleteAccount(password: password);
     state = null;
   }
 }

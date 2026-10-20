@@ -93,11 +93,45 @@ void main() {
       await tester.tap(find.text('Delete account'));
       await tester.pumpAndSettle();
       expect(find.text('DELETE YOUR ACCOUNT?'), findsOneWidget);
+      // Email accounts confirm with their password.
+      await tester.enterText(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.byType(EditableText),
+        ),
+        FakeAuthRepository.demoPassword,
+      );
+      await tester.pump();
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
 
       expect(find.byType(LoginPage), findsOneWidget);
       expect(auth.currentUser, isNull);
+    });
+
+    testWidgets('a wrong password keeps the account', (tester) async {
+      await openProfile(tester);
+
+      await tester.scrollUntilVisible(find.text('Delete account'), 100);
+      await tester.tap(find.text('Delete account'));
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.byType(EditableText),
+        ),
+        'wrong-password',
+      );
+      await tester.pump();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ProfilePage), findsOneWidget);
+      expect(auth.currentUser, isNotNull);
+      expect(
+        find.text('That email and password don’t match. Please try again.'),
+        findsOneWidget,
+      );
     });
   });
 }

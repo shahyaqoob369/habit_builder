@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habit_builder/app/router/app_route.dart';
 import 'package:habit_builder/core/analytics/analytics.dart';
+import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/auth/presentation/login_page.dart';
 import 'package:habit_builder/features/auth/presentation/reset_password_page.dart';
 import 'package:habit_builder/features/auth/presentation/sign_up_page.dart';
@@ -30,11 +31,46 @@ export 'package:habit_builder/app/router/app_route.dart';
 /// simulator: `flutter run --dart-define=INITIAL_ROUTE=/home`.
 const _debugInitialRoute = String.fromEnvironment('INITIAL_ROUTE');
 
+/// Routes anyone can open. Every other route needs a signed-in user.
+const Set<AppRoute> _publicRoutes = {
+  AppRoute.splash,
+  AppRoute.onboarding,
+  AppRoute.login,
+  AppRoute.signUp,
+  AppRoute.resetPassword,
+  AppRoute.designSystem,
+};
+
+/// Routes that make no sense once signed in.
+const Set<AppRoute> _signedOutRoutes = {
+  AppRoute.login,
+  AppRoute.signUp,
+  AppRoute.resetPassword,
+};
+
 final appRouterProvider = Provider<GoRouter>((ref) {
+  final auth = ref.watch(authRepositoryProvider);
+  final authChanges = _StreamListenable(auth.authStateChanges());
   final router = GoRouter(
     initialLocation: kDebugMode && _debugInitialRoute.isNotEmpty
         ? _debugInitialRoute
         : AppRoute.splash.path,
+    // Signing out (or the session ending) leaves the app; signing in leaves
+    // the auth screens.
+    refreshListenable: authChanges,
+    redirect: (context, state) {
+      final name = state.topRoute?.name;
+      final route = AppRoute.values.where((r) => r.name == name).firstOrNull;
+      if (route == null) return null;
+      final signedIn = auth.currentUser != null;
+      if (!signedIn && !_publicRoutes.contains(route)) {
+        return AppRoute.login.path;
+      }
+      if (signedIn && _signedOutRoutes.contains(route)) {
+        return AppRoute.home.path;
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         path: AppRoute.splash.path,
@@ -193,6 +229,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(() {
     router.routerDelegate.removeListener(trackScreen);
     router.dispose();
+    authChanges.dispose();
   });
   return router;
 });
+
+/// Notifies on every stream event (for `GoRouter.refreshListenable`).
+class _StreamListenable extends ChangeNotifier {
+  _StreamListenable(Stream<Object?> stream) {
+    _subscription = stream.listen((_) => notifyListeners());
+  }
+
+  late final StreamSubscription<Object?> _subscription;
+
+  @override
+  void dispose() {
+    unawaited(_subscription.cancel());
+    super.dispose();
+  }
+}

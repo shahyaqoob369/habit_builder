@@ -9,6 +9,7 @@ abstract final class PreferenceKeys {
   static const communityNotifications = 'settings_community_notifications';
   static const showQuote = 'settings_show_quote';
   static const shareUsageData = 'settings_share_usage_data';
+  static const keepSignedIn = 'auth_keep_signed_in';
 
   static const Set<String> all = {
     onboardingCompleted,
@@ -16,6 +17,7 @@ abstract final class PreferenceKeys {
     communityNotifications,
     showQuote,
     shareUsageData,
+    keepSignedIn,
   };
 }
 

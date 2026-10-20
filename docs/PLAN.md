@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-20 · **Progress: 14 / 29 steps** · Current: Step 15 (Email authentication)_
+_Last updated: 2026-10-20 · **Progress: 15 / 29 steps** · Current: Step 16 (Google and Apple sign-in) — **needs the owner's Apple Developer account**_
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -73,8 +73,11 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 - Privacy: no advertising ID on iOS (pods without IDFA) or Android (AD_ID permission removed), so no tracking prompt; a "Share usage data" switch in More customization; no names, emails or post text in events
 - Checked on the iOS Simulator: the SDK starts without IDFA and uploads events; see DebugView in [FIREBASE.md](FIREBASE.md#analytics)
 
-### ⬜ Step 15 — Email authentication
-- Sign up, log in, reset email, routing by auth state, sign out, Firestore `users/{uid}`
+### ✅ Step 15 — Email authentication
+- `FirebaseAuthRepository`: sign up, log in, reset email (doesn't reveal accounts), sign out, rename, delete account (password confirmed)
+- Routing by auth state (router redirect + session restored on the splash); "Keep me signed in"
+- Firestore `users/{uid}` profile (database `nam5`), `firestore.rules`: own profile only, everything else denied
+- `integration_test/auth_flow_test.dart` passes against the real project on the iOS Simulator
 
 ### ⬜ Step 16 — Google and Apple sign-in ⚠️
 - Android SHA-1 in Firebase; Apple Developer account with the Sign in with Apple capability

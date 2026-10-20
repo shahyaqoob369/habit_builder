@@ -10,6 +10,16 @@ enum AuthFailure {
   /// No connection, or the server couldn't be reached.
   network,
 
+  /// Too many failed attempts; the server blocks this device for a while.
+  tooManyAttempts,
+
+  /// Deleting the account needs the password again (or a fresh sign-in).
+  requiresRecentLogin,
+
+  /// The sign-in method isn't connected yet (Google and Facebook until
+  /// plan steps 16 and 17).
+  unavailable,
+
   /// The user closed the Google or Facebook sign-in. Not shown as an error.
   cancelled,
 

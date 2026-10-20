@@ -55,7 +55,7 @@ class FakePremiumRepository implements PremiumRepository {
         controller.add(_premium);
         changes = _changes.stream.listen(controller.add);
       },
-      onCancel: () => changes?.cancel(),
+      onCancel: () => unawaited(changes?.cancel()),
     );
     return controller.stream;
   }

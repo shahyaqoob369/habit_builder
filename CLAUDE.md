@@ -13,7 +13,7 @@ Keep the docs current as you work:
 
 Commands:
 - `flutter analyze` (must say *No issues found*), `flutter test`, `dart format lib test`
-- Run on the iOS Simulator: `flutter run -d <booted id>` (`xcrun simctl list devices booted`); open a screen directly with `--dart-define=INITIAL_ROUTE=/home` (debug)
+- Run on the iOS Simulator: `flutter run -d <booted id>` (`xcrun simctl list devices booted`); open a screen directly with `--dart-define=INITIAL_ROUTE=/home` (debug; add `--dart-define=FAKE_AUTH=true` to start signed in as the demo user without Firebase)
 - Screenshot it: `xcrun simctl io booted screenshot shot.png`
 - Android test phone (later): Realme C3 `NNPNZLD6O7B6KVGQ`, screenshots with `~/Library/Android/sdk/platform-tools/adb exec-out screencap -p`
 - `flutter pub get` regenerates the localizations in `lib/l10n/gen/` (gitignored)

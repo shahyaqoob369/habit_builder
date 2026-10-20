@@ -18,6 +18,8 @@ import 'package:habit_builder/core/widgets/header_icon_button.dart';
 import 'package:habit_builder/core/widgets/primary_button.dart';
 import 'package:habit_builder/core/widgets/settings_row.dart';
 import 'package:habit_builder/core/widgets/state_views.dart';
+import 'package:habit_builder/features/auth/domain/auth_failure.dart';
+import 'package:habit_builder/features/auth/presentation/auth_messages.dart';
 import 'package:habit_builder/features/habits/application/habits_providers.dart';
 import 'package:habit_builder/features/profile/application/profile_providers.dart';
 import 'package:habit_builder/features/profile/domain/profile_stats.dart';
@@ -180,30 +182,21 @@ class ProfilePage extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    final l10n = context.l10n;
-    final confirmed = await showDialog<bool>(
+    final askPassword = ref.read(currentUserProvider)?.hasPassword ?? false;
+    final password = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          l10n.profileDeleteTitle.toUpperCase(),
-          textAlign: TextAlign.center,
-        ),
-        content: Text(l10n.profileDeleteBody, textAlign: TextAlign.center),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            style: TextButton.styleFrom(foregroundColor: context.colors.error),
-            child: Text(l10n.delete),
-          ),
-        ],
-      ),
+      builder: (context) => _DeleteAccountDialog(askPassword: askPassword),
     );
-    if (confirmed != true) return;
-    await ref.read(currentUserProvider.notifier).deleteAccount();
+    // Null: cancelled. Empty: confirmed without a password.
+    if (password == null || !context.mounted) return;
+    try {
+      await ref
+          .read(currentUserProvider.notifier)
+          .deleteAccount(password: askPassword ? password : null);
+    } on AuthException catch (e) {
+      if (context.mounted) showAuthFailure(context, e.failure);
+      return;
+    }
     if (context.mounted) context.goNamed(AppRoute.login.name);
   }
 }
@@ -517,6 +510,70 @@ class _EditNameSheetState extends State<_EditNameSheet> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Confirms deleting the account; email accounts also enter their password
+/// (Firebase needs a recent sign-in to delete an account). Pops the
+/// password, an empty string when none was asked, or null on Cancel.
+class _DeleteAccountDialog extends StatefulWidget {
+  const _DeleteAccountDialog({required this.askPassword});
+
+  final bool askPassword;
+
+  @override
+  State<_DeleteAccountDialog> createState() => _DeleteAccountDialogState();
+}
+
+class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
+  final _password = TextEditingController();
+
+  @override
+  void dispose() {
+    _password.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return AlertDialog(
+      title: Text(
+        l10n.profileDeleteTitle.toUpperCase(),
+        textAlign: TextAlign.center,
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(l10n.profileDeleteBody, textAlign: TextAlign.center),
+          if (widget.askPassword) ...[
+            const SizedBox(height: AppSpacing.md),
+            AppTextField(
+              controller: _password,
+              hintText: l10n.profileDeletePassword,
+              icon: AppIcons.lock,
+              fillColor: context.colors.background,
+              obscurable: true,
+              autofillHints: const [AutofillHints.password],
+              onChanged: (_) => setState(() {}),
+            ),
+          ],
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+        TextButton(
+          onPressed: widget.askPassword && _password.text.isEmpty
+              ? null
+              : () => Navigator.of(context).pop(_password.text),
+          style: TextButton.styleFrom(foregroundColor: context.colors.error),
+          child: Text(l10n.delete),
+        ),
+      ],
     );
   }
 }

@@ -1,0 +1,34 @@
+rules_version = '2';
+
+// Monumental Habits: every user reads and writes only their own data.
+// Everything not matched below is denied.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedInAs(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // users/{uid}: the profile written at sign up (name, email, marketing
+    // consent). Other fields are rejected.
+    match /users/{uid} {
+      allow read, delete: if signedInAs(uid);
+      allow create: if signedInAs(uid)
+        && request.resource.data.keys().hasOnly(
+             ['name', 'email', 'marketingOptIn', 'createdAt'])
+        && validProfile(request.resource.data)
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.createdAt == request.time;
+      allow update: if signedInAs(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(
+             ['name', 'marketingOptIn', 'updatedAt'])
+        && validProfile(request.resource.data)
+        && request.resource.data.updatedAt == request.time;
+    }
+
+    function validProfile(data) {
+      return data.name is string && data.name.size() <= 100
+        && (!('marketingOptIn' in data) || data.marketingOptIn is bool);
+    }
+  }
+}
