@@ -26,6 +26,39 @@ service cloud.firestore {
         && request.resource.data.updatedAt == request.time;
     }
 
+    // users/{uid}/habits/{habitId}: see HabitMapper for the fields.
+    match /users/{uid}/habits/{habitId} {
+      allow read, delete: if signedInAs(uid);
+      allow create: if signedInAs(uid)
+        && validHabit(request.resource.data)
+        && request.resource.data.sortKey is int;
+      allow update: if signedInAs(uid)
+        && validHabit(request.resource.data)
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.sortKey == resource.data.sortKey;
+    }
+
+    function validHabit(data) {
+      return data.keys().hasOnly(['name', 'color', 'icon', 'createdAt',
+             'sortKey', 'weekdays', 'reminders', 'notificationsEnabled',
+             'log', 'easiness'])
+        && data.keys().hasAll(['name', 'color', 'icon', 'createdAt',
+             'sortKey', 'weekdays'])
+        && data.name is string && data.name.size() > 0
+        && data.name.size() <= 100
+        && data.color is string && data.color.size() <= 20
+        && data.icon is string && data.icon.size() <= 20
+        && data.createdAt is string && data.createdAt.size() == 10
+        && data.weekdays is list && data.weekdays.size() > 0
+        && data.weekdays.size() <= 7
+        && (!('reminders' in data)
+            || (data.reminders is list && data.reminders.size() <= 48))
+        && (!('notificationsEnabled' in data)
+            || data.notificationsEnabled is bool)
+        && (!('log' in data) || data.log is map)
+        && (!('easiness' in data) || data.easiness is map);
+    }
+
     function validProfile(data) {
       return data.name is string && data.name.size() <= 100
         && (!('marketingOptIn' in data) || data.marketingOptIn is bool);

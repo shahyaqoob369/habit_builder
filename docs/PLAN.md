@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-20 · **Progress: 15 / 29 steps** · Current: Step 16 (Google and Apple sign-in) — **needs the owner's Apple Developer account**_
+_Last updated: 2026-10-20 · **Progress: 16 / 29 steps** · Current: Step 19 (habit screens on real data). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -85,8 +85,10 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 ### ⬜ Step 17 — Facebook sign-in ⚠️
 - A Facebook developer app (App ID and secret) from the owner
 
-### ⬜ Step 18 — Habit data layer ⚠️ (Q1, Q2)
-- Models, Firestore repository with offline persistence, streak and completion-rate logic with unit tests
+### ✅ Step 18 — Habit data layer (done before 16–17, which wait for the owner)
+- `FirestoreHabitRepository` at `users/{uid}/habits` (days kept in the habit document), offline-first writes; `HabitMapper` with unit tests; per-user repository wired in `main`, so the screens already use real data
+- Rules validate habit fields; deleting the account deletes the habits
+- `integration_test/habits_flow_test.dart` passes against the real project
 
 ### ⬜ Step 19 — Connect the habit screens to real data ⚠️ (Q4–Q6, Q12)
 - Home, New and Edit Habit, Habit detail, congratulation triggers, free-plan habit limit

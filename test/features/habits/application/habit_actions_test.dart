@@ -61,13 +61,22 @@ void main() {
       final analytics = RecordingAnalytics();
       final actions = HabitActions(repository, analytics);
 
-      await actions.rate(habit, today, 8);
-      await actions.miss(habit, today, source: MarkSource.detail);
-
-      final saved = (await repository.watchHabits().first).single;
+      final done = (await actions.complete(
+        habit,
+        today,
+        source: MarkSource.detail,
+      )).habit;
+      await actions.rate(done, today, 8);
+      var saved = (await repository.watchHabits().first).single;
       expect(saved.easiness.values, [8]);
+
+      // A missed day has no easiness rating.
+      await actions.miss(saved, today, source: MarkSource.detail);
+      saved = (await repository.watchHabits().first).single;
+      expect(saved.easiness, isEmpty);
       expect(saved.statusOn(today), DayStatus.missed);
       expect(analytics.events, [
+        AnalyticsEvent.habitCompleted(streak: 1, source: 'detail'),
         AnalyticsEvent.habitRated(8),
         AnalyticsEvent.habitMissed(source: 'detail'),
       ]);

@@ -1,7 +1,7 @@
 import 'package:habit_builder/features/habits/domain/habit.dart';
 
-/// Where habits are stored. The UI talks only to this interface: a fake
-/// in-memory implementation for now, Firestore from plan step 18.
+/// Where habits are stored. The UI talks only to this interface:
+/// `FirestoreHabitRepository` in the app, `FakeHabitRepository` in tests.
 abstract interface class HabitRepository {
   /// The user's habits, oldest first, re-emitted on every change.
   Stream<List<Habit>> watchHabits();
