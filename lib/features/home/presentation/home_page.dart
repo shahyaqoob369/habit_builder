@@ -13,6 +13,7 @@ import 'package:habit_builder/features/habits/data/fake_habit_repository.dart';
 import 'package:habit_builder/features/habits/domain/habit.dart';
 import 'package:habit_builder/features/home/presentation/widgets/habit_grid.dart';
 import 'package:habit_builder/features/home/presentation/widgets/quote_card.dart';
+import 'package:habit_builder/features/settings/data/settings_repository.dart';
 import 'package:habit_builder/features/shell/presentation/widgets/menu_button.dart';
 import 'package:habit_builder/features/shell/presentation/widgets/profile_button.dart';
 import 'package:habit_builder/l10n/l10n.dart';
@@ -30,6 +31,9 @@ class HomePage extends ConsumerWidget {
     final l10n = context.l10n;
     final habits = ref.watch(habitsProvider);
     final today = ref.watch(todayProvider);
+    final showQuote = ref.watch(
+      settingsProvider.select((s) => s.showQuote),
+    );
     final days = [
       for (var i = historyDays - 1; i >= 0; i--)
         today.subtract(Duration(days: i)),
@@ -44,7 +48,9 @@ class HomePage extends ConsumerWidget {
               AppHeader(
                 title: l10n.homeTitle,
                 leading: const MenuButton(),
-                trailing: const ProfileButton(),
+                trailing: ProfileButton(
+                  onTap: () => context.goNamed(AppRoute.profile.name),
+                ),
               ),
               Expanded(
                 child: ListView(
@@ -54,16 +60,18 @@ class HomePage extends ConsumerWidget {
                         MediaQuery.paddingOf(context).bottom + AppSpacing.xl,
                   ),
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.screen,
+                    if (showQuote) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.screen,
+                        ),
+                        child: QuoteCard(
+                          quote: l10n.homeQuote,
+                          author: l10n.homeQuoteAuthor,
+                        ),
                       ),
-                      child: QuoteCard(
-                        quote: l10n.homeQuote,
-                        author: l10n.homeQuoteAuthor,
-                      ),
-                    ),
-                    const SizedBox(height: 19),
+                      const SizedBox(height: 19),
+                    ],
                     switch (habits) {
                       AsyncValue(value: final list?) when list.isEmpty =>
                         MessageView(

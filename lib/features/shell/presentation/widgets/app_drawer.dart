@@ -9,7 +9,7 @@ import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
 import 'package:habit_builder/core/assets/app_images.dart';
 import 'package:habit_builder/core/extensions/build_context_x.dart';
-import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
+import 'package:habit_builder/features/profile/application/profile_providers.dart';
 import 'package:habit_builder/features/shell/presentation/widgets/app_bottom_bar.dart';
 import 'package:habit_builder/l10n/l10n.dart';
 
@@ -29,7 +29,7 @@ class AppDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final colors = context.colors;
-    final user = ref.watch(authRepositoryProvider).currentUser;
+    final user = ref.watch(currentUserProvider);
 
     return Drawer(
       backgroundColor: colors.background,
@@ -107,7 +107,7 @@ class AppDrawer extends ConsumerWidget {
   }
 
   static Future<void> _signOut(BuildContext context, WidgetRef ref) async {
-    await ref.read(authRepositoryProvider).signOut();
+    await ref.read(currentUserProvider.notifier).signOut();
     if (context.mounted) context.goNamed(AppRoute.login.name);
   }
 }

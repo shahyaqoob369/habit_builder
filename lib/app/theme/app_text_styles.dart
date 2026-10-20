@@ -154,6 +154,16 @@ abstract final class AppTextStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
+  /// Card headings ("Check Your Profile"). 700 20/26.
+  static const cardHeading = TextStyle(
+    fontFamily: AppFonts.body,
+    fontWeight: FontWeight.w700,
+    fontSize: 20,
+    height: 26 / 20,
+    letterSpacing: 20 * _bodyTracking,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
   /// Screen and sheet titles ("Homepage", "New Habit"). 700 18/32.
   static const title = TextStyle(
     fontFamily: AppFonts.body,

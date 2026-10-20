@@ -36,7 +36,9 @@ class CommunityPage extends ConsumerWidget {
           AppHeader(
             title: l10n.communityTitle,
             leading: const MenuButton(),
-            trailing: const ProfileButton(),
+            trailing: ProfileButton(
+              onTap: () => context.goNamed(AppRoute.profile.name),
+            ),
           ),
           Expanded(
             child: switch (posts) {

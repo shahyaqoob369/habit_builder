@@ -14,6 +14,9 @@ import 'package:habit_builder/features/habits/presentation/habit_detail_page.dar
 import 'package:habit_builder/features/habits/presentation/new_habit_page.dart';
 import 'package:habit_builder/features/home/presentation/home_page.dart';
 import 'package:habit_builder/features/onboarding/presentation/onboarding_page.dart';
+import 'package:habit_builder/features/premium/presentation/premium_page.dart';
+import 'package:habit_builder/features/profile/presentation/profile_page.dart';
+import 'package:habit_builder/features/settings/presentation/notification_settings_page.dart';
 import 'package:habit_builder/features/settings/presentation/settings_page.dart';
 import 'package:habit_builder/features/shell/presentation/app_shell.dart';
 import 'package:habit_builder/features/splash/presentation/splash_page.dart';
@@ -136,10 +139,34 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: AppRoute.settings.path,
                 name: AppRoute.settings.name,
                 builder: (context, state) => const SettingsPage(),
+                routes: [
+                  GoRoute(
+                    path: AppRoute.profile.path,
+                    name: AppRoute.profile.name,
+                    builder: (context, state) => const ProfilePage(),
+                  ),
+                  GoRoute(
+                    path: AppRoute.notificationSettings.path,
+                    name: AppRoute.notificationSettings.name,
+                    builder: (context, state) =>
+                        const ToggleSettingsPage.notifications(),
+                  ),
+                  GoRoute(
+                    path: AppRoute.customize.path,
+                    name: AppRoute.customize.name,
+                    builder: (context, state) =>
+                        const ToggleSettingsPage.customize(),
+                  ),
+                ],
               ),
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: AppRoute.premium.path,
+        name: AppRoute.premium.name,
+        builder: (context, state) => const PremiumPage(),
       ),
       GoRoute(
         path: AppRoute.designSystem.path,
