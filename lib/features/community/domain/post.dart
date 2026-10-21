@@ -37,7 +37,8 @@ class Post {
     required this.createdAt,
     this.likeCount = 0,
     this.likedByMe = false,
-    this.comments = const [],
+    this.commentCount = 0,
+    this.isMine = false,
   });
 
   final String id;
@@ -49,14 +50,14 @@ class Post {
   final int likeCount;
   final bool likedByMe;
 
-  /// Oldest first.
-  final List<Comment> comments;
+  /// Comments are loaded per post (`watchComments`); the feed shows the
+  /// count.
+  final int commentCount;
 
-  Post copyWith({
-    int? likeCount,
-    bool? likedByMe,
-    List<Comment>? comments,
-  }) {
+  /// Written by the signed-in user (who may delete it).
+  final bool isMine;
+
+  Post copyWith({int? likeCount, bool? likedByMe, int? commentCount}) {
     return Post(
       id: id,
       author: author,
@@ -64,7 +65,8 @@ class Post {
       createdAt: createdAt,
       likeCount: likeCount ?? this.likeCount,
       likedByMe: likedByMe ?? this.likedByMe,
-      comments: comments ?? this.comments,
+      commentCount: commentCount ?? this.commentCount,
+      isMine: isMine,
     );
   }
 }

@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-20 · **Progress: 19 / 29 steps** · Current: Step 22 (Premium with RevenueCat) — **needs the owner** (App Store Connect products, RevenueCat account). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
+_Last updated: 2026-10-20 · **Progress: 20 / 29 steps** · Current: Step 25 (states and polish). Waiting for the owner: steps 16–17 (sign-in accounts), 22 (RevenueCat, App Store Connect), 23 (course content and video hosting). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -113,8 +113,11 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 ### ⬜ Step 23 — Courses backend and video ⚠️ (Q8, Q9, hosting)
 - Content model and seed data, video playback, locks
 
-### ⬜ Step 24 — Community backend ⚠️ (Q10)
-- Posts, likes, comments, reporting, counters kept by Cloud Functions
+### ✅ Step 24 — Community backend (Q10 defaults)
+- `FirestoreCommunityRepository`: feed (newest 100), likes, comments (loaded per post), report, block, delete own post
+- Counters kept by the security rules (each like or comment moves its post's counter by exactly one in the same batch), so no Cloud Functions or Blaze plan; collection-group indexes deployed
+- Deleting an account removes the user's posts, comments, likes and blocks
+- `integration_test/community_flow_test.dart`: two users, tampering refused, cleanup verified against the real project
 
 ## Phase D — Quality and release
 

@@ -1,12 +1,18 @@
 import 'package:habit_builder/features/community/domain/post.dart';
 
-/// The community feed. A fake with sample posts for now; Firestore and
-/// Cloud Functions arrive in plan step 24.
+/// The community feed: `FirestoreCommunityRepository` in the app,
+/// `FakeCommunityRepository` in tests.
 abstract interface class CommunityRepository {
   /// Posts, newest first, without those of blocked members.
   Stream<List<Post>> watchPosts();
 
+  /// The comments of [postId], oldest first, without blocked members'.
+  Stream<List<Comment>> watchComments(String postId);
+
   Future<void> addPost(String text);
+
+  /// Deletes one of the user's own posts, with its likes and comments.
+  Future<void> deletePost(String postId);
 
   Future<void> toggleLike(String postId);
 

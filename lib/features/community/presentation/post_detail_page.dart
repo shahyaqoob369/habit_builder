@@ -51,6 +51,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
     final posts = ref.watch(postsProvider);
     final now = ref.watch(clockProvider)();
     final post = posts.value?.where((p) => p.id == widget.postId).firstOrNull;
+    final comments = ref.watch(commentsProvider(widget.postId)).value ?? [];
     final actions = PostActions(ref);
 
     return Scaffold(
@@ -88,7 +89,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                         unawaited(actions.showOptions(context, post)),
                   ),
                   const SizedBox(height: AppSpacing.lg),
-                  if (post.comments.isEmpty)
+                  if (comments.isEmpty)
                     Text(
                       l10n.postNoComments,
                       textAlign: TextAlign.center,
@@ -96,7 +97,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                         color: context.colors.textMuted,
                       ),
                     ),
-                  for (final comment in post.comments)
+                  for (final comment in comments)
                     _CommentTile(comment: comment, now: now),
                 ],
               ),

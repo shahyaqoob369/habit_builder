@@ -44,9 +44,11 @@ CI (step 26) will write the same files from GitHub secrets before `flutter analy
 - **Profile:** `users/{uid}` holds `name`, `email`, `marketingOptIn` and `createdAt` (rename adds `updatedAt`). Deleting the account asks for the password, deletes the profile, then the account. **Every later collection under the user must be deleted there too** (step 18 onwards).
 - **Habits:** `users/{uid}/habits/{habitId}`, one document per habit with its days inside (`HabitMapper` documents the fields). `FirestoreHabitRepository` doesn't wait for the server, so it works offline and Firestore syncs later. `main` gives each signed-in user their own repository.
 - **Feedback:** `users/{uid}/feedback/{id}` (`message`, `createdAt`, `platform`, `appVersion`). Read it in the console: Firestore → query the `feedback` collection group.
-- **Rules:** `firestore.rules` (in git). Every user reads and writes only their own profile, habits and feedback, the fields are validated, and everything else is denied. Deploy them with `firebase deploy --only firestore:rules --non-interactive`.
+- **Community:** `posts/{id}` (+ `likes/{uid}`, `comments/{id}`), `reports/{id}` (console only) and `users/{uid}/blocked/{memberId}` (layout in `FirestoreCommunityRepository`). There are no Cloud Functions (Spark plan): each like or comment updates its post's counter in the same batch, and the rules check both sides. Deleting an account removes the user's posts, comments, likes and blocks. **Moderation:** read `reports` in the console and delete the post there.
+- **Indexes:** `firestore.indexes.json` enables collection-group queries on `likes.uid` and `comments.authorId`. Deploy with `firebase deploy --only firestore --non-interactive`.
+- **Rules:** `firestore.rules` (in git). Every user reads and writes only their own profile, habits and feedback; signed-in users read the community, the fields are validated, and everything else is denied. Deploy them with `firebase deploy --only firestore:rules --non-interactive`.
 - **Database:** `(default)` in `nam5` (US multi-region). The location can't be changed.
-- **End-to-end tests against the real project:** `flutter test integration_test/<name>_test.dart -d <simulator id>` for `auth_flow`, `habits_flow` and `app_flow` (`app_flow` drives the real UI). Each creates a throwaway `integration-…@example.com` account, then deletes it (`app_flow` deletes it even when it fails). To check for leftovers: `firebase auth:export <file> --format=json`, then delete the file.
+- **End-to-end tests against the real project:** `flutter test integration_test/<name>_test.dart -d <simulator id>` for `auth_flow`, `habits_flow`, `community_flow` (two users) and `app_flow` (`app_flow` drives the real UI). Each creates a throwaway `integration-…@example.com` account, then deletes it (`app_flow` deletes it even when it fails). To check for leftovers: `firebase auth:export <file> --format=json`, then delete the file.
 - **Screens without Firebase sign-in (debug):** `flutter run --dart-define=FAKE_AUTH=true --dart-define=INITIAL_ROUTE=/home` starts signed in as the demo user.
 
 ## Analytics
@@ -65,4 +67,3 @@ CI (step 26) will write the same files from GitHub secrets before `flutter analy
 ## Still to do
 
 - Restrict the API keys in Google Cloud: the iOS key to the bundle ID, the Android key to the package name + SHA-1 (step 28; needs `gcloud` or the Cloud console).
-- Firestore database and security rules (step 15 onwards).

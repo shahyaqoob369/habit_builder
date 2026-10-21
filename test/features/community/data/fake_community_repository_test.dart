@@ -48,7 +48,9 @@ void main() {
         () => repository.addComment('post-2', 'Nice'),
         (posts) => posts.firstWhere((p) => p.id == 'post-2'),
       );
-      expect(post.comments.single.text, 'Nice');
+      expect(post.commentCount, 1);
+      final comments = await repository.watchComments('post-2').first;
+      expect(comments.single.text, 'Nice');
     });
 
     test('blocking hides the member; reporting is recorded', () async {
@@ -57,14 +59,24 @@ void main() {
         (posts) => posts,
       );
       expect(posts.map((p) => p.author.name), isNot(contains('Al')));
-      final first = posts.first;
-      expect(
-        first.comments.map((c) => c.author.name),
-        isNot(contains('Al')),
-      );
+      expect(posts.first.commentCount, 1);
+      final comments = await repository.watchComments('post-1').first;
+      expect(comments.map((c) => c.author.name), isNot(contains('Al')));
 
       await repository.reportPost('post-4');
       expect(repository.reported, {'post-4'});
+    });
+
+    test('my own posts can be deleted', () async {
+      await repository.addPost('Oops');
+      final mine = (await repository.watchPosts().first).first;
+      expect(mine.isMine, isTrue);
+
+      final posts = await afterChange(
+        () => repository.deletePost(mine.id),
+        (posts) => posts,
+      );
+      expect(posts.map((p) => p.text), isNot(contains('Oops')));
     });
   });
 }

@@ -181,7 +181,7 @@ Building habits "one step at a time … keeping a streak alive" (Branding Guidel
 
 ### Data layout (Firestore)
 
-**Built so far:** `users/{uid}` (step 15) and `users/{uid}/habits` (step 18); the rest is the plan. Days live in the habit document (`log`, `easiness`) rather than an `entries` subcollection, so Home loads everything with one query and works offline. A habit grows about 11 KB a year, far below Firestore's 1 MB document limit. The exact fields are in `HabitMapper`.
+**Built so far:** `users/{uid}` (step 15), `users/{uid}/habits` (step 18), `users/{uid}/feedback` (step 21) and the community (step 24: `posts`, `likes`, `comments`, `reports`, `users/{uid}/blocked`; counters kept by the rules instead of Cloud Functions). The rest is the plan. Days live in the habit document (`log`, `easiness`) rather than an `entries` subcollection, so Home loads everything with one query and works offline. A habit grows about 11 KB a year, far below Firestore's 1 MB document limit. The exact fields are in `HabitMapper`.
 
 ```
 users/{uid}                         name, email, avatarId, marketingOptIn, timezone, premium{...}, createdAt
