@@ -38,13 +38,17 @@ class PostActions {
   }
 
   /// Report or hide (not in the design; App Store guideline 1.2 asks for
-  /// both on user posts).
+  /// both on user posts), or delete for one's own posts.
   Future<void> showOptions(BuildContext context, Post post) async {
     final l10n = context.l10n;
     final messenger = ScaffoldMessenger.of(context);
     final repository = _ref.read(communityRepositoryProvider);
-    final isMine = post.author.id == FakeCommunityRepository.me.id;
-    if (isMine) return;
+    final options = post.isMine
+        ? [(_PostOption.delete, l10n.postDelete)]
+        : [
+            (_PostOption.report, l10n.postReport),
+            (_PostOption.block, l10n.postBlock(post.author.name)),
+          ];
     final choice = await showAppSheet<_PostOption>(
       context: context,
       builder: (context) => SafeArea(
@@ -55,10 +59,7 @@ class PostActions {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: AppSpacing.xs,
             children: [
-              for (final (option, label) in [
-                (_PostOption.report, l10n.postReport),
-                (_PostOption.block, l10n.postBlock(post.author.name)),
-              ])
+              for (final (option, label) in options)
                 ListTile(
                   title: Text(
                     label,
@@ -78,6 +79,9 @@ class PostActions {
       ),
     );
     switch (choice) {
+      case _PostOption.delete:
+        await repository.deletePost(post.id);
+        messenger.showSnackBar(SnackBar(content: Text(l10n.postDeleted)));
       case _PostOption.report:
         await repository.reportPost(post.id);
         messenger.showSnackBar(SnackBar(content: Text(l10n.postReported)));
@@ -92,7 +96,7 @@ class PostActions {
   }
 }
 
-enum _PostOption { report, block }
+enum _PostOption { report, block, delete }
 
 /// Asks for a new post's text; returns it, or null when cancelled.
 Future<String?> showComposeSheet(BuildContext context) {

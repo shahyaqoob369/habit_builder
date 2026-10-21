@@ -407,6 +407,8 @@
     }
   },
   "postReport": "Report post",
+  "postDelete": "Delete post",
+  "postDeleted": "Post deleted.",
   "postReported": "Thanks. We’ll review this post.",
   "postBlock": "Hide posts from {name}",
   "@postBlock": {

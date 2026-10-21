@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:habit_builder/features/auth/domain/auth_failure.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_user.dart';
+import 'package:habit_builder/features/community/data/firestore_community_repository.dart';
 import 'package:habit_builder/features/habits/data/firestore_habit_repository.dart';
 import 'package:habit_builder/features/settings/data/feedback_repositories.dart';
 
@@ -98,6 +99,7 @@ class FirebaseAuthRepository implements AuthRepository {
         EmailAuthProvider.credential(email: user.email!, password: password),
       );
     }
+    await FirestoreCommunityRepository.deleteUserContent(_firestore, user.uid);
     for (final collection in _userCollections) {
       await _deleteAll(_profile(user.uid).collection(collection));
     }
@@ -135,6 +137,7 @@ class FirebaseAuthRepository implements AuthRepository {
   static const List<String> _userCollections = [
     FirestoreHabitRepository.collection,
     feedbackCollection,
+    FirestoreCommunityRepository.blockedCollection,
   ];
 
   static Future<void> _deleteAll(

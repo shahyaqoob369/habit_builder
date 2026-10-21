@@ -6,55 +6,67 @@ import 'package:habit_builder/core/assets/app_images.dart';
 import 'package:habit_builder/features/community/domain/community_repository.dart';
 import 'package:habit_builder/features/community/domain/post.dart';
 
-/// In-memory [CommunityRepository] with the design's four posts. Used until
-/// the community backend (plan step 24).
+/// In-memory [CommunityRepository] with the design's four posts, for tests
+/// and `FAKE_AUTH` debug runs.
 class FakeCommunityRepository implements CommunityRepository {
-  FakeCommunityRepository({DateTime? now})
-    : _now = now ?? DateTime.now(),
-      _posts = _samples(now ?? DateTime.now());
+  FakeCommunityRepository({DateTime? now}) : _now = now ?? DateTime.now() {
+    final (posts, comments) = _samples(_now);
+    _posts = posts;
+    _comments = comments;
+  }
 
   /// The signed-in user, as a member.
   static const me = Member(id: 'me', name: 'You', avatar: AppImages.avatar);
 
   final DateTime _now;
-  List<Post> _posts;
+  late List<Post> _posts;
+
+  /// Comments by post id, oldest first.
+  late Map<String, List<Comment>> _comments;
   final Set<String> _blocked = {};
 
   /// Posts reported by this user, for tests.
   @visibleForTesting
   final Set<String> reported = {};
 
-  final _changes = StreamController<List<Post>>.broadcast();
+  final _changes = StreamController<void>.broadcast();
   var _nextId = 100;
 
   List<Post> get _visible => List.unmodifiable([
     for (final post in _posts)
       if (!_blocked.contains(post.author.id))
-        post.copyWith(
-          comments: [
-            for (final c in post.comments)
-              if (!_blocked.contains(c.author.id)) c,
-          ],
-        ),
+        post.copyWith(commentCount: _visibleComments(post.id).length),
   ]);
 
-  @override
-  Stream<List<Post>> watchPosts() {
-    StreamSubscription<List<Post>>? changes;
-    late final StreamController<List<Post>> controller;
-    controller = StreamController<List<Post>>(
+  List<Comment> _visibleComments(String postId) => List.unmodifiable([
+    for (final c in _comments[postId] ?? const <Comment>[])
+      if (!_blocked.contains(c.author.id)) c,
+  ]);
+
+  /// A stream of [read], re-read on every change (current value first).
+  Stream<T> _watch<T>(T Function() read) {
+    StreamSubscription<void>? changes;
+    late final StreamController<T> controller;
+    controller = StreamController<T>(
       onListen: () {
-        controller.add(_visible);
-        changes = _changes.stream.listen(controller.add);
+        controller.add(read());
+        changes = _changes.stream.listen((_) => controller.add(read()));
       },
       onCancel: () => unawaited(changes?.cancel()),
     );
     return controller.stream;
   }
 
+  @override
+  Stream<List<Post>> watchPosts() => _watch(() => _visible);
+
+  @override
+  Stream<List<Comment>> watchComments(String postId) =>
+      _watch(() => _visibleComments(postId));
+
   void _update(String postId, Post Function(Post) change) {
     _posts = [for (final p in _posts) p.id == postId ? change(p) : p];
-    _changes.add(_visible);
+    _changes.add(null);
   }
 
   @override
@@ -65,10 +77,21 @@ class FakeCommunityRepository implements CommunityRepository {
         author: me,
         text: text.trim(),
         createdAt: _now,
+        isMine: true,
       ),
       ..._posts,
     ];
-    _changes.add(_visible);
+    _changes.add(null);
+  }
+
+  @override
+  Future<void> deletePost(String postId) async {
+    _posts = [
+      for (final p in _posts)
+        if (p.id != postId) p,
+    ];
+    _comments.remove(postId);
+    _changes.add(null);
   }
 
   @override
@@ -81,20 +104,18 @@ class FakeCommunityRepository implements CommunityRepository {
   );
 
   @override
-  Future<void> addComment(String postId, String text) async => _update(
-    postId,
-    (p) => p.copyWith(
-      comments: [
-        ...p.comments,
-        Comment(
-          id: 'comment-${_nextId++}',
-          author: me,
-          text: text.trim(),
-          createdAt: _now,
-        ),
-      ],
-    ),
-  );
+  Future<void> addComment(String postId, String text) async {
+    _comments[postId] = [
+      ...?_comments[postId],
+      Comment(
+        id: 'comment-${_nextId++}',
+        author: me,
+        text: text.trim(),
+        createdAt: _now,
+      ),
+    ];
+    _changes.add(null);
+  }
 
   @override
   Future<void> reportPost(String postId) async => reported.add(postId);
@@ -102,10 +123,10 @@ class FakeCommunityRepository implements CommunityRepository {
   @override
   Future<void> blockMember(String memberId) async {
     _blocked.add(memberId);
-    _changes.add(_visible);
+    _changes.add(null);
   }
 
-  static List<Post> _samples(DateTime now) {
+  static (List<Post>, Map<String, List<Comment>>) _samples(DateTime now) {
     const jerome = Member(
       id: 'jerome',
       name: 'Jerome',
@@ -134,7 +155,7 @@ class FakeCommunityRepository implements CommunityRepository {
           text: text,
           createdAt: now.subtract(Duration(minutes: minutes)),
         );
-    return [
+    final posts = [
       Post(
         id: 'post-1',
         author: jerome,
@@ -146,10 +167,6 @@ class FakeCommunityRepository implements CommunityRepository {
             'Thoroughly pleased. And impressed that you draw from scientific '
             'literature in telling memorable stories that make the ideas '
             'stick.',
-        comments: [
-          comment('c-1', gretchen, 'Same here, the second pass is gold.', 30),
-          comment('c-2', al, 'Which lesson did you like most?', 12),
-        ],
       ),
       Post(
         id: 'post-2',
@@ -185,6 +202,15 @@ class FakeCommunityRepository implements CommunityRepository {
             'for decades, this one finally made the ideas stick.',
       ),
     ];
+    return (
+      posts,
+      {
+        'post-1': [
+          comment('c-1', gretchen, 'Same here, the second pass is gold.', 30),
+          comment('c-2', al, 'Which lesson did you like most?', 12),
+        ],
+      },
+    );
   }
 }
 

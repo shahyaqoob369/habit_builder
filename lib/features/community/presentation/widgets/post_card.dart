@@ -110,7 +110,7 @@ class PostCard extends StatelessWidget {
                   const SizedBox(width: 16),
                   _Reaction(
                     icon: const AppIcon.original(AppIcons.comment),
-                    count: formatCount(context, post.comments.length),
+                    count: formatCount(context, post.commentCount),
                     label: context.l10n.postComments,
                     muted: true,
                     onTap: onTap,
