@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_builder/core/connectivity/connectivity.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
@@ -33,6 +34,11 @@ void main() {
     online.add(false);
     await tester.pumpAndSettle();
     expect(banner, findsOneWidget);
+    // Above the screens' Material: no "missing Material" underline.
+    final text = tester.widget<RichText>(
+      find.descendant(of: banner, matching: find.byType(RichText)),
+    );
+    expect(text.text.style?.decoration, TextDecoration.none);
 
     online.add(true);
     await tester.pumpAndSettle();

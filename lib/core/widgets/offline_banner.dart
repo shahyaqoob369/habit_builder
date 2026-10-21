@@ -25,34 +25,39 @@ class OfflineBanner extends ConsumerWidget {
           top: MediaQuery.paddingOf(context).top + 4,
           left: AppSpacing.screen,
           right: AppSpacing.screen,
-          child: IgnorePointer(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 250),
-              child: offline
-                  ? Center(
-                      child: Semantics(
-                        liveRegion: true,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.md,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: colors.textPrimary,
-                            borderRadius: AppRadii.card,
-                            boxShadow: AppShadows.small,
-                          ),
-                          child: Text(
-                            context.l10n.offlineBanner,
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.caption.copyWith(
-                              color: colors.surface,
+          // The screens' Material is below this, so give the text its own
+          // (otherwise it gets the yellow "missing Material" underline).
+          child: Material(
+            type: MaterialType.transparency,
+            child: IgnorePointer(
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: offline
+                    ? Center(
+                        child: Semantics(
+                          liveRegion: true,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.md,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: colors.textPrimary,
+                              borderRadius: AppRadii.card,
+                              boxShadow: AppShadows.small,
+                            ),
+                            child: Text(
+                              context.l10n.offlineBanner,
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.caption.copyWith(
+                                color: colors.surface,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
+                      )
+                    : const SizedBox.shrink(),
+              ),
             ),
           ),
         ),
