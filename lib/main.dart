@@ -7,6 +7,7 @@ import 'package:habit_builder/app/app.dart';
 import 'package:habit_builder/app/firebase_backend.dart';
 import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/analytics/firebase_analytics_service.dart';
+import 'package:habit_builder/core/connectivity/connectivity.dart';
 import 'package:habit_builder/core/storage/preferences.dart';
 import 'package:habit_builder/features/auth/data/fake_auth_repository.dart';
 import 'package:habit_builder/features/reminders/application/reminder_sync.dart';
@@ -37,6 +38,7 @@ Future<void> main() async {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(preferences),
         analyticsProvider.overrideWithValue(analytics),
+        watchOnlineProvider.overrideWithValue(systemOnline),
         reminderSchedulerProvider.overrideWithValue(
           LocalReminderScheduler(
             channelName: deviceLocalizations().reminderChannel,
