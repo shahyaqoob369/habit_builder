@@ -30,7 +30,7 @@ The steps are listed in [PLAN.md](PLAN.md). For **every** step:
 
 - [ ] Only this step's scope; no unrelated changes
 - [ ] No secrets, tokens or personal data in the diff
-- [ ] `flutter analyze`: no new issues. `flutter test`: passes.
+- [ ] `flutter analyze`: no new issues. `flutter test`: passes. The CI check on the PR is green.
 - [ ] Screens match `docs/figma/screens/NN-*/main.png` (layout, colors, fonts, spacing within about 2 px at 414×896)
 - [ ] Theme tokens and shared widgets used; no hex values or raw font sizes in screen files
 - [ ] No overflow on a small phone (375×667) or at 1.3× text scale
@@ -68,4 +68,4 @@ The steps are listed in [PLAN.md](PLAN.md). For **every** step:
 
 - **The GitHub repo is public.** Figma exports (`docs/figma/raw`, `assets`, `screens`) stay local-only (gitignored).
 - Never put tokens, keys, passwords or keystores in the repo or in chat. Use environment variables or gitignored local files.
-- Firebase config files are decided in step 8: restricted API keys, or kept out of git.
+- Firebase config files are kept out of git (owner, step 13), and so is the Firebase project ID ([FIREBASE.md](FIREBASE.md)). CI uses a placeholder (`tool/ci/firebase_options_stub.dart`), not GitHub secrets.
