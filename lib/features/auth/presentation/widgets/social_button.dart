@@ -1,12 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_builder/app/theme/app_dimens.dart';
 import 'package:habit_builder/app/theme/app_text_styles.dart';
 import 'package:habit_builder/core/assets/app_images.dart';
 import 'package:habit_builder/core/extensions/build_context_x.dart';
 
+/// Sign in with Apple is offered on iOS only for now (on Android it needs
+/// the web flow, set up with the Android release).
+bool get appleSignInShown => defaultTargetPlatform == TargetPlatform.iOS;
+
 enum SocialProvider {
   google(BrandImages.google),
-  facebook(BrandImages.facebook)
+  apple(BrandImages.apple)
   ;
 
   const SocialProvider(this.logo);

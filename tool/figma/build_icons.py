@@ -43,7 +43,10 @@ TINTED = {
 GLYPH_ONLY = {"search": "21 22 22 22"}
 
 # name -> top-left of the 23x23 glyph inside the exported SVG, in points.
-BRAND = {"google": (8, 4), "facebook": (16, 8)}
+BRAND = {"google": (8, 4)}
+
+# Exported from Figma but not used: Facebook sign-in was replaced by Apple.
+UNUSED = {"facebook"}
 CANVAS = 55
 GLYPH_AT = (16, 8)
 
@@ -109,12 +112,49 @@ def build_brand(name, origin):
     print(f"brand/{name}.webp")
 
 
+def build_apple():
+    """The Apple logo for "Continue with Apple" (not in the design; Facebook
+    was replaced by Apple, owner 2026-10-21). Drawn from the Font Awesome
+    brands font with the same shadow as Figma's brand logos (y 8, blur 8,
+    12 %), in black as Apple's guidelines ask."""
+    from PIL import ImageDraw, ImageFilter, ImageFont
+
+    fonts = glob.glob(os.path.expanduser(
+        "~/.pub-cache/hosted/pub.dev/font_awesome_flutter-*/lib/fonts/"
+        "Font-Awesome-*-Brands-Regular-400.otf"))
+    out_dir = os.path.join(ROOT, "assets", "img", "brand")
+    for scale in (1, 2, 3):
+        size = 23 * scale
+        font = ImageFont.truetype(sorted(fonts)[-1], size)
+        glyph = Image.new("L", (size * 2, size * 2))
+        ImageDraw.Draw(glyph).text((0, 0), "\uf179", font=font, fill=255)
+        glyph = glyph.crop(glyph.getbbox())
+        glyph.thumbnail((size, size), Image.LANCZOS)
+        mask = Image.new("L", (size, size))
+        mask.paste(glyph, ((size - glyph.width) // 2, (size - glyph.height) // 2))
+
+        canvas = Image.new("RGBA", (CANVAS * scale, CANVAS * scale))
+        at = (GLYPH_AT[0] * scale, GLYPH_AT[1] * scale)
+        shadow = Image.new("L", canvas.size)
+        shadow.paste(mask, (at[0], at[1] + 8 * scale))
+        shadow = shadow.filter(ImageFilter.GaussianBlur(8 * scale))
+        canvas.putalpha(shadow.point(lambda a: round(a * 0.12)))
+        logo = Image.new("RGBA", (size, size), (0, 0, 0, 255))
+        logo.putalpha(mask)
+        canvas.alpha_composite(logo, at)
+        folder = os.path.join(out_dir, "" if scale == 1 else f"{scale}.0x")
+        os.makedirs(folder, exist_ok=True)
+        canvas.save(os.path.join(folder, "apple.webp"),
+                    "WEBP", lossless=True, method=6)
+    print("brand/apple.webp")
+
+
 def main():
     icons = os.path.join(ROOT, "assets", "icons")
     os.makedirs(icons, exist_ok=True)
     for path in sorted(glob.glob(os.path.join(EXPORT, "ic_*.svg"))):
         name = os.path.basename(path)[3:-4]
-        if name in BRAND:
+        if name in BRAND or name in UNUSED:
             continue
         with open(path) as f:
             svg = clean(f.read(), name in TINTED)
@@ -129,6 +169,7 @@ def main():
         print(f"icons/{name}.svg" + ("" if name in TINTED else "  (full color)"))
     for name, origin in BRAND.items():
         build_brand(name, origin)
+    build_apple()
 
 
 if __name__ == "__main__":

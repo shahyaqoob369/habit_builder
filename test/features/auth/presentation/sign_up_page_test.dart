@@ -52,18 +52,22 @@ void main() {
       await tester.enterText(field('Password'), password);
     }
 
-    testWidgets('lays out the form as in Figma (below a 44 pt status bar)', (
-      tester,
-    ) async {
-      tester.view.padding = const FakeViewPadding(top: 44 * 3);
-      await openSignUp(tester);
+    // Apple takes the design's Facebook button; it's shown on iOS only.
+    testWidgets(
+      'lays out the form as in Figma (below a 44 pt status bar)',
+      (tester) async {
+        tester.view.padding = const FakeViewPadding(top: 44 * 3);
+        await openSignUp(tester);
 
-      expect(tester.getTopLeft(find.text('CREATE YOUR ACCOUNT')).dy, 269);
-      expect(tester.getTopLeft(field('Name')).dy, 333 + 20);
-      expect(tester.getTopLeft(find.text('Keep me signed in')).dy, 545);
-      expect(tester.getTopLeft(find.text('Create Account')).dy, 658);
-      expect(tester.getTopLeft(find.text('Google')).dy, 775);
-    });
+        expect(tester.getTopLeft(find.text('CREATE YOUR ACCOUNT')).dy, 269);
+        expect(tester.getTopLeft(field('Name')).dy, 333 + 20);
+        expect(tester.getTopLeft(find.text('Keep me signed in')).dy, 545);
+        expect(tester.getTopLeft(find.text('Create Account')).dy, 658);
+        expect(tester.getTopLeft(find.text('Google')).dy, 775);
+        expect(tester.getTopLeft(find.text('Apple')).dy, 775);
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+    );
 
     testWidgets('keeps the user signed in by default, but never opts them '
         'into marketing', (tester) async {
@@ -130,13 +134,17 @@ void main() {
       expect(find.byType(SignUpPage), findsNothing);
     });
 
-    testWidgets('fits a small phone with large text (scrolls, no overflow)', (
-      tester,
-    ) async {
-      await openSignUp(tester, screen: smallPhoneSize, textScale: 1.3);
+    testWidgets(
+      'fits a small phone with large text (scrolls, no overflow)',
+      (tester) async {
+        await openSignUp(tester, screen: smallPhoneSize, textScale: 1.3);
 
-      await tester.scrollPageTo(find.text('Already have an account? Sign In'));
-      expect(find.text('Already have an account? Sign In'), findsOneWidget);
-    });
+        await tester.scrollPageTo(
+          find.text('Already have an account? Sign In'),
+        );
+        expect(find.text('Already have an account? Sign In'), findsOneWidget);
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+    );
   });
 }

@@ -24,5 +24,4 @@ abstract final class AppPalette {
   static const white = Color(0xFFFFFFFF);
   static const lilacGrey = Color(0xFFC8C1C8);
   static const midnight = Color(0xFF040920);
-  static const facebookBlue = Color(0xFF1772EA);
 }

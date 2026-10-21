@@ -74,8 +74,11 @@ void main() {
     });
 
     test('social sign-in signs a sample user in', () async {
-      expect((await auth.signInWithGoogle()).email, contains('google'));
-      expect((await auth.signInWithFacebook()).email, contains('facebook'));
+      final google = await auth.signInWithGoogle();
+      expect(google.user.email, contains('google'));
+      expect(google.isNewUser, isTrue);
+      expect((await auth.signInWithGoogle()).isNewUser, isFalse);
+      expect((await auth.signInWithApple()).user.email, contains('apple'));
     });
   });
 }

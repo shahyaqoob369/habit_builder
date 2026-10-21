@@ -22,6 +22,7 @@ extension AuthMessages on AppLocalizations {
     AuthFailure.tooManyAttempts => authErrorTooManyAttempts,
     AuthFailure.requiresRecentLogin => authErrorRequiresRecentLogin,
     AuthFailure.unavailable => authErrorUnavailable,
+    AuthFailure.differentSignInMethod => authErrorDifferentSignInMethod,
     AuthFailure.cancelled || AuthFailure.unknown => authErrorUnknown,
   };
 }

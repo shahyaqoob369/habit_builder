@@ -32,6 +32,8 @@ class FakeAuthRepository implements AuthRepository {
     demoEmail: (name: 'Demo', password: demoPassword),
   };
 
+  final _socialAccounts = <String>{};
+
   final _changes = StreamController<AuthUser?>.broadcast();
   AuthUser? _currentUser;
   var _nextId = 1;
@@ -92,10 +94,10 @@ class FakeAuthRepository implements AuthRepository {
       Future<void>.delayed(latency);
 
   @override
-  Future<AuthUser> signInWithGoogle() => _signInWithProvider('google');
+  Future<SocialSignIn> signInWithGoogle() => _signInWithProvider('google');
 
   @override
-  Future<AuthUser> signInWithFacebook() => _signInWithProvider('facebook');
+  Future<SocialSignIn> signInWithApple() => _signInWithProvider('apple');
 
   @override
   Future<void> signOut() async => _setUser(null);
@@ -109,6 +111,7 @@ class FakeAuthRepository implements AuthRepository {
       throw const AuthException(AuthFailure.invalidCredentials);
     }
     _accounts.remove(user.email);
+    _socialAccounts.remove(user.email);
     _setUser(null);
   }
 
@@ -125,9 +128,14 @@ class FakeAuthRepository implements AuthRepository {
     return updated;
   }
 
-  Future<AuthUser> _signInWithProvider(String provider) async {
+  Future<SocialSignIn> _signInWithProvider(String provider) async {
     await Future<void>.delayed(latency);
-    return _signIn('$provider.user@example.com', null, hasPassword: false);
+    final email = '$provider.user@example.com';
+    final isNewUser = _socialAccounts.add(email);
+    return (
+      user: _signIn(email, null, hasPassword: false),
+      isNewUser: isNewUser,
+    );
   }
 
   AuthUser _signIn(String email, String? name, {bool hasPassword = true}) {

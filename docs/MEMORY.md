@@ -64,6 +64,7 @@ Record each decision as: date, what was decided, why.
 | 2026-10-18 | **Rebuild the UI from scratch, UI first** (sample data), then connect the backend. Old screens were deleted in step 2. | Owner: "start on the UI from scratch… pixel perfect… best practice". |
 | 2026-10-18 | Stack: very_good_analysis, Riverpod 3, go_router 17, gen-l10n, theme tokens with an `AppColors` ThemeExtension. Generated l10n is not committed. | Best-practice baseline the owner asked for. |
 | 2026-10-18 | **Responsive, not scaled:** design values in dp, widths flex, fonts never scale with screen size. | The test phone is 360 dp wide versus a 414 dp design; scaling everything would hurt accessibility and tablets. |
+| 2026-10-21 | **No Facebook sign-in; Sign in with Apple takes its place** on Login and Sign Up (iOS only for now). Plan step 17 dropped. | Owner: "instead of facebook add app signin". Apple also covers App Store rule 4.8. |
 | 2026-10-20 | **Steps run back to back** without a "go" between them, until the owner stops for a review. **iPhone / App Store first**; test on the iOS Simulator. | Owner instructions, 2026-10-20. |
 | 2026-10-18 | Plan defaults, until the owner overrides them: Firebase + RevenueCat, Riverpod + go_router, Android + iOS. | Needed to plan the 30 steps. The owner can change them before the step that uses them. |
 
@@ -86,6 +87,7 @@ Record each decision as: date, what was decided, why.
 - **`pumpAndSettle` never settles on the paywall** (its offer countdown ticks every second): use `pump(const Duration(seconds: 1))` there.
 - **No `timeout` command on macOS.** Use `flutter test --timeout 60s` to stop hung tests, and run long suites in the foreground.
 - **Checking sheets and dialogs without tapping the simulator:** pump them in a throwaway widget test at `designSize` and write a golden (`--update-goldens`), then compare the PNG with Figma. FontAwesome glyphs show as boxes in tests (font not loaded there).
+- **Platform in tests:** widget tests default to Android. Login and Sign Up show Apple only on iOS, so their Figma layout tests and the screen audit use `variant: TargetPlatformVariant.only(TargetPlatform.iOS)`.
 - **App icon on iOS:** `build_app_icon.py` writes the iOS icon set itself (one 1024 px icon each for light, dark and tinted), and `flutter_launcher_icons` runs for Android only (`ios: false`). Its iOS mode writes legacy sizes without dark or tinted variants (iOS 26 then makes its own, which looks poor), and it breaks `ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS` in `project.pbxproj`.
 - Line endings: `.gitattributes` forces LF (fixed in step 2). Files created on Windows can come back with CRLF; `git ls-files --eol | grep w/crlf` finds them.
 
@@ -113,3 +115,4 @@ One line per session: date, what was done, where it stopped.
 - **2026-10-21:** Step 25: screen audit test (17 screens, small phone at 200 % text, tap targets, labels), day chip fix, offline banner. The text contrast question is left to the owner. **Next:** Step 26 (tests and CI).
 - **2026-10-21:** Step 26: GitHub Actions CI (format, analyze, test) with a placeholder Firebase options file, so no secrets go to GitHub; checked on a clean copy without the real config. **Next:** Step 27 (app identity).
 - **2026-10-21:** Step 27: stand-in launcher icon (the kit's teepee, iOS + Android adaptive), short iOS bundle name, web titles; the native splash was already done in step 3. The real icon is an owner decision. **Next:** Step 28 (release preparation), which needs the owner (Apple Developer account, privacy policy, support email).
+- **2026-10-21:** Owner enabled Google and Apple sign-in and gave the Apple team ID; asked to replace Facebook with Apple and to test on their iPhone 13 Pro Max. Step 16: Google + Apple on iOS (new users logged as `sign_up`, re-sign-in to delete, Apple token revocation), Facebook removed, signing team and entitlement set; layout tests and the screen audit now run as iOS. **Next:** the owner tests on the iPhone; then step 28 (needs the owner).

@@ -21,7 +21,7 @@ import 'package:habit_builder/features/auth/presentation/widgets/social_button.d
 import 'package:habit_builder/l10n/l10n.dart';
 
 /// Sign Up (Figma "Sign Up page"): name, email, password, two options, and
-/// Google / Facebook as alternatives.
+/// Google / Apple as alternatives.
 class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
 
@@ -155,16 +155,17 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                               : () => _run(_controller.signInWithGoogle),
                         ),
                       ),
-                      Expanded(
-                        child: SocialButton(
-                          provider: SocialProvider.facebook,
-                          label: l10n.authFacebook,
-                          isLoading: pending == AuthMethod.facebook,
-                          onPressed: busy
-                              ? null
-                              : () => _run(_controller.signInWithFacebook),
+                      if (appleSignInShown)
+                        Expanded(
+                          child: SocialButton(
+                            provider: SocialProvider.apple,
+                            label: l10n.authApple,
+                            isLoading: pending == AuthMethod.apple,
+                            onPressed: busy
+                                ? null
+                                : () => _run(_controller.signInWithApple),
+                          ),
                         ),
-                      ),
                     ],
                   ),
                   // At least the design's 32 pt; more on tall screens.

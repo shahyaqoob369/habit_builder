@@ -61,5 +61,5 @@ Profile ─ Billing methods ─▶ store subscription management / Premium (infe
 | Edit profile, avatar picker | Profile pencil | Form plus avatar grid (premium avatars locked) |
 | Notifications, More customization, Contact, Feedback, Privacy Policy, About | Settings rows | Simple list and text pages; Privacy Policy as a web link |
 | Sign out, **delete account** | — | Required by the stores |
-| **Sign in with Apple** | Login, Sign Up (iOS) | Required on iOS when Google or Facebook login is offered |
+| **Sign in with Apple** ✅ | Login, Sign Up (iOS) | Takes the design's Facebook button (owner, 2026-10-21); required on iOS when Google login is offered |
 | Loading, error and offline states | All data screens | Shared widgets |

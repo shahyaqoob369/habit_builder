@@ -14,7 +14,7 @@ class AnalyticsEvent {
   /// Onboarding finished or skipped.
   const AnalyticsEvent.onboardingComplete() : this._('tutorial_complete');
 
-  /// [method] is `email`, `google`, `facebook` or `apple`.
+  /// [method] is `email`, `google` or `apple`.
   AnalyticsEvent.signUp(String method) : this._('sign_up', {'method': method});
 
   AnalyticsEvent.login(String method) : this._('login', {'method': method});

@@ -35,7 +35,6 @@ Frame size is **414 × 896**, with a horizontal screen padding of **20** (conten
 | `habitOrange` / `habitRed` / `habitBlue` / `habitMagenta` | `#FC9D45` / `#F65B4E` / `#29319F` / `#973456` | The 4 habit colors (cells, stat tiles) |
 | `disabled` | `#C8C1C8` | Off reminder tiles |
 | `placeholderImage` | `#C4C4C4` | Image placeholders |
-| `facebook` | `#1772EA` | Facebook icon |
 | `scrim` | dark overlay behind sheets and dialogs | Check its exact value in spec 11, 12 and 14 when building |
 
 ### In code (step 2)
@@ -118,7 +117,7 @@ Line heights are the exact Figma values, with `leadingDistribution: even` (Figma
 |---|---|---|
 | **PrimaryButton** ✅ `core/widgets/primary_button.dart` | 374× and 334× widths | 60 tall, radius 8, fill `#FDA758`, label Manrope 700 16 `#573353`; loading state |
 | **SecondaryButton** | — | Cream fill `#FFF3E9`, plum label ("Continue") |
-| **SocialButton** ✅ `features/auth/presentation/widgets/social_button.dart` | Google, Facebook; `wide` (Login) or compact (Sign Up) | 50 tall, white, radius 12; wide: logo 63 pt in, label 29 pt after; compact: centered, 16 pt gap; logo shadow baked into the WebP |
+| **SocialButton** ✅ `features/auth/presentation/widgets/social_button.dart` | Google, Apple (iOS; in Facebook's place, its logo drawn with the same shadow); `wide` (Login) or compact (Sign Up) | 50 tall, white, radius 12; wide: logo 63 pt in, label 29 pt after; compact: centered, 16 pt gap; logo shadow baked into the WebP |
 | **TextField** ✅ `core/widgets/app_text_field.dart` | default, typing, password | 374×56, white or `surfaceTinted`, radius 12; icon cell 49 + 1 px divider `#FFF3E9`, text at 65 (20 without icon); placeholder plum 50 %; typed text **orange bold**; icon orange when focused or filled; Show/Hide 20 from the right |
 | **Checkbox** ✅ `core/widgets/app_checkbox.dart` | on, off | 20 square, radius 6, orange with plum check; off (not designed): white with orange outline; label 11 after |
 | **IconButton (header)** ✅ `core/widgets/header_icon_button.dart` | Back, Edit, Help, Menu, Search | 44 circle, plum 10 % fill, 48 touch target; placed right below the status bar |
