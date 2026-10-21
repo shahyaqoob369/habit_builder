@@ -49,6 +49,16 @@ void main() {
       expect(analytics.events, [AnalyticsEvent.login('google')]);
     });
 
+    test('logs a new Google or Apple account as a sign-up', () async {
+      auth.newUser = true;
+      final result = controller().signInWithApple();
+      expect(state().pending, AuthMethod.apple);
+      auth.complete();
+
+      expect(await result, isTrue);
+      expect(analytics.events, [AnalyticsEvent.signUp('apple')]);
+    });
+
     test('records why a request failed', () async {
       final result = controller().signIn(email: 'a@b.co', password: 'x');
       auth.fail(AuthFailure.invalidCredentials);
@@ -60,7 +70,7 @@ void main() {
     });
 
     test('turns unexpected exceptions into an unknown failure', () async {
-      final result = controller().signInWithFacebook();
+      final result = controller().signInWithApple();
       auth.completer.completeError(Exception('boom'));
 
       expect(await result, isFalse);
@@ -77,7 +87,7 @@ void main() {
 
     test('ignores a second request while one is running', () async {
       final first = controller().signInWithGoogle();
-      final second = controller().signInWithFacebook();
+      final second = controller().signInWithApple();
 
       expect(await second, isFalse);
       expect(state().pending, AuthMethod.google);
@@ -147,9 +157,15 @@ class _ControlledAuth extends FakeAuthRepository {
     required String password,
   }) => completer.future;
 
-  @override
-  Future<AuthUser> signInWithGoogle() => completer.future;
+  /// Whether the next social sign-in creates the account.
+  bool newUser = false;
 
   @override
-  Future<AuthUser> signInWithFacebook() => completer.future;
+  Future<SocialSignIn> signInWithGoogle() => _social();
+
+  @override
+  Future<SocialSignIn> signInWithApple() => _social();
+
+  Future<SocialSignIn> _social() =>
+      completer.future.then((user) => (user: user, isNewUser: newUser));
 }

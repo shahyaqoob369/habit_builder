@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-21 · **Progress: 23 / 29 steps** · Current: Step 28 (release preparation, needs the owner). Waiting for the owner: steps 16–17 (sign-in accounts), 22 (RevenueCat, App Store Connect), 23 (course content and video hosting). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
+_Last updated: 2026-10-21 · **Progress: 25 / 29 steps** · Current: Step 28 (release preparation, needs the owner). Waiting for the owner: 22 (RevenueCat, App Store Connect), 23 (course content and video hosting), 28 (support email, privacy policy and terms links, Apple sign-in key)._
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -79,11 +79,12 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 - Firestore `users/{uid}` profile (database `nam5`), `firestore.rules`: own profile only, everything else denied
 - `integration_test/auth_flow_test.dart` passes against the real project on the iOS Simulator
 
-### ⬜ Step 16 — Google and Apple sign-in ⚠️
+### ✅ Step 16 — Google and Apple sign-in
 - Android SHA-1 in Firebase; Apple Developer account with the Sign in with Apple capability
+- Done (iOS): Google (`google_sign_in`) and Apple (Firebase's native Apple flow) on Login and Sign Up; a new account is logged as `sign_up`, and its profile is created. Deleting a Google or Apple account confirms by signing in again, and Apple's token is revoked. Signing uses the owner's team; Sign in with Apple entitlement. Android (SHA-1, Apple's web flow) comes with the Android release.
 
-### ⬜ Step 17 — Facebook sign-in ⚠️
-- A Facebook developer app (App ID and secret) from the owner
+### ✅ Step 17 — ~~Facebook sign-in~~ dropped
+- Owner, 2026-10-21: no Facebook; **Sign in with Apple takes its place** in the design (step 16). The Facebook code, logo and color token were removed.
 
 ### ✅ Step 18 — Habit data layer (done before 16–17, which wait for the owner)
 - `FirestoreHabitRepository` at `users/{uid}/habits` (days kept in the habit document), offline-first writes; `HabitMapper` with unit tests; per-user repository wired in `main`, so the screens already use real data

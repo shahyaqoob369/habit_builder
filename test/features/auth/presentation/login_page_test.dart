@@ -48,16 +48,20 @@ void main() {
           .then((_) => tester.tap(find.text('Login')));
     }
 
-    testWidgets('lays out the welcome and the panel as in Figma', (
-      tester,
-    ) async {
-      await openLogin(tester);
+    // Apple takes the design's Facebook button; it's shown on iOS only.
+    testWidgets(
+      'lays out the welcome and the panel as in Figma',
+      (tester) async {
+        await openLogin(tester);
 
-      expect(tester.getTopLeft(find.byType(EmailLoginPanel)).dy, 540);
-      expect(tester.getTopLeft(find.text('Continue with Google')).dy, 424);
-      expect(tester.getTopLeft(field('Email')).dy, 604 + 20);
-      expect(tester.getTopLeft(find.text('Login')).dy, 767);
-    });
+        expect(tester.getTopLeft(find.byType(EmailLoginPanel)).dy, 540);
+        expect(tester.getTopLeft(find.text('Continue with Google')).dy, 424);
+        expect(tester.getTopLeft(find.text('Continue with Apple')).dy, 482);
+        expect(tester.getTopLeft(field('Email')).dy, 604 + 20);
+        expect(tester.getTopLeft(find.text('Login')).dy, 767);
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+    );
 
     testWidgets('submitting an empty form shows what is missing', (
       tester,
@@ -116,6 +120,25 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(HomePage), findsOneWidget);
+    });
+
+    testWidgets(
+      'Continue with Apple signs in',
+      (tester) async {
+        await openLogin(tester);
+
+        await tester.tap(find.text('Continue with Apple'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(HomePage), findsOneWidget);
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+    );
+
+    testWidgets('Android has no Apple button (yet)', (tester) async {
+      await openLogin(tester);
+
+      expect(find.text('Continue with Apple'), findsNothing);
     });
 
     testWidgets('Forgot Password? opens Reset Password; Back returns', (

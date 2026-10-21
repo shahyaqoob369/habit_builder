@@ -16,11 +16,15 @@ enum AuthFailure {
   /// Deleting the account needs the password again (or a fresh sign-in).
   requiresRecentLogin,
 
-  /// The sign-in method isn't connected yet (Google and Facebook until
-  /// plan steps 16 and 17).
+  /// The sign-in method isn't available here (for example Apple on
+  /// Android, until it is set up there).
   unavailable,
 
-  /// The user closed the Google or Facebook sign-in. Not shown as an error.
+  /// The email already has an account that signs in another way (for
+  /// example with a password, then Apple with the same email).
+  differentSignInMethod,
+
+  /// The user closed the Google or Apple sign-in. Not shown as an error.
   cancelled,
 
   unknown,

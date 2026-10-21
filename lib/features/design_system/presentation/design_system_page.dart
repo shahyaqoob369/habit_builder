@@ -30,7 +30,6 @@ class DesignSystemPage extends StatelessWidget {
       ('habitRed', colors.habitRed),
       ('habitBlue', colors.habitBlue),
       ('habitMagenta', colors.habitMagenta),
-      ('facebook', colors.facebook),
     ];
 
     return Scaffold(

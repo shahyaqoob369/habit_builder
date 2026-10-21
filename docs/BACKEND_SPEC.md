@@ -36,7 +36,7 @@ Building habits "one step at a time … keeping a streak alive" (Branding Guidel
 | name | ✅ Sign Up ("Mira Passaquindici"), Profile ("Marilyn Aminoff") | |
 | email | ✅ Sign Up, Login, Settings ("jonathansmith@gmail.com") | |
 | password | ✅ Sign Up, Login | held by the auth provider only, never stored by us |
-| authProviders | ✅ Google, Facebook, email | iOS also needs **Sign in with Apple** (App Store rule 4.8) |
+| authProviders | ✅ Google, Apple, email (Facebook dropped, owner 2026-10-21) | Sign in with Apple also satisfies App Store rule 4.8 |
 | avatar | ✅ Profile, Home, Community (illustrated avatars) | Premium unlocks "all avatar illustrations" (20), so avatars come from a catalogue with free and premium items |
 | marketingOptIn | ✅ Sign Up ("Email me about special pricing and more") | |
 | keepSignedIn | ✅ Sign Up | ❓ what does unchecked mean? See Q11 |
@@ -129,7 +129,7 @@ Building habits "one step at a time … keeping a streak alive" (Branding Guidel
 | Flow | Operations | Screens |
 |---|---|---|
 | Sign up | create account (name, email, password, marketingOptIn) → signed in → Home | 07 |
-| Log in | email and password · Google · Facebook (· Apple on iOS) | 06 |
+| Log in | email and password · Google · Apple (iOS) | 06 |
 | Forgot password | send reset link to email | 08 |
 | Sign out / delete account | ⚠️ not in design. **Account deletion is required by both stores** if users can sign up. | — |
 | Create habit | name, icon, frequency, reminders[], notifications on/off → save (✓ FAB) | 10–12 |
@@ -168,7 +168,7 @@ Building habits "one step at a time … keeping a streak alive" (Branding Guidel
 
 | Need | Service | Why |
 |---|---|---|
-| Auth: email and password, Google, Facebook, Apple, reset email | **Firebase Auth** | Covers screens 06–08 exactly, with reset emails built in |
+| Auth: email and password, Google, Apple, reset email | **Firebase Auth** | Covers screens 06–08 exactly, with reset emails built in |
 | Habits and entries working offline | **Cloud Firestore** (offline persistence on) | Habit tracking keeps working without network and syncs later, so no separate local database is needed |
 | Courses, community, quotes | Firestore | Read-heavy content plus user-generated posts |
 | Course videos | **Firebase Storage** for a start, or a streaming host (Mux / Bunny / Vimeo) for adaptive playback | Lessons are videos (16) |

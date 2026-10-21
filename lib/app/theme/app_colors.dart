@@ -26,7 +26,6 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.habitRed,
     required this.habitBlue,
     required this.habitMagenta,
-    required this.facebook,
   });
 
   static const light = AppColors(
@@ -48,7 +47,6 @@ class AppColors extends ThemeExtension<AppColors> {
     habitRed: AppPalette.sunset,
     habitBlue: AppPalette.twilight,
     habitMagenta: AppPalette.magenta,
-    facebook: AppPalette.facebookBlue,
   );
 
   /// Primary buttons, links, checkboxes, typed input text.
@@ -98,9 +96,6 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color habitBlue;
   final Color habitMagenta;
 
-  /// Facebook brand blue (social sign-in icon).
-  final Color facebook;
-
   @override
   AppColors copyWith({
     Color? primary,
@@ -121,7 +116,6 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? habitRed,
     Color? habitBlue,
     Color? habitMagenta,
-    Color? facebook,
   }) {
     return AppColors(
       primary: primary ?? this.primary,
@@ -142,7 +136,6 @@ class AppColors extends ThemeExtension<AppColors> {
       habitRed: habitRed ?? this.habitRed,
       habitBlue: habitBlue ?? this.habitBlue,
       habitMagenta: habitMagenta ?? this.habitMagenta,
-      facebook: facebook ?? this.facebook,
     );
   }
 
@@ -169,7 +162,6 @@ class AppColors extends ThemeExtension<AppColors> {
       habitRed: mix(habitRed, other.habitRed),
       habitBlue: mix(habitBlue, other.habitBlue),
       habitMagenta: mix(habitMagenta, other.habitMagenta),
-      facebook: mix(facebook, other.facebook),
     );
   }
 }

@@ -27,8 +27,8 @@ void main() {
       await tester.pumpApp(
         Center(
           child: SocialButton(
-            provider: SocialProvider.facebook,
-            label: 'Continue with Facebook',
+            provider: SocialProvider.apple,
+            label: 'Continue with Apple',
             wide: true,
             onPressed: () {},
           ),
@@ -36,7 +36,7 @@ void main() {
       );
 
       final button = tester.getRect(find.byType(SocialButton));
-      final label = tester.getRect(find.text('Continue with Facebook'));
+      final label = tester.getRect(find.text('Continue with Apple'));
       expect(label.left - button.left, 115);
     });
 

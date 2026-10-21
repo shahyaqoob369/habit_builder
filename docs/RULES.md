@@ -17,7 +17,7 @@ The steps are listed in [PLAN.md](PLAN.md). For **every** step:
 9. **Check it on the iOS Simulator** the owner has open (**iPhone and the App Store come first**, Android after). Open a screen directly with `--dart-define=INITIAL_ROUTE=/route` (debug builds) and screenshot with `xcrun simctl io booted screenshot`; compare against Figma.
 10. **Report** what changed, the PR link and review findings, then move to the next step. Stop and report fully when the owner asks for a review or a step is blocked.
 
-**Blockers:** if a step needs a decision, a paid action, or access to the owner's accounts (Firebase, Apple, Google, Facebook, RevenueCat, stores), stop and ask. Claude prepares exact instructions; the owner does or approves the action. Never guess on these.
+**Blockers:** if a step needs a decision, a paid action, or access to the owner's accounts (Firebase, Apple, Google, RevenueCat, stores), stop and ask. Claude prepares exact instructions; the owner does or approves the action. Never guess on these.
 
 ## 2. Git
 

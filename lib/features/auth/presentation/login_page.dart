@@ -47,7 +47,7 @@ class LoginPage extends ConsumerWidget {
                 Expanded(
                   child: _Welcome(
                     onGoogle: () => signIn(controller.signInWithGoogle),
-                    onFacebook: () => signIn(controller.signInWithFacebook),
+                    onApple: () => signIn(controller.signInWithApple),
                   ),
                 ),
                 EmailLoginPanel(
@@ -67,10 +67,10 @@ class LoginPage extends ConsumerWidget {
 /// The top of the screen: illustration, help button, title and the social
 /// buttons, kept just above the panel whatever the screen height.
 class _Welcome extends ConsumerWidget {
-  const _Welcome({required this.onGoogle, required this.onFacebook});
+  const _Welcome({required this.onGoogle, required this.onApple});
 
   final VoidCallback onGoogle;
-  final VoidCallback onFacebook;
+  final VoidCallback onApple;
 
   /// The 414 × 692 illustration ends this far below the panel's top edge
   /// (Figma: panel at y 540, illustration fade until y 692).
@@ -137,13 +137,15 @@ class _Welcome extends ConsumerWidget {
                     isLoading: pending == AuthMethod.google,
                     onPressed: busy ? null : onGoogle,
                   ),
-                  SocialButton(
-                    provider: SocialProvider.facebook,
-                    label: l10n.authContinueWithFacebook,
-                    wide: true,
-                    isLoading: pending == AuthMethod.facebook,
-                    onPressed: busy ? null : onFacebook,
-                  ),
+                  // In Facebook's place in the design (owner, 2026-10-21).
+                  if (appleSignInShown)
+                    SocialButton(
+                      provider: SocialProvider.apple,
+                      label: l10n.authContinueWithApple,
+                      wide: true,
+                      isLoading: pending == AuthMethod.apple,
+                      onPressed: busy ? null : onApple,
+                    ),
                 ],
               ),
             ),

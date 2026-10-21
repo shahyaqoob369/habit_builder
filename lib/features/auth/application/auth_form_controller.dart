@@ -9,7 +9,7 @@ import 'package:habit_builder/features/auth/domain/auth_failure.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
 
 /// The ways a form can sign the user in; each has its own loading spinner.
-enum AuthMethod { email, google, facebook }
+enum AuthMethod { email, google, apple }
 
 /// Submission state of one auth screen.
 @immutable
@@ -42,14 +42,14 @@ class AuthFormController extends Notifier<AuthFormState> {
         email: email.trim(),
         password: password,
       ),
-      success: AnalyticsEvent.login(AuthMethod.email.name),
+      success: () => AnalyticsEvent.login(AuthMethod.email.name),
     );
   }
 
   Future<bool> signUp(SignUpDetails details) => _run(
     AuthMethod.email,
     () => _repository.signUp(details),
-    success: AnalyticsEvent.signUp(AuthMethod.email.name),
+    success: () => AnalyticsEvent.signUp(AuthMethod.email.name),
     keepSignedIn: details.keepSignedIn,
   );
 
@@ -58,24 +58,31 @@ class AuthFormController extends Notifier<AuthFormState> {
     () => _repository.sendPasswordResetEmail(email.trim()),
   );
 
-  // Logged as log-ins: whether the account is new is only known once
-  // Firebase Auth is connected (plan step 16).
-  Future<bool> signInWithGoogle() => _run(
-    AuthMethod.google,
-    _repository.signInWithGoogle,
-    success: AnalyticsEvent.login(AuthMethod.google.name),
-  );
+  Future<bool> signInWithGoogle() =>
+      _social(AuthMethod.google, _repository.signInWithGoogle);
 
-  Future<bool> signInWithFacebook() => _run(
-    AuthMethod.facebook,
-    _repository.signInWithFacebook,
-    success: AnalyticsEvent.login(AuthMethod.facebook.name),
-  );
+  Future<bool> signInWithApple() =>
+      _social(AuthMethod.apple, _repository.signInWithApple);
+
+  /// A new account is logged as a sign-up, an existing one as a log-in.
+  Future<bool> _social(
+    AuthMethod method,
+    Future<SocialSignIn> Function() request,
+  ) {
+    var isNewUser = false;
+    return _run(
+      method,
+      () async => isNewUser = (await request()).isNewUser,
+      success: () => isNewUser
+          ? AnalyticsEvent.signUp(method.name)
+          : AnalyticsEvent.login(method.name),
+    );
+  }
 
   Future<bool> _run(
     AuthMethod method,
     Future<Object?> Function() request, {
-    AnalyticsEvent? success,
+    AnalyticsEvent Function()? success,
     bool keepSignedIn = true,
   }) async {
     // One request at a time: ignore taps while one is running.
@@ -97,7 +104,7 @@ class AuthFormController extends Notifier<AuthFormState> {
       if (ref.mounted) state = AuthFormState(failure: failure);
     }
     if (failure == null && success != null) {
-      unawaited(analytics.logEvent(success));
+      unawaited(analytics.logEvent(success()));
       // Only Sign Up asks; logging in keeps the session.
       await preferences.setBool(PreferenceKeys.keepSignedIn, keepSignedIn);
     }

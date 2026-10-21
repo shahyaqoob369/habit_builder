@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:habit_builder/features/auth/domain/auth_failure.dart';
 import 'package:habit_builder/features/auth/domain/auth_repository.dart';
 import 'package:habit_builder/features/auth/domain/auth_user.dart';
@@ -75,35 +76,103 @@ class FirebaseAuthRepository implements AuthRepository {
     }
   });
 
-  // Connected in plan steps 16 (Google, Apple) and 17 (Facebook).
   @override
-  Future<AuthUser> signInWithGoogle() =>
-      Future.error(const AuthException(AuthFailure.unavailable));
+  Future<SocialSignIn> signInWithGoogle() => _guard(() async {
+    final credential = await _googleCredential();
+    return _socialSignIn(await _auth.signInWithCredential(credential));
+  });
 
   @override
-  Future<AuthUser> signInWithFacebook() =>
-      Future.error(const AuthException(AuthFailure.unavailable));
+  Future<SocialSignIn> signInWithApple() => _guard(() async {
+    // Firebase runs Apple's native sheet on iOS. Android would need a
+    // Services ID and the web flow (later, with the Android release).
+    if (defaultTargetPlatform != TargetPlatform.iOS) {
+      throw const AuthException(AuthFailure.unavailable);
+    }
+    return _socialSignIn(await _auth.signInWithProvider(_appleProvider()));
+  });
 
   @override
-  Future<void> signOut() => _guard(_auth.signOut);
+  Future<void> signOut() => _guard(() async {
+    await _auth.signOut();
+    // So the next Google sign-in asks which account to use.
+    if (_googleReady != null) {
+      unawaited(GoogleSignIn.instance.signOut().catchError((Object _) {}));
+    }
+  });
+
+  /// Started once per app run: Google Sign-In may be set up only once.
+  static Future<void>? _googleReady;
+
+  /// Shows Google's sign-in and returns its credential for Firebase. On
+  /// iOS the client ID comes from `GoogleService-Info.plist`.
+  static Future<OAuthCredential> _googleCredential() async {
+    final google = GoogleSignIn.instance;
+    await (_googleReady ??= google.initialize());
+    final GoogleSignInAccount account;
+    try {
+      account = await google.authenticate();
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled ||
+          e.code == GoogleSignInExceptionCode.interrupted) {
+        throw const AuthException(AuthFailure.cancelled);
+      }
+      debugPrint('Google sign-in failed: ${e.code} ${e.description}');
+      throw const AuthException(AuthFailure.unknown);
+    }
+    final idToken = account.authentication.idToken;
+    if (idToken == null) throw const AuthException(AuthFailure.unknown);
+    return GoogleAuthProvider.credential(idToken: idToken);
+  }
+
+  static AppleAuthProvider _appleProvider() => AppleAuthProvider()
+    ..addScope('email')
+    ..addScope('name');
+
+  /// Creates the profile the first time a Google or Apple user signs in.
+  /// Apple shares the name only on that first sign-in.
+  SocialSignIn _socialSignIn(UserCredential credential) {
+    final user = credential.user!;
+    final isNewUser = credential.additionalUserInfo?.isNewUser ?? false;
+    if (isNewUser) {
+      _write(
+        _profile(user.uid).set({
+          'name': (user.displayName ?? '').trim(),
+          'email': user.email,
+          'marketingOptIn': false,
+          'createdAt': FieldValue.serverTimestamp(),
+        }),
+      );
+    }
+    return (user: _toAuthUser(user)!, isNewUser: isNewUser);
+  }
 
   @override
   Future<void> deleteAccount({String? password}) => _guard(() async {
     final user = _auth.currentUser;
     if (user == null) return;
     // Firebase only deletes accounts that signed in recently, so confirm
-    // the password first. This also makes sure the profile is never
-    // deleted while the account stays.
+    // with the password, or by signing in with Google or Apple again.
+    // This also makes sure the profile is never deleted while the account
+    // stays.
+    final providers = {for (final p in user.providerData) p.providerId};
+    String? appleCode;
     if (password != null && user.email != null) {
       await user.reauthenticateWithCredential(
         EmailAuthProvider.credential(email: user.email!, password: password),
       );
+    } else if (providers.contains(AppleAuthProvider.PROVIDER_ID)) {
+      final result = await user.reauthenticateWithProvider(_appleProvider());
+      appleCode = result.additionalUserInfo?.authorizationCode;
+    } else if (providers.contains(GoogleAuthProvider.PROVIDER_ID)) {
+      await user.reauthenticateWithCredential(await _googleCredential());
     }
     await FirestoreCommunityRepository.deleteUserContent(_firestore, user.uid);
     for (final collection in _userCollections) {
       await _deleteAll(_profile(user.uid).collection(collection));
     }
     await _profile(user.uid).delete();
+    if (appleCode != null) await _revokeApple(appleCode);
     await user.delete();
   });
 
@@ -121,6 +190,17 @@ class FirebaseAuthRepository implements AuthRepository {
     await user.reload();
     return _toAuthUser(_auth.currentUser)!;
   });
+
+  /// Apple requires apps to revoke Sign in with Apple when the account is
+  /// deleted. Needs the Apple key in the Firebase console (FIREBASE.md);
+  /// without it this fails, and the account is deleted anyway.
+  Future<void> _revokeApple(String authorizationCode) async {
+    try {
+      await _auth.revokeTokenWithAuthorizationCode(authorizationCode);
+    } on FirebaseAuthException catch (e) {
+      debugPrint('Apple token revocation failed: ${e.code}');
+    }
+  }
 
   /// Saves to Firestore without waiting for the server, like the habits:
   /// the local copy updates at once and syncs when online.
@@ -192,6 +272,10 @@ class FirebaseAuthRepository implements AuthRepository {
     'too-many-requests' => AuthFailure.tooManyAttempts,
     'requires-recent-login' => AuthFailure.requiresRecentLogin,
     'operation-not-allowed' => AuthFailure.unavailable,
+    'account-exists-with-different-credential' ||
+    'credential-already-in-use' => AuthFailure.differentSignInMethod,
+    // Apple's sheet closed (FlutterFire's codes).
+    'canceled' || 'web-context-canceled' => AuthFailure.cancelled,
     _ => AuthFailure.unknown,
   };
 }

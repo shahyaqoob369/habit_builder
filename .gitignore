@@ -56,6 +56,8 @@ app.*.map.json
 # Regenerate it with the `flutterfire configure` command in docs/FIREBASE.md.
 /lib/firebase_options.dart
 /ios/Runner/GoogleService-Info.plist
+# Google sign-in URL scheme, made from GoogleService-Info.plist (FIREBASE.md)
+/ios/Flutter/Firebase.xcconfig
 /ios/firebase_app_id_file.json
 /android/app/google-services.json
 /firebase.json

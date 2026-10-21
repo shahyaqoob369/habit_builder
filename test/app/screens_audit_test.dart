@@ -70,6 +70,9 @@ void main() {
     }
   }
 
+  // As on iPhone (App Store first): iOS-only parts like Sign in with
+  // Apple are checked too.
+  final iPhone = TargetPlatformVariant.only(TargetPlatform.iOS);
   for (final (signedIn, paths) in [(false, _signedOut), (true, _signedIn)]) {
     for (final path in paths) {
       group(path, () {
@@ -82,7 +85,7 @@ void main() {
             textScale: 2,
           );
           expect(tester.takeException(), isNull);
-        });
+        }, variant: iPhone);
 
         testWidgets('meets the accessibility guidelines', (tester) async {
           final semantics = tester.ensureSemantics();
@@ -90,7 +93,7 @@ void main() {
           await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));
           await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
           semantics.dispose();
-        });
+        }, variant: iPhone);
       });
     }
   }

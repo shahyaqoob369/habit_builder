@@ -23,6 +23,10 @@ class SignUpDetails {
   final bool marketingOptIn;
 }
 
+/// The result of a Google or Apple sign-in. `isNewUser` is true
+/// when it created the account (logged as a sign-up).
+typedef SocialSignIn = ({AuthUser user, bool isNewUser});
+
 /// Authentication backend. The UI talks only to this interface:
 /// `FirebaseAuthRepository` in the app, `FakeAuthRepository` in tests.
 ///
@@ -44,15 +48,17 @@ abstract interface class AuthRepository {
   /// the screen can't be used to find out which emails are registered.
   Future<void> sendPasswordResetEmail(String email);
 
-  Future<AuthUser> signInWithGoogle();
+  Future<SocialSignIn> signInWithGoogle();
 
-  Future<AuthUser> signInWithFacebook();
+  /// Sign in with Apple (iOS only).
+  Future<SocialSignIn> signInWithApple();
 
   Future<void> signOut();
 
   /// Deletes the signed-in account and its data, then signs out. Required
   /// in-app by App Store guideline 5.1.1(v). Accounts with a password
-  /// must confirm it ([AuthUser.hasPassword]).
+  /// must confirm it ([AuthUser.hasPassword]); Google and Apple accounts
+  /// confirm by signing in with them again.
   Future<void> deleteAccount({String? password});
 
   /// Changes the signed-in user's display name.

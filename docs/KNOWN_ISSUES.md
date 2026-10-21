@@ -13,7 +13,9 @@ Severity: 🔴 broken behaviour · 🟠 wrong or misleading UX · 🟡 cleanup. 
 - 🟡 **Community:** the feed shows the newest 100 posts (no paging yet). Posts keep the author's name from when they were written, and everyone has the same illustrated avatar. Moderation is manual: read `reports` in the Firebase console and delete the post there. Counters are kept by the security rules, not Cloud Functions (Spark plan).
 - 🟡 **Reminders:** tapping a reminder opens the habit only while the app is running or in the background; from a cold start the app opens on Home. Over 64 reminders (many habits × weekdays × times), the latest habits' reminders are dropped (iOS limit).
 - 🟡 **The free-plan habit limit (3) is enforced in the app only.** The Firestore rules can enforce it once Premium status is stored server-side (RevenueCat, step 22).
-- 🟠 **Google and Facebook sign-in say "coming soon"** until steps 16 and 17. Email sign-in is real (Firebase) since step 15.
+- 🟠 **Apple sign-in key (before release):** Apple requires apps to revoke Sign in with Apple when an account is deleted. Firebase does this only once the owner adds an Apple key under Authentication → Apple → OAuth code flow ([FIREBASE.md](FIREBASE.md)). Until then deletion still works but skips the revocation (logged).
+- 🟡 **Android sign-in:** Google needs the app's SHA-1 in Firebase, and Apple (hidden on Android) needs a Services ID and the web flow. Both come with the Android release.
+- 🟡 Apple shares the user's name only on their first sign-in; if it's missing, the profile has an empty name until the user sets one.
 - 🟡 **CocoaPods:** Firebase stops publishing iOS SDK releases to CocoaPods in October 2026 (`firebase_core` pins 12.19.0). Move the iOS build to Swift Package Manager before the next Firebase upgrade.
 - 🟠 **Account deletion** removes the profile and habits (`_userCollections` in `FirebaseAuthRepository`). Every later per-user collection must be added there, or handled by a Cloud Function (needs the Blaze plan).
 - 🟡 Home: the day strip scrolls sideways and opens on today, fully visible at the right (Figma cuts the last column at the screen edge). Tapping a cell cycles not marked → done → missed (not in the design). The avatar is the illustrated one, not the kit's stock photo.
@@ -28,6 +30,7 @@ Severity: 🔴 broken behaviour · 🟠 wrong or misleading UX · 🟡 cleanup. 
 
 ## Resolved
 
+- 2026-10-21 (step 16): **Google sign-in said "coming soon".** Google and Apple sign-in work on iOS; Facebook was dropped (owner).
 - 2026-10-21 (step 27): the launcher icons were the Flutter default; now the teepee stand-in on iOS and Android (adaptive icon). The native splash had already matched Figma since step 3.
 - 2026-10-20 (Step 13): **Template app identity.** The bundle and application IDs are now `com.luminalabs.monumentalhabits`, and the app is called "Monumental Habits" on iOS and Android.
 - 2026-10-19 (Step 3): **The native launch splash** was the old low-res image with a black status bar. It's now the new 2× artwork with a transparent status bar (Android 12+: cream color).

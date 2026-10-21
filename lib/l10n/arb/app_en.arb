@@ -75,14 +75,17 @@
   "authEmailHint": "Email",
   "authPasswordHint": "Password",
   "authContinueWithGoogle": "Continue with Google",
-  "authContinueWithFacebook": "Continue with Facebook",
+  "authContinueWithApple": "Continue with Apple",
+  "@authContinueWithApple": {
+    "description": "Sign in with Apple button (iOS only). Apple's wording; keep it."
+  },
   "authGoogle": "Google",
   "@authGoogle": {
     "description": "Short Google sign-in button label on Sign Up."
   },
-  "authFacebook": "Facebook",
-  "@authFacebook": {
-    "description": "Short Facebook sign-in button label on Sign Up."
+  "authApple": "Apple",
+  "@authApple": {
+    "description": "Short Sign in with Apple button label on Sign Up (iOS only)."
   },
   "loginTitle": "Welcome to\nMonumental habits",
   "@loginTitle": {
@@ -98,7 +101,7 @@
   "loginSignUpLink": "Sign up",
   "loginHelpTooltip": "Help",
   "loginHelpTitle": "Need a hand?",
-  "loginHelpBody": "Continue with Google or Facebook, or log in with your email and password.\n\nForgot your password? Tap “Forgot Password?” and we’ll email you a link to reset it.\n\nNew here? Tap “Sign up” to create a free account.",
+  "loginHelpBody": "Continue with Google or Apple, or log in with your email and password.\n\nForgot your password? Tap “Forgot Password?” and we’ll email you a link to reset it.\n\nNew here? Tap “Sign up” to create a free account.",
   "loginHelpClose": "Got it",
   "signUpTitle": "Create your account",
   "@signUpTitle": {
@@ -164,6 +167,7 @@
   "authErrorTooManyAttempts": "Too many attempts. Please wait a few minutes and try again.",
   "authErrorRequiresRecentLogin": "For your security, please log in again first.",
   "authErrorUnavailable": "This sign-in option is coming soon. Please use your email for now.",
+  "authErrorDifferentSignInMethod": "This email already has an account with another sign-in option. Please sign in the way you did before.",
   "backTooltip": "Back",
   "menuTooltip": "Menu",
   "navHome": "Home",
