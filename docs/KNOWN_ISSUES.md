@@ -4,7 +4,7 @@ Severity: 🔴 broken behaviour · 🟠 wrong or misleading UX · 🟡 cleanup. 
 
 ## Open
 
-- 🟡 **App identity:** the launcher icons and the native splash are still the template defaults → step 27. The desktop folders (macOS, Windows, Linux) keep `com.example` IDs; they aren't targets.
+- 🟠 **Owner decision: app icon.** The Figma kit has no app icon, so since step 27 the launcher icon is a stand-in: the kit's teepee on the cream background. To replace it, change the artwork in `tool/figma/build_app_icon.py` (or replace its outputs), run it, then `dart run flutter_launcher_icons` (see MEMORY gotchas). The home-screen name "Monumental Habits" may be shortened by iOS on small icons ("Monumental Ha…"); a shorter display name is the owner's call. The desktop folders (macOS, Windows, Linux) keep `com.example` IDs; they aren't targets.
 - 🟡 Onboarding dots: Figma shows a soft glow under the dots (shadow blur 60 at 15 %); on Android it renders much fainter. Cosmetic.
 - 🟠 **The design has placeholder copy**: lorem ipsum, "6-month plan for 39.99 usd", "Goggle Play", "TUE 18" twice, "habits makes us". Replace it with real copy when building each screen (RULES §5).
 - 🟡 Login: the design has a stray 1 pt line across the screen at y 677 (behind the password field, visible only at its sides). Left out as a design leftover.
@@ -28,6 +28,7 @@ Severity: 🔴 broken behaviour · 🟠 wrong or misleading UX · 🟡 cleanup. 
 
 ## Resolved
 
+- 2026-10-21 (step 27): the launcher icons were the Flutter default; now the teepee stand-in on iOS and Android (adaptive icon). The native splash had already matched Figma since step 3.
 - 2026-10-20 (Step 13): **Template app identity.** The bundle and application IDs are now `com.luminalabs.monumentalhabits`, and the app is called "Monumental Habits" on iOS and Android.
 - 2026-10-19 (Step 3): **The native launch splash** was the old low-res image with a black status bar. It's now the new 2× artwork with a transparent status bar (Android 12+: cream color).
 

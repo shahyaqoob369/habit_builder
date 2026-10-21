@@ -33,12 +33,23 @@ dependencies:
   url_launcher: ^6.3.3
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
   integration_test:
     sdk: flutter
   shared_preferences_platform_interface: ^2.4.2
   very_good_analysis: ^10.2.0
+
+# Android launcher icons. Sources (and the iOS icons) come from
+# `python3 tool/figma/build_app_icon.py`; then `dart run flutter_launcher_icons`.
+flutter_launcher_icons:
+  image_path: assets/app_icon/icon.png
+  ios: false
+  android: true
+  adaptive_icon_background: "#FFF3E9"
+  adaptive_icon_foreground: assets/app_icon/foreground.png
+  min_sdk_android: 21
 
 # Regenerate with `dart run flutter_native_splash:create`, then re-apply the
 # transparent status bar in android/app/src/main/res/values*/styles.xml

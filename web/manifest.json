@@ -1,6 +1,6 @@
 {
-    "name": "habit_builder",
-    "short_name": "habit_builder",
+    "name": "Monumental Habits",
+    "short_name": "Monumental",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

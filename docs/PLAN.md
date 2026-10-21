@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-21 · **Progress: 22 / 29 steps** · Current: Step 27 (app identity). Waiting for the owner: steps 16–17 (sign-in accounts), 22 (RevenueCat, App Store Connect), 23 (course content and video hosting). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
+_Last updated: 2026-10-21 · **Progress: 23 / 29 steps** · Current: Step 28 (release preparation, needs the owner). Waiting for the owner: steps 16–17 (sign-in accounts), 22 (RevenueCat, App Store Connect), 23 (course content and video hosting). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -131,8 +131,9 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 - Widget and integration tests for the key flows; GitHub Actions running analyze and test
 - Done: `.github/workflows/ci.yml` (format, analyze, 234 unit/widget tests) on each PR and on `main`, with the placeholder `tool/ci/firebase_options_stub.dart` instead of the real config, so no secrets are needed. The 5 end-to-end tests (`integration_test/`) need the real Firebase project and run on the dev Mac's simulator.
 
-### ⬜ Step 27 — App identity
+### ✅ Step 27 — App identity
 - Launcher icons, native splash, the app name everywhere
+- Done: the Figma kit has no app icon, so the launcher icon is a stand-in (the kit's teepee on cream, iOS and Android adaptive) until the owner has one (KNOWN_ISSUES). The native splash matches Figma since step 3. The name is "Monumental Habits" on iOS, Android and the web (short iOS bundle name "Monumental").
 
 ### ⬜ Step 28 — Release preparation ⚠️
 - Signing (Android keystore, iOS certificates), store listings, privacy policy, data-safety forms
