@@ -28,7 +28,7 @@ flutterfire configure --project="$(jq -r .projects.default .firebaserc)" --platf
   --out=lib/firebase_options.dart --yes
 ```
 
-CI (step 26) will write the same files from GitHub secrets before `flutter analyze`.
+CI (`.github/workflows/ci.yml`) doesn't use the real config or any secret. It copies the placeholder `tool/ci/firebase_options_stub.dart` to `lib/firebase_options.dart`, which is enough for `flutter analyze` and `flutter test`, because the unit and widget tests never call Firebase. The end-to-end tests in `integration_test/` need the real project, so they run only on the dev Mac (see below).
 
 ## How Claude works with it
 
