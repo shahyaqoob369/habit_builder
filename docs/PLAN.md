@@ -1,6 +1,6 @@
 # Build Plan — Step by Step
 
-_Last updated: 2026-10-20 · **Progress: 20 / 29 steps** · Current: Step 25 (states and polish). Waiting for the owner: steps 16–17 (sign-in accounts), 22 (RevenueCat, App Store Connect), 23 (course content and video hosting). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
+_Last updated: 2026-10-20 · **Progress: 21 / 29 steps** · Current: Step 26 (tests and CI). Waiting for the owner: steps 16–17 (sign-in accounts), 22 (RevenueCat, App Store Connect), 23 (course content and video hosting). Steps 16–17 wait for the owner (Google provider, Apple Developer account, Facebook app)._
 
 Goal: the full Monumental Habits app in Flutter, matching the Figma design pixel for pixel ([SCREENS.md](SCREENS.md)), built with best practices ([ARCHITECTURE.md](ARCHITECTURE.md)), with a real backend ([BACKEND_SPEC.md](BACKEND_SPEC.md)).
 
@@ -121,8 +121,11 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 
 ## Phase D — Quality and release
 
-### ⬜ Step 25 — States and polish
-- Loading, error and offline states; transitions; accessibility; small-screen fixes
+### ✅ Step 25 — States and polish
+- `test/app/screens_audit_test.dart` opens all 17 screens: each fits a small phone (375 × 667) at 200 % text, and passes the iOS tap-target and labelled-button checks
+- Fixed: the Home day chips overflowed at very large text (they shrink to fit now)
+- Offline banner (`connectivity_plus`): "You’re offline. Your habits are saved and will sync…" while there's no connection
+- Loading and error views were already on every data screen (steps 6–12); text contrast left to the owner (see KNOWN_ISSUES)
 
 ### ⬜ Step 26 — Tests and CI
 - Widget and integration tests for the key flows; GitHub Actions running analyze and test

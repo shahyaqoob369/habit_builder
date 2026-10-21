@@ -159,6 +159,7 @@
   "reminderChannel": "Habit reminders",
   "remindersDenied": "Notifications are off for Monumental Habits. Turn them on in Settings to get reminders.",
   "remindersOpenSettings": "Settings",
+  "offlineBanner": "You’re offline. Your habits are saved and will sync when you’re back online.",
   "authErrorUnknown": "Something went wrong. Please try again.",
   "authErrorTooManyAttempts": "Too many attempts. Please wait a few minutes and try again.",
   "authErrorRequiresRecentLogin": "For your security, please log in again first.",

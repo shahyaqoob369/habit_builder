@@ -46,17 +46,21 @@ class DayChip extends StatelessWidget {
                 ),
               ),
             ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                weekday.toUpperCase(),
-                style: AppTextStyles.overline.copyWith(
-                  color: colors.textMuted,
+          // The chip has a fixed size: very large text sizes shrink to fit.
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  weekday.toUpperCase(),
+                  style: AppTextStyles.overline.copyWith(
+                    color: colors.textMuted,
+                  ),
                 ),
-              ),
-              Text('$date', style: AppTextStyles.dateNumber),
-            ],
+                Text('$date', style: AppTextStyles.dateNumber),
+              ],
+            ),
           ),
         ],
       ),

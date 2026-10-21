@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_builder/app/router/app_router.dart';
 import 'package:habit_builder/app/theme/app_theme.dart';
+import 'package:habit_builder/core/widgets/offline_banner.dart';
 import 'package:habit_builder/features/reminders/application/reminder_sync.dart';
 import 'package:habit_builder/l10n/l10n.dart';
 
@@ -21,7 +22,7 @@ class App extends ConsumerWidget {
       routerConfig: ref.watch(appRouterProvider),
       builder: (context, child) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: AppTheme.systemOverlayStyle,
-        child: child!,
+        child: OfflineBanner(child: child!),
       ),
     );
   }
