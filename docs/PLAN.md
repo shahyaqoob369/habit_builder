@@ -108,8 +108,10 @@ Legend: ✅ done · ⬜ to do · ⚠️ needs an owner decision or account acces
 - Feedback is saved at `users/{uid}/feedback` (message, time, platform, app version) and deleted with the account; rules validate it
 - Settings stay on the device (`SharedPreferences`)
 
-### ⬜ Step 22 — Premium with RevenueCat ⚠️ (Q13, Q14, store products)
+### 🟡 Step 22 — Premium with RevenueCat ⚠️ (Q13, Q14, store products)
 - Plans, intro offer, restore, gating (habits, courses, avatars)
+- Done (2026-10-30): RevenueCat project set up through the API (iOS app, Test Store, 3 products, `premium` entitlement, `default` offering with metadata); `RevenueCatPremiumRepository` with purchases tied to the Firebase user; Test Store in debug builds. See [REVENUECAT.md](REVENUECAT.md).
+- **Waiting for the owner:** App Store Connect (Paid Apps agreement, app record, the 3 products with prices, In-App Purchase key for RevenueCat), and whether the paywall's 60 % offer is a real introductory offer. Avatars aren't gated yet (no avatar picker).
 
 ### ⬜ Step 23 — Courses backend and video ⚠️ (Q8, Q9, hosting)
 - Content model and seed data, video playback, locks

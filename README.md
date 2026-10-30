@@ -13,7 +13,7 @@ flutter analyze          # must report: No issues found
 flutter test
 ```
 
-The Firebase config files are kept out of this public repo. To build the app, generate them first ([docs/FIREBASE.md](docs/FIREBASE.md)). To only analyze and test, copy the placeholder: `cp tool/ci/firebase_options_stub.dart lib/firebase_options.dart`.
+The Firebase config files are kept out of this public repo. To build the app, generate them first ([docs/FIREBASE.md](docs/FIREBASE.md)). The RevenueCat SDK keys are kept out the same way ([docs/REVENUECAT.md](docs/REVENUECAT.md)). To only analyze and test, copy the placeholders: `cp tool/ci/firebase_options_stub.dart lib/firebase_options.dart` and `cp tool/ci/revenuecat_options_stub.dart lib/revenuecat_options.dart`.
 
 CI (GitHub Actions, [`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the format check, `flutter analyze` and `flutter test` on every pull request and on `main`.
 

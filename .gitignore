@@ -55,6 +55,8 @@ app.*.map.json
 # Firebase app config stays local-only (owner decision, public repo).
 # Regenerate it with the `flutterfire configure` command in docs/FIREBASE.md.
 /lib/firebase_options.dart
+# RevenueCat SDK keys (docs/REVENUECAT.md)
+/lib/revenuecat_options.dart
 /ios/Runner/GoogleService-Info.plist
 # Google sign-in URL scheme, made from GoogleService-Info.plist (FIREBASE.md)
 /ios/Flutter/Firebase.xcconfig
