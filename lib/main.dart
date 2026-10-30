@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_builder/app/app.dart';
 import 'package:habit_builder/app/firebase_backend.dart';
+import 'package:habit_builder/app/premium_backend.dart';
 import 'package:habit_builder/core/analytics/analytics.dart';
 import 'package:habit_builder/core/analytics/firebase_analytics_service.dart';
 import 'package:habit_builder/core/connectivity/connectivity.dart';
@@ -32,6 +33,7 @@ Future<void> main() async {
   await analytics.setCollectionEnabled(
     enabled: preferences.getBool(PreferenceKeys.shareUsageData) ?? true,
   );
+  final premium = await premiumOverride(preferences);
 
   runApp(
     ProviderScope(
@@ -39,6 +41,7 @@ Future<void> main() async {
         sharedPreferencesProvider.overrideWithValue(preferences),
         analyticsProvider.overrideWithValue(analytics),
         watchOnlineProvider.overrideWithValue(systemOnline),
+        premium,
         reminderSchedulerProvider.overrideWithValue(
           LocalReminderScheduler(
             channelName: deviceLocalizations().reminderChannel,

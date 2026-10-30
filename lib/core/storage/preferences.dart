@@ -11,6 +11,10 @@ abstract final class PreferenceKeys {
   static const shareUsageData = 'settings_share_usage_data';
   static const keepSignedIn = 'auth_keep_signed_in';
 
+  /// When this device first saw a time-limited Premium offer (ms since
+  /// epoch); the countdown runs from there.
+  static const premiumOfferSeenAt = 'premium_offer_seen_at';
+
   static const Set<String> all = {
     onboardingCompleted,
     habitReminders,
@@ -18,6 +22,7 @@ abstract final class PreferenceKeys {
     showQuote,
     shareUsageData,
     keepSignedIn,
+    premiumOfferSeenAt,
   };
 }
 

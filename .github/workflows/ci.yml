@@ -25,11 +25,14 @@ jobs:
           channel: stable
           cache: true
 
-      # The real Firebase config is local-only (the repo is public). The unit
-      # and widget tests never touch Firebase, so placeholders are enough for
-      # the code to compile. See docs/FIREBASE.md.
-      - name: Write placeholder Firebase options
-        run: cp tool/ci/firebase_options_stub.dart lib/firebase_options.dart
+      # The real Firebase config and RevenueCat keys are local-only (the repo
+      # is public). The unit and widget tests never touch either, so
+      # placeholders are enough for the code to compile. See docs/FIREBASE.md
+      # and docs/REVENUECAT.md.
+      - name: Write placeholder Firebase and RevenueCat options
+        run: |
+          cp tool/ci/firebase_options_stub.dart lib/firebase_options.dart
+          cp tool/ci/revenuecat_options_stub.dart lib/revenuecat_options.dart
 
       - name: Install packages
         run: flutter pub get

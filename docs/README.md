@@ -15,6 +15,7 @@ Docs for the **Monumental Habits** Flutter app (`habit_builder`). It is being bu
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Stack, folder layout and coding principles | Before adding files or features |
 | [KNOWN_ISSUES.md](KNOWN_ISSUES.md) | Bugs and tech debt found in the audit, with file and line references | Before touching an existing screen |
 | [FIREBASE.md](FIREBASE.md) | Firebase project, IDs, the local-only config files and how to regenerate them | Before any Firebase work |
+| [REVENUECAT.md](REVENUECAT.md) | Premium: RevenueCat products, entitlement, offering metadata, SDK keys, App Store Connect steps | Before any Premium or store work |
 | [BACKEND_SPEC.md](BACKEND_SPEC.md) | Data model, operations and business rules worked out from the design | Before building any data or auth feature |
 | [figma/index.md](figma/index.md) | All 20 Figma screens, each with a PNG and an exact `spec.txt` (generated) | When building any screen |
 | [figma/tokens.md](figma/tokens.md) | Raw color, type, radius and shadow counts from the design (generated) | When defining the theme |
